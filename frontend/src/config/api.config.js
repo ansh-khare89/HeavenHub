@@ -1,6 +1,9 @@
 /**
- * API origin. In Vite dev/preview, use same-origin `/api` so the dev server proxy
- * forwards to Spring (no CORS). Production builds use the full URL unless you
- * serve the UI behind a reverse proxy that maps `/api`.
+ * API origin.
+ * - Always uses Railway backend URL in production.
+ * - Override with VITE_API_BASE_URL in .env for local development.
  */
-export const API_BASE_URL = import.meta.env.DEV ? '' : 'http://localhost:8080';
+const PRODUCTION_API_BASE = 'https://heavenhub-production.up.railway.app';
+
+export const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ?? PRODUCTION_API_BASE;

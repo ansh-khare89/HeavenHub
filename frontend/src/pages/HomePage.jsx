@@ -101,7 +101,7 @@ export function HomePage() {
         e instanceof ApiError
           ? e.message
           : e instanceof Error
-            ? `${e.message} (is the Spring API running on port 8080?)`
+            ? `${e.message} (check API URL or network — production: heavenhub-production.up.railway.app)`
             : 'Could not load listings';
       toast.error(msg);
       setProperties([]);
