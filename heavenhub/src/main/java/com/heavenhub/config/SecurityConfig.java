@@ -15,11 +15,12 @@ public class SecurityConfig {
         http
                 .cors(cors -> cors.configurationSource(request -> {
                     var corsConfig = new org.springframework.web.cors.CorsConfiguration();
-                    // Any local dev port (Vite 5173/4173, CRA 3000, 127.0.0.1 vs localhost, etc.)
+                    // Allowed domains including Vercel and local Vite
                     corsConfig.setAllowedOriginPatterns(java.util.List.of(
-                            "http://localhost:*",
-                            "http://127.0.0.1:*"));
-                    corsConfig.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+                            "https://heaven-kticpo4cw-ansh-khare89s-projects.vercel.app",
+                            "http://localhost:5173",
+                            "*"));
+                    corsConfig.setAllowedMethods(java.util.List.of("*"));
                     corsConfig.setAllowedHeaders(java.util.List.of("*"));
                     return corsConfig;
                 }))
