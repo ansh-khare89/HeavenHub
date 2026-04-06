@@ -52,3 +52,6 @@ ALTER TABLE properties ALTER COLUMN review_count SET NOT NULL;
 
 ALTER TABLE properties ADD COLUMN IF NOT EXISTS latitude NUMERIC(19, 6);
 ALTER TABLE properties ADD COLUMN IF NOT EXISTS longitude NUMERIC(19, 6);
+
+-- Drop old constraint that prevents new enum values (like ACCEPTED) from being saved
+ALTER TABLE IF EXISTS bookings DROP CONSTRAINT IF EXISTS bookings_status_check;

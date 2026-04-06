@@ -11,6 +11,11 @@ export function PropertyCard({ property, wishlisted, onToggleWishlist, showWishl
     .filter(Boolean)
     .slice(0, 3);
 
+  const idNum = Number(property.id) || 0;
+  // Use locally downloaded images (1 to 6)
+  const imageNumber = ((idNum * 7) % 6) + 1;
+  const imageSrc = `/hotels/hotel-${imageNumber}.jpg`;
+
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-slate-900/85 to-navy-900 shadow-[0_20px_60px_-30px_rgba(56,189,248,0.35)] transition duration-500 [transform-style:preserve-3d] [perspective:1200px] hover:-translate-y-1.5 hover:border-sky-400/35 hover:shadow-[0_28px_80px_-24px_rgba(56,189,248,0.45)]">
       <Link
@@ -19,7 +24,7 @@ export function PropertyCard({ property, wishlisted, onToggleWishlist, showWishl
       >
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#050b14] via-transparent to-transparent opacity-90" />
         <img
-          src={`https://picsum.photos/seed/hh-${property.id}/800/520`}
+          src={imageSrc}
           alt=""
           className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
         />

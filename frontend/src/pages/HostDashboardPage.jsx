@@ -3,6 +3,8 @@ import toast from 'react-hot-toast';
 import {
   Bar,
   BarChart,
+  Line,
+  LineChart,
   CartesianGrid,
   ResponsiveContainer,
   Tooltip,
@@ -17,7 +19,7 @@ import {
   fetchHostPendingBookings,
   rejectBooking,
 } from '../api/bookings.js';
-import { fetchHostAnalytics, fetchHostReviews } from '../api/host.js';
+import { fetchHostAnalytics, fetchHostReviews, fetchSmartPricing } from '../api/host.js';
 import {
   createProperty,
   deleteProperty,
@@ -71,6 +73,28 @@ export function HostDashboardPage() {
   const [saving, setSaving] = useState(false);
 
   const [replyDrafts, setReplyDrafts] = useState({});
+
+  const [pricingPropId, setPricingPropId] = useState('');
+  const [pricingData, setPricingData] = useState(null);
+
+  const loadSmartPricing = async (propId) => {
+    if (!propId) {
+      setPricingData(null);
+      return;
+    }
+    try {
+      const data = await fetchSmartPricing(hostId, propId);
+      setPricingData(data);
+    } catch (e) {
+      toast.error('Failed to load smart pricing data');
+    }
+  };
+
+  const handleSmartPricingSelect = (e) => {
+    const pId = e.target.value;
+    setPricingPropId(pId);
+    loadSmartPricing(pId);
+  };
 
   const refresh = useCallback(async () => {
     if (!hostId) return;
@@ -257,7 +281,7 @@ export function HostDashboardPage() {
     return <div className="py-24 text-center text-slate-500">Loading host hub…</div>;
   }
 
-  const confirmedStays = allHostBookings.filter((b) => b.status === 'CONFIRMED');
+  const upcomingStays = allHostBookings.filter((b) => b.status === 'ACCEPTED' || b.status === 'PAID');
 
   return (
     <div className="mx-auto max-w-6xl space-y-16 px-4 py-12 md:px-6">
@@ -352,13 +376,13 @@ export function HostDashboardPage() {
       </section>
 
       <section className="rounded-3xl border border-white/10 bg-[#0a1628] p-6">
-        <h2 className="text-lg font-semibold text-white">Confirmed stays</h2>
-        <p className="mt-1 text-sm text-slate-500">Mark completed after checkout to close the loop.</p>
-        {confirmedStays.length === 0 ? (
-          <p className="mt-4 text-sm text-slate-500">No confirmed stays right now.</p>
+        <h2 className="text-lg font-semibold text-white">Upcoming stays</h2>
+        <p className="mt-1 text-sm text-slate-500">Mark completed after checkout to close the loop (only allowed for PAID stays).</p>
+        {upcomingStays.length === 0 ? (
+          <p className="mt-4 text-sm text-slate-500">No upcoming stays right now.</p>
         ) : (
           <ul className="mt-6 space-y-3">
-            {confirmedStays.map((b) => (
+            {upcomingStays.map((b) => (
               <li
                 key={b.id}
                 className="flex flex-col gap-2 rounded-2xl border border-sky-500/20 bg-sky-500/5 p-4 sm:flex-row sm:items-center sm:justify-between"
@@ -369,16 +393,103 @@ export function HostDashboardPage() {
                     {b.startDate} → {b.endDate}
                   </p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => onComplete(b.id)}
-                  className="rounded-full bg-gradient-to-r from-sky-400 to-cyan-400 px-4 py-2 text-sm font-semibold text-[#050b14]"
-                >
-                  Mark completed
-                </button>
-              </li>
+                  <div className="flex flex-col md:items-end">
+                    <p className="text-xs font-semibold mb-2">
+                      Status: <span className={b.status === 'PAID' ? 'text-emerald-400' : 'text-amber-400'}>{b.status}</span>
+                    </p>
+                    {b.status === 'PAID' && (
+                      <button
+                        type="button"
+                        onClick={() => onComplete(b.id)}
+                        className="rounded-full bg-gradient-to-r from-sky-400 to-cyan-400 px-4 py-2 text-sm font-semibold text-[#050b14]"
+                      >
+                        Mark completed
+                      </button>
+                    )}
+                  </div>
+                </li>
             ))}
           </ul>
+        )}
+      </section>
+
+      {/* Smart Pricing Simulator */}
+      <section className="rounded-3xl border border-[#38bdf8]/30 bg-[#0a1628] p-6 shadow-xl shadow-sky-900/10 relative overflow-hidden">
+        <div className="absolute top-0 right-0 p-4 opacity-10 blur-[2px] pointer-events-none">
+          <span className="text-[120px]">📈</span>
+        </div>
+        <div className="relative z-10 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h2 className="text-xl font-bold text-white mb-1"><span className="text-sky-400">Smart Pricing</span> Simulator</h2>
+            <p className="text-sm text-slate-400">Maximize revenue with AI-driven seasonal forecasting.</p>
+          </div>
+          <select 
+            value={pricingPropId} 
+            onChange={handleSmartPricingSelect}
+            className="rounded-xl border border-white/10 bg-[#050b14]/80 px-4 py-3 text-sm text-white"
+          >
+            <option value="">Select a property to simulate...</option>
+            {properties.map(p => (
+              <option key={p.id} value={p.id}>{p.title}</option>
+            ))}
+          </select>
+        </div>
+
+        {pricingData && (
+          <div className="mt-8 relative z-10 grid lg:grid-cols-[1fr_300px] gap-8">
+            <div className="h-80 w-full pt-4">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={pricingData.forecasts} margin={{ top: 20, right: 20, left: -20, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+                  <XAxis dataKey="month" stroke="#64748b" tick={{ fill: '#94a3b8', fontSize: 11 }} />
+                  <YAxis stroke="#64748b" tick={{ fill: '#94a3b8', fontSize: 11 }} domain={['dataMin - 1000', 'dataMax + 1000']} />
+                  <Tooltip
+                    contentStyle={{ background: '#0f172a', border: '1px solid rgba(56,189,248,0.3)', borderRadius: 12 }}
+                    labelStyle={{ color: '#e2e8f0', marginBottom: '8px' }}
+                    itemStyle={{ fontSize: 13, fontWeight: 'bold' }}
+                    formatter={(val, name) => [
+                      `₹${val}`, 
+                      name === 'recommendedPrice' ? 'Recommended' : 'Base Price'
+                    ]}
+                  />
+                  <Line 
+                    type="monotone" 
+                    name="recommendedPrice"
+                    dataKey="recommendedPrice" 
+                    stroke="#38bdf8" 
+                    strokeWidth={4} 
+                    dot={{ fill: '#38bdf8', r: 5 }} 
+                    activeDot={{ r: 8 }} 
+                  />
+                  <Line 
+                    type="step" 
+                    dataKey={() => pricingData.basePrice} 
+                    name="basePrice"
+                    stroke="#ed8936" 
+                    strokeWidth={2} 
+                    strokeDasharray="5 5"
+                    dot={false}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+            
+            <div className="flex flex-col gap-4 justify-center">
+              <div className="rounded-2xl border border-sky-500/20 bg-gradient-to-br from-sky-500/10 to-transparent p-5">
+                <p className="text-xs uppercase tracking-wider text-sky-200/80">Base Listed Price</p>
+                <p className="mt-1 text-xl font-bold text-white">{formatInr(pricingData.basePrice)}</p>
+              </div>
+              <p className="text-sm text-slate-400">
+                The orange dashed line represents your static base price. The blue line represents HeavenHub's recommended pricing optimized for upcoming local seasonal demand.
+              </p>
+              {pricingData.forecasts[0] && (
+                 <div className="mt-2 rounded-xl bg-emerald-500/10 p-4 border border-emerald-500/20">
+                   <p className="text-xs text-emerald-300 font-semibold mb-1">Insight for {pricingData.forecasts[0].month}</p>
+                   <p className="text-sm text-emerald-100">{pricingData.forecasts[0].rationale}</p>
+                 </div>
+              )}
+            </div>
+          </div>
         )}
       </section>
 

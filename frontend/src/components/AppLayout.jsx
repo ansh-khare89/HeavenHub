@@ -36,9 +36,18 @@ export function AppLayout() {
         <div className="relative z-[1] mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 md:px-6">
           <BrandMark />
 
-          <nav className="flex max-w-[45vw] items-center gap-1 overflow-x-auto md:max-w-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <nav className="flex max-w-[55vw] items-center gap-1 overflow-x-auto md:max-w-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <NavLink to="/home" className={navClass}>
-              Explore
+              Home
+            </NavLink>
+            <NavLink to="/hotels" className={navClass}>
+              Hotels
+            </NavLink>
+            <NavLink to="/about" className={navClass}>
+              About Us
+            </NavLink>
+            <NavLink to="/faq" className={navClass}>
+              FAQ
             </NavLink>
             {isAuthenticated && role === 'GUEST' && (
               <NavLink to="/bookings" className={navClass}>
@@ -48,6 +57,11 @@ export function AppLayout() {
             {isAuthenticated && role === 'HOST' && (
               <NavLink to="/host/dashboard" className={navClass}>
                 Host hub
+              </NavLink>
+            )}
+            {isAuthenticated && (
+              <NavLink to="/inbox" className={navClass}>
+                Inbox
               </NavLink>
             )}
           </nav>

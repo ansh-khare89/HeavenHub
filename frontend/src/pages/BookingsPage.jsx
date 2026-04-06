@@ -6,15 +6,15 @@ import { cancelBooking, fetchGuestBookings } from '../api/bookings.js';
 import { useAuth } from '../context/AuthContext.jsx';
 import { formatInr } from '../utils/money.js';
 
-const STEPS = ['Requested', 'Pending approval', 'Confirmed', 'Completed'];
+const STEPS = ['Requested', 'Accepted', 'Paid', 'Completed'];
 
-/** checks[i] = step i is satisfied; pulse = index to highlight as current */
 function timelineMeta(status) {
   const s = (status || '').toUpperCase();
-  if (s === 'CANCELLED') return { cancelled: true };
+  if (s === 'CANCELLED' || s === 'REJECTED') return { cancelled: true, reason: s };
   if (s === 'PENDING') return { cancelled: false, checks: [true, false, false, false], pulse: 1 };
-  if (s === 'CONFIRMED') return { cancelled: false, checks: [true, true, true, false], pulse: 2 };
-  if (s === 'COMPLETED') return { cancelled: false, checks: [true, true, true, true], pulse: 3 };
+  if (s === 'ACCEPTED') return { cancelled: false, checks: [true, true, false, false], pulse: 2 };
+  if (s === 'PAID') return { cancelled: false, checks: [true, true, true, false], pulse: 3 };
+  if (s === 'COMPLETED') return { cancelled: false, checks: [true, true, true, true], pulse: 4 };
   return { cancelled: false, checks: [true, false, false, false], pulse: 0 };
 }
 
@@ -47,6 +47,79 @@ export function BookingsPage() {
       load();
     } catch (e) {
       toast.error(e instanceof ApiError ? e.message : 'Cancel failed');
+    }
+  };
+
+  const handlePayment = async (bookingId, totalPrice) => {
+    try {
+      toast.loading('Initiating payment...', { id: 'pay' });
+      // Fetch Razorpay order ID and details from backend
+      const res = await fetch(`/api/payments/create-order?bookingId=${bookingId}&guestId=${user.id}`, {
+        method: 'POST'
+      });
+      if (!res.ok) throw new Error('Order creation failed');
+      const orderData = await res.json();
+      toast.dismiss('pay');
+
+      if (orderData.razorpayKeyId.includes('placeholder')) {
+        toast.success('Simulated Dummy Payment Successful!', { id: 'verify' });
+        await fetch('/api/payments/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+             razorpay_order_id: orderData.orderId,
+             booking_id: String(bookingId)
+          })
+        });
+        load();
+        return;
+      }
+
+      const options = {
+        key: orderData.razorpayKeyId,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: "HeavenHub",
+        description: "Secure Stay Payment",
+        order_id: orderData.orderId,
+        handler: async function (response) {
+          try {
+            toast.loading('Verifying payment...', { id: 'verify' });
+            const verifyRes = await fetch('/api/payments/verify', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                ...response,
+                booking_id: String(bookingId),
+              })
+            });
+
+            if (verifyRes.ok) {
+              toast.success('Payment successful!', { id: 'verify' });
+              load();
+            } else {
+              toast.error('Payment verification failed', { id: 'verify' });
+            }
+          } catch (e) {
+            toast.error('Payment verification failed', { id: 'verify' });
+          }
+        },
+        prefill: {
+          name: user?.firstName || 'Guest',
+          email: user?.email || 'guest@example.com'
+        },
+        theme: {
+          color: "#38bdf8"
+        }
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.on('payment.failed', function (response){
+          toast.error(response.error.description);
+      });
+      rzp.open();
+    } catch (e) {
+      toast.error('Could not initiate payment', { id: 'pay' });
     }
   };
 
@@ -91,7 +164,7 @@ export function BookingsPage() {
                 </div>
 
                 {meta.cancelled ? (
-                  <p className="mt-6 text-sm text-rose-300/90">This booking was cancelled.</p>
+                  <p className="mt-6 text-sm text-rose-300/90">This booking request was {meta.reason}.</p>
                 ) : (
                   <div className="mt-8">
                     <div className="relative flex justify-between gap-2">
@@ -135,6 +208,15 @@ export function BookingsPage() {
                       className="rounded-full border border-rose-400/40 px-4 py-2 text-sm font-semibold text-rose-200 hover:bg-rose-500/10"
                     >
                       Cancel request
+                    </button>
+                  )}
+                  {b.status === 'ACCEPTED' && (
+                    <button
+                      type="button"
+                      onClick={() => handlePayment(b.id, b.totalPrice)}
+                      className="rounded-full bg-gradient-to-r from-emerald-400 to-teal-400 px-6 py-2 text-sm font-semibold text-[#050b14] shadow-lg transition hover:brightness-110"
+                    >
+                      Pay Now to Confirm
                     </button>
                   )}
                   {b.status === 'COMPLETED' && (

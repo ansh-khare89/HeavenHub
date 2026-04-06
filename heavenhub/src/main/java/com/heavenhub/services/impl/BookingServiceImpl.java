@@ -95,7 +95,7 @@ public class BookingServiceImpl implements BookingService {
         if (booking.getStatus() != BookingStatus.PENDING) {
             throw new IllegalArgumentException("Only pending requests can be approved.");
         }
-        booking.setStatus(BookingStatus.CONFIRMED);
+        booking.setStatus(BookingStatus.ACCEPTED);
         return dtoMapper.toBookingDto(bookingRepository.save(booking));
     }
 
@@ -106,7 +106,7 @@ public class BookingServiceImpl implements BookingService {
         if (booking.getStatus() != BookingStatus.PENDING) {
             throw new IllegalArgumentException("Only pending requests can be rejected.");
         }
-        booking.setStatus(BookingStatus.CANCELLED);
+        booking.setStatus(BookingStatus.REJECTED);
         return dtoMapper.toBookingDto(bookingRepository.save(booking));
     }
 
@@ -129,8 +129,8 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     public BookingDto completeBooking(Long bookingId, Long hostId) {
         Booking booking = loadBookingForHost(bookingId, hostId);
-        if (booking.getStatus() != BookingStatus.CONFIRMED) {
-            throw new IllegalArgumentException("Only confirmed stays can be marked completed.");
+        if (booking.getStatus() != BookingStatus.PAID) {
+            throw new IllegalArgumentException("Only paid stays can be marked completed.");
         }
         booking.setStatus(BookingStatus.COMPLETED);
         return dtoMapper.toBookingDto(bookingRepository.save(booking));

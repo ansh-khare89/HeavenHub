@@ -39,6 +39,9 @@ export function PropertyDetailPage() {
   const [reviewText, setReviewText] = useState('');
   const [loadError, setLoadError] = useState(null);
 
+  const [msgContent, setMsgContent] = useState('');
+  const [sendingMsg, setSendingMsg] = useState(false);
+
   const idValid = Boolean(id) && Number.isFinite(Number(id));
 
   useEffect(() => {
@@ -140,7 +143,32 @@ export function PropertyDetailPage() {
     }
   };
 
-  const hero = useMemo(() => `https://picsum.photos/seed/hh-${id}/1200/720`, [id]);
+  const onSendMessage = async (e) => {
+    e.preventDefault();
+    if (!canBook) return;
+    if (!msgContent.trim()) return;
+    setSendingMsg(true);
+    try {
+      const res = await fetch(`/api/messages?senderId=${user.id}&receiverId=${property.hostId}&propertyId=${property.id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: msgContent }),
+      });
+      if (!res.ok) throw new Error();
+      toast.success('Message sent! Check your inbox for replies.');
+      setMsgContent('');
+    } catch (e) {
+      toast.error('Could not send message.');
+    } finally {
+      setSendingMsg(false);
+    }
+  };
+
+  const hero = useMemo(() => {
+    const idNum = Number(id) || 0;
+    const imageNumber = ((idNum * 7) % 6) + 1;
+    return `/hotels/hotel-${imageNumber}.jpg`;
+  }, [id]);
 
   if (loadError && !loading) {
     return (
@@ -411,6 +439,28 @@ export function PropertyDetailPage() {
                   >
                     Sign in as guest
                   </Link>
+                </div>
+              )}
+
+              {canBook && (
+                <div className="mt-8 pt-6 border-t border-white/10">
+                  <h3 className="text-sm font-semibold text-white mb-3">Have a question?</h3>
+                  <form onSubmit={onSendMessage} className="space-y-3">
+                    <textarea 
+                      value={msgContent}
+                      onChange={e => setMsgContent(e.target.value)}
+                      rows={2} 
+                      placeholder="Ask the host about this stay..."
+                      className="w-full rounded-xl border border-white/10 bg-[#0a1628] px-3 py-2 text-sm text-white focus:border-sky-400"
+                    />
+                    <button 
+                      type="submit"
+                      disabled={sendingMsg || !msgContent.trim()}
+                      className="w-full rounded-full border border-sky-400/40 py-2.5 text-sm font-semibold text-sky-200 transition hover:bg-sky-500/10 disabled:opacity-50"
+                    >
+                      {sendingMsg ? 'Sending...' : 'Message Host'}
+                    </button>
+                  </form>
                 </div>
               )}
             </div>

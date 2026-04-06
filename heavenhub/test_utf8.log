@@ -1,0 +1,200 @@
+﻿[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.heavenhub:heavenhub >-----------------------
+[INFO] Building  0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ heavenhub ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ heavenhub ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ heavenhub ---
+[INFO] skip non existing resourceDirectory C:\Users\anshk\OneDrive\Desktop\HeavenHub\heavenhub\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ heavenhub ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.5:test (default-test) @ heavenhub ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.heavenhub.HeavenhubApplicationTests
+22:38:35.904 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.heavenhub.HeavenhubApplicationTests]: HeavenhubApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+22:38:36.073 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.heavenhub.HeavenhubApplication for test class com.heavenhub.HeavenhubApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.13)
+
+2026-04-06T22:38:36.739+05:30  WARN 23168 --- [heavenhub] [           main] ory$DuplicateJsonObjectContextCustomizer : 
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/C:/Users/anshk/.m2/repository/org/json/json/20180130/json-20180130.jar!/org/json/JSONObject.class
+	jar:file:/C:/Users/anshk/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+2026-04-06T22:38:36.766+05:30  INFO 23168 --- [heavenhub] [           main] c.heavenhub.HeavenhubApplicationTests    : Starting HeavenhubApplicationTests using Java 24.0.2 with PID 23168 (started by anshk in C:\Users\anshk\OneDrive\Desktop\HeavenHub\heavenhub)
+2026-04-06T22:38:36.767+05:30  INFO 23168 --- [heavenhub] [           main] c.heavenhub.HeavenhubApplicationTests    : No active profile set, falling back to 1 default profile: "default"
+2026-04-06T22:38:37.696+05:30  INFO 23168 --- [heavenhub] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-06T22:38:37.794+05:30  INFO 23168 --- [heavenhub] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 86 ms. Found 6 JPA repository interfaces.
+2026-04-06T22:38:38.511+05:30  INFO 23168 --- [heavenhub] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-04-06T22:38:38.614+05:30  INFO 23168 --- [heavenhub] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.45.Final
+2026-04-06T22:38:38.668+05:30  INFO 23168 --- [heavenhub] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-04-06T22:38:39.114+05:30  INFO 23168 --- [heavenhub] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-06T22:38:39.152+05:30  INFO 23168 --- [heavenhub] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-04-06T22:38:40.057+05:30  INFO 23168 --- [heavenhub] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2513155a
+2026-04-06T22:38:40.058+05:30  INFO 23168 --- [heavenhub] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-04-06T22:38:40.131+05:30  WARN 23168 --- [heavenhub] [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-04-06T22:38:40.155+05:30  INFO 23168 --- [heavenhub] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 18.3
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-04-06T22:38:41.342+05:30  INFO 23168 --- [heavenhub] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-06T22:38:41.592+05:30  INFO 23168 --- [heavenhub] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-06T22:38:42.033+05:30  INFO 23168 --- [heavenhub] [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-04-06T22:38:42.982+05:30  WARN 23168 --- [heavenhub] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-06T22:38:43.029+05:30  WARN 23168 --- [heavenhub] [           main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 361f69c5-caff-4f8f-a10b-fe6f8042458a
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-06T22:38:43.040+05:30  INFO 23168 --- [heavenhub] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-06T22:38:43.951+05:30  INFO 23168 --- [heavenhub] [           main] c.heavenhub.HeavenhubApplicationTests    : Started HeavenhubApplicationTests in 7.64 seconds (process running for 9.203)
+Hibernate: 
+    select
+        count(*) 
+    from
+        users u1_0
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.role,
+        u1_0.trust_score_id,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ts1_0.id,
+        ts1_0.created_at,
+        ts1_0.number_of_reviews,
+        ts1_0.score,
+        ts1_0.updated_at,
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.role,
+        u1_0.updated_at,
+        ts1_0.verified_id 
+    from
+        trust_scores ts1_0 
+    left join
+        users u1_0 
+            on ts1_0.id=u1_0.trust_score_id 
+    where
+        ts1_0.id=?
+Hibernate: 
+    select
+        count(*) 
+    from
+        properties p1_0
+.\mvnw.cmd : Mockito is 
+currently self-attaching 
+to enable the 
+inline-mock-maker. This 
+will no longer work in 
+future releases of the 
+JDK. Please add Mockito 
+as an agent to your build 
+as described in Mockito's 
+documentation: https://jav
+adoc.io/doc/org.mockito/mo
+ckito-core/latest/org.mock
+ito/org/mockito/Mockito.ht
+ml#0.3
+At line:1 char:1
++ .\mvnw.cmd test > 
+test.log 2>&1 ; 
+Get-Content test.log | 
+Set-Content  ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (M  
+  ockito is curr...ocki   
+ to.html#0.3:String) [    
+], RemoteException
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+WARNING: A Java agent has 
+been loaded dynamically (C
+:\Users\anshk\.m2\reposito
+ry\net\bytebuddy\byte-budd
+y-agent\1.17.8\byte-buddy-
+agent-1.17.8.jar)
+WARNING: If a 
+serviceability tool is in 
+use, please run with -XX:+
+EnableDynamicAgentLoading 
+to hide this warning
+WARNING: If a 
+serviceability tool is 
+not in use, please run 
+with -Djdk.instrument.trac
+eUsage for more 
+information
+WARNING: Dynamic loading 
+of agents will be 
+disallowed by default in 
+a future release
+Java HotSpot(TM) 64-Bit 
+Server VM warning: 
+Sharing is only supported 
+for boot loader classes 
+because bootstrap 
+classpath has been 
+appended
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.860 s -- in com.heavenhub.HeavenhubApplicationTests
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  12.816 s
+[INFO] Finished at: 2026-04-06T22:38:44+05:30
+[INFO] ------------------------------------------------------------------------

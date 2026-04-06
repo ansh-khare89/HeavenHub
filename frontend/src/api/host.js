@@ -7,3 +7,7 @@ export function fetchHostAnalytics(hostId) {
 export function fetchHostReviews(hostId) {
   return request(`/api/host/${hostId}/reviews`);
 }
+
+export function fetchSmartPricing(hostId, propertyId) {
+  return request(`/api/host/${hostId}/smart-pricing/${propertyId}`);
+}
