@@ -6,8 +6,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
+import org.springframework.beans.factory.annotation.Value;
+
 @Configuration
 public class SecurityConfig {
+
+    @Value("${FRONTEND_URL:http://localhost:5173}")
+    private String frontendUrl;
 
     // For now, allow all API calls so we can easily test our application with the frontend!
     @Bean
@@ -17,8 +22,7 @@ public class SecurityConfig {
                     var corsConfig = new org.springframework.web.cors.CorsConfiguration();
                     // Allowed domains including Vercel and local Vite
                     corsConfig.setAllowedOriginPatterns(java.util.List.of(
-                            "https://heaven-kticpo4cw-ansh-khare89s-projects.vercel.app",
-                            "http://localhost:5173",
+                            frontendUrl,
                             "*"));
                     corsConfig.setAllowedMethods(java.util.List.of("*"));
                     corsConfig.setAllowedHeaders(java.util.List.of("*"));
