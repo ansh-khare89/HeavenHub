@@ -21,12 +21,12 @@ export function HomePage() {
 
   const handleVibeMatch = () => {
     let qs = new URLSearchParams();
-    if (vibeState.who === 'Family') qs.set('minRating', '4.5');
-    if (vibeState.who === 'Pets') qs.set('petFriendly', 'true');
-    if (vibeState.where === 'Mountains') qs.set('region', 'North');
-    if (vibeState.where === 'Beaches') qs.set('region', 'West');
-    if (vibeState.type === 'Luxury') qs.set('minPrice', '8000');
-    if (vibeState.type === 'Budget') qs.set('maxPrice', '4000');
+    if (vibeState.who === 'squad') qs.set('minRating', '4.5');
+    if (vibeState.who === 'pets') qs.set('petFriendly', 'true');
+    if (vibeState.where === 'mountains') qs.set('region', 'North');
+    if (vibeState.where === 'beaches') qs.set('region', 'West');
+    if (vibeState.type === 'luxury') qs.set('minPrice', '8000');
+    if (vibeState.type === 'budget') qs.set('maxPrice', '4000');
     
     navigate(`/hotels?${qs.toString()}`);
   };
@@ -96,54 +96,59 @@ export function HomePage() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <p className="animate-fade-up text-xs font-semibold uppercase tracking-[0.25em] text-sky-400/90">
-              Welcome to HeavenHub
+              Welcome to HeavenHub (No Halos Required)
             </p>
             <h1 className="animate-fade-up mt-4 font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-white md:text-5xl lg:text-[4.5rem]">
-              Discover your next{' '}
+              Stop doom-scrolling.<br />Start{' '}
               <span className="bg-gradient-to-r from-sky-200 via-cyan-200 to-amber-100/90 bg-clip-text text-transparent">
-                escape
+                escaping
               </span>
               .
             </h1>
             <p className="animate-fade-up-delay mt-6 max-w-xl text-base leading-relaxed text-slate-400 md:text-lg">
-              Curated stays from metros to hill stations — priced in ₹, rated honestly, filtered in seconds. Experience India like never before.
+              Tired of your boss? Exhausted by traffic? We have highly curated hideaways priced in ₹, where your only worry is whether to order room service again. (Do it, you deserve it).
             </p>
             <div className="animate-fade-up-delay mt-10">
               <Link
                 to="/hotels"
                 className="inline-flex rounded-full bg-gradient-to-r from-sky-400 to-cyan-400 px-8 py-3.5 text-sm font-semibold text-[#050b14] shadow-lg shadow-sky-500/25 transition hover:brightness-110"
               >
-                Explore all hotels
+                Take me away immediately
               </Link>
             </div>
           </div>
 
           <div className="animate-fade-up-delay bg-white/[0.04] backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl">
-            <h2 className="text-2xl font-bold font-display text-white mb-6">Travel Vibe Matcher</h2>
+            <h2 className="text-2xl font-bold font-display text-white mb-6">The Vibe Interrogator 9000</h2>
             
             {vibeStep === 0 && (
               <div className="text-center py-6">
-                <p className="text-slate-300 mb-6">Not sure where to go? Let us find the perfect curated stay based on your vibe.</p>
+                <p className="text-slate-300 mb-6">Too burnt out to plan? Let our highly judgmental algorithm pick your vacation based on your emotional state.</p>
                 <button 
                   onClick={() => setVibeStep(1)}
                   className="rounded-full bg-sky-500/20 border border-sky-400/50 px-6 py-3 text-sky-200 hover:bg-sky-500/30 font-semibold transition"
                 >
-                  Start Matcher ✨
+                  Read my mind ✨
                 </button>
               </div>
             )}
 
             {vibeStep === 1 && (
               <div className="animate-fade-in">
-                <p className="text-slate-300 mb-4 font-semibold uppercase tracking-wider text-sm">Step 1: Who is going?</p>
+                <p className="text-slate-300 mb-4 font-semibold uppercase tracking-wider text-sm">Step 1: Who's crashing this party?</p>
                 <div className="grid grid-cols-2 gap-3">
-                  {['Solo', 'Couple', 'Family', 'Pets'].map(opt => (
+                  {[
+                    { l: 'Me, myself, & I', v: 'solo' },
+                    { l: 'Romantic cliché', v: 'couple' },
+                    { l: 'The chaotic squad', v: 'squad' },
+                    { l: 'The favorite child (Pets)', v: 'pets' }
+                  ].map(opt => (
                     <button 
-                      key={opt}
-                      onClick={() => { setVibeState(s => ({...s, who: opt})); setVibeStep(2); }}
-                      className="border border-white/10 rounded-xl p-4 text-center hover:bg-white/10 transition"
+                      key={opt.v}
+                      onClick={() => { setVibeState(s => ({...s, who: opt.v})); setVibeStep(2); }}
+                      className="border border-white/10 rounded-xl p-4 text-center hover:bg-white/10 transition text-sm"
                     >
-                      {opt}
+                      {opt.l}
                     </button>
                   ))}
                 </div>
@@ -152,15 +157,20 @@ export function HomePage() {
 
             {vibeStep === 2 && (
               <div className="animate-fade-in">
-                <p className="text-slate-300 mb-4 font-semibold uppercase tracking-wider text-sm">Step 2: What's the scenery?</p>
+                <p className="text-slate-300 mb-4 font-semibold uppercase tracking-wider text-sm">Step 2: What are we staring at?</p>
                 <div className="grid grid-cols-2 gap-3">
-                  {['Mountains', 'Beaches', 'City Hub', 'Heritage'].map(opt => (
+                  {[
+                    { l: 'Freezing peaks', v: 'mountains' },
+                    { l: 'Sand everywhere', v: 'beaches' },
+                    { l: 'Concrete jungle', v: 'city' },
+                    { l: 'Old expensive rocks', v: 'heritage' }
+                  ].map(opt => (
                     <button 
-                      key={opt}
-                      onClick={() => { setVibeState(s => ({...s, where: opt})); setVibeStep(3); }}
-                      className="border border-white/10 rounded-xl p-4 text-center hover:bg-white/10 transition"
+                      key={opt.v}
+                      onClick={() => { setVibeState(s => ({...s, where: opt.v})); setVibeStep(3); }}
+                      className="border border-white/10 rounded-xl p-4 text-center hover:bg-white/10 transition text-sm"
                     >
-                      {opt}
+                      {opt.l}
                     </button>
                   ))}
                 </div>
@@ -169,15 +179,19 @@ export function HomePage() {
 
             {vibeStep === 3 && (
               <div className="animate-fade-in">
-                <p className="text-slate-300 mb-4 font-semibold uppercase tracking-wider text-sm">Step 3: What's the budget vibe?</p>
+                <p className="text-slate-300 mb-4 font-semibold uppercase tracking-wider text-sm">Step 3: How's the bank account feeling?</p>
                 <div className="grid grid-cols-2 gap-3 mb-6">
-                  {['Luxury', 'Balanced', 'Budget'].map(opt => (
+                  {[
+                    { l: 'Make it rain', v: 'luxury' },
+                    { l: 'Reasonable adulting', v: 'balanced' },
+                    { l: 'Instant noodles vibe', v: 'budget' }
+                  ].map(opt => (
                     <button 
-                      key={opt}
-                      onClick={() => setVibeState(s => ({...s, type: opt}))}
-                      className={`border rounded-xl p-4 text-center transition ${vibeState.type === opt ? 'bg-sky-500/40 border-sky-400' : 'border-white/10 hover:bg-white/10'}`}
+                      key={opt.v}
+                      onClick={() => setVibeState(s => ({...s, type: opt.v}))}
+                      className={`border rounded-xl p-4 text-center transition text-sm ${vibeState.type === opt.v ? 'bg-sky-500/40 border-sky-400' : 'border-white/10 hover:bg-white/10'}`}
                     >
-                      {opt}
+                      {opt.l}
                     </button>
                   ))}
                 </div>
@@ -186,7 +200,7 @@ export function HomePage() {
                   disabled={!vibeState.type}
                   className="w-full rounded-2xl bg-gradient-to-r from-emerald-400 to-teal-400 px-6 py-4 font-bold text-[#050b14] shadow-lg disabled:opacity-50"
                 >
-                  Find My Vibe →
+                  Teleport me there →
                 </button>
               </div>
             )}
@@ -198,8 +212,8 @@ export function HomePage() {
       <section className="relative mx-auto max-w-6xl px-4 py-16 md:px-6">
         <div className="mb-10 flex items-end justify-between border-b border-white/10 pb-4">
           <div>
-            <h2 className="font-display text-2xl font-bold text-white md:text-3xl">Featured stays</h2>
-            <p className="mt-1 text-sm text-slate-500">Hand-picked properties for your next trip</p>
+            <h2 className="font-display text-2xl font-bold text-white md:text-3xl">Places better than your house</h2>
+            <p className="mt-1 text-sm text-slate-500">Properties we'd totally live in if we didn't have to work here</p>
           </div>
         </div>
 
@@ -226,7 +240,7 @@ export function HomePage() {
             to="/hotels"
             className="inline-flex rounded-full border border-sky-400/50 bg-[#0a1628]/95 px-6 py-3 text-sm font-semibold text-sky-200 shadow-xl transition hover:border-sky-400 hover:bg-sky-500/10"
           >
-            View all {properties.length > 0 ? 'hotels' : 'stays'} →
+            Show me more shiny things →
           </Link>
         </div>
       </section>
