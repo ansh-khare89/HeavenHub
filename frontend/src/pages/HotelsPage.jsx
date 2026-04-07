@@ -103,7 +103,7 @@ export function HotelsPage() {
         e instanceof ApiError
           ? e.message
           : e instanceof Error
-            ? `${e.message} (check API URL or network — production: heavenhub-production.up.railway.app)`
+            ? `${e.message} (check API URL or network)`
             : 'Could not load listings';
       toast.error(msg);
       setProperties([]);
