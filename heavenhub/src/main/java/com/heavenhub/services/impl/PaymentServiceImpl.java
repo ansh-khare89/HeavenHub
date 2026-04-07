@@ -25,10 +25,10 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final BookingRepository bookingRepository;
 
-    @Value("${payment.razorpay.keyId}")
+    @Value("${payment.razorpay.keyId:dummy}")
     private String razorpayKeyId;
 
-    @Value("${payment.razorpay.keySecret}")
+    @Value("${payment.razorpay.keySecret:dummy}")
     private String razorpayKeySecret;
 
     @Override
@@ -45,21 +45,19 @@ public class PaymentServiceImpl implements PaymentService {
         }
 
         try {
-            if (razorpayKeyId.contains("placeholder")) {
-                int amount = booking.getTotalPrice().multiply(new BigDecimal("100")).intValue();
+            int amount = booking.getTotalPrice().multiply(new BigDecimal("100")).intValue();
+
+            if ("dummy".equals(razorpayKeyId) || "dummy".equals(razorpayKeySecret)) {
                 return new PaymentOrderResponse(
                         "order_dummy_" + bookingId,
                         "INR",
                         amount,
-                        razorpayKeyId
-                );
+                        razorpayKeyId);
             }
 
             RazorpayClient razorpayClient = new RazorpayClient(razorpayKeyId, razorpayKeySecret);
 
             JSONObject orderRequest = new JSONObject();
-            // Razorpay amount is in paise (multiply by 100)
-            int amount = booking.getTotalPrice().multiply(new BigDecimal("100")).intValue();
             orderRequest.put("amount", amount);
             orderRequest.put("currency", "INR");
             orderRequest.put("receipt", "txn_booking_" + bookingId);
@@ -70,8 +68,8 @@ public class PaymentServiceImpl implements PaymentService {
                     order.get("id"),
                     "INR",
                     amount,
-                    razorpayKeyId
-            );
+                    razorpayKeyId);
+
         } catch (RazorpayException e) {
             throw new RuntimeException("Failed to create Razorpay order: " + e.getMessage(), e);
         }
@@ -83,7 +81,7 @@ public class PaymentServiceImpl implements PaymentService {
         String razorpayOrderId = payload.get("razorpay_order_id");
         String razorpayPaymentId = payload.get("razorpay_payment_id");
         String razorpaySignature = payload.get("razorpay_signature");
-        String bookingIdStr = payload.get("booking_id"); // We'll pass this from frontend
+        String bookingIdStr = payload.get("booking_id");
 
         if (razorpayOrderId != null && razorpayOrderId.startsWith("order_dummy_")) {
             if (bookingIdStr != null) {
@@ -113,7 +111,9 @@ public class PaymentServiceImpl implements PaymentService {
                 bookingRepository.save(booking);
                 return true;
             }
+
             return false;
+
         } catch (RazorpayException e) {
             throw new RuntimeException("Payment verification failed", e);
         }
