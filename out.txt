@@ -1,0 +1,20 @@
+HTTP Status: 200
+access-control-allow-methods: GET
+access-control-allow-origin: https://somerandomsite.vercel.app
+cache-control: no-cache, no-store, max-age=0, must-revalidate
+connection: keep-alive
+content-length: 0
+date: Mon, 06 Apr 2026 20:37:15 GMT
+expires: 0
+pragma: no-cache
+server: railway-edge
+vary: Origin, Access-Control-Request-Method, Access-Control-Request-Headers
+x-cache: MISS
+x-cache-hits: 0
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-railway-cdn-edge: fastly/cache-ixd4450022-IXD
+x-railway-edge: railway/asia-southeast1-eqsg3a
+x-railway-request-id: vsGLOnJTSwG98mYEipRofQ
+x-served-by: cache-ixd4450022-IXD
+x-xss-protection: 0
