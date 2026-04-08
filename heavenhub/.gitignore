@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Java Upgrade & Migration Artifacts ###
+.github/java-upgrade/
