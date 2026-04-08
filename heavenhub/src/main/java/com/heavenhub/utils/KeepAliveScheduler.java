@@ -30,7 +30,17 @@ public class KeepAliveScheduler {
         fixedDelayString = "${keepalive.fixed-rate-ms:840000}"
     )
     public void keepAppAlive() {
-        String url = baseUrl + keepAliveEndpoint;
+        // Safe fallback for baseUrl
+        String safeBaseUrl = (baseUrl != null && !baseUrl.isEmpty()) 
+            ? baseUrl 
+            : "http://localhost:8080";
+        
+        // Safe fallback for endpoint
+        String endpoint = (keepAliveEndpoint != null && !keepAliveEndpoint.isEmpty()) 
+            ? keepAliveEndpoint 
+            : "/actuator/health";
+        
+        String url = safeBaseUrl + endpoint;
         try {
             restTemplate.getForEntity(url, String.class);
             log.info("Keep-alive ping successful - App is warm ✓");
