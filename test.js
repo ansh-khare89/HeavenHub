@@ -1,1 +1,0 @@
-fetch('https://heavenhub-production.up.railway.app/api/properties', { method: 'OPTIONS', headers: { 'Origin': 'https://somerandomsite.vercel.app', 'Access-Control-Request-Method': 'GET' } }).then(r => { let s = 'HTTP Status: ' + r.status + '\n'; for (let [k,v] of r.headers) s += k + ': ' + v + '\n'; require('fs').writeFileSync('out.txt', s); });
