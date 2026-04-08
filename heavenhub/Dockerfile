@@ -11,5 +11,8 @@ FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 COPY --from=builder /app/target/*.jar app.jar
 EXPOSE 8080
-ENV JAVA_OPTS="-Xms256m -Xmx512m -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -XX:+AlwaysPreTouch -Djava.security.egd=file:/dev/urandom"
+
+# REDUCED memory for Render free tier
+ENV JAVA_OPTS="-Xmx256m -Xms128m -XX:+UseG1GC -XX:MaxGCPauseMillis=200"
+
 CMD ["sh", "-c", "java $JAVA_OPTS -jar app.jar --server.port=${PORT}"]
