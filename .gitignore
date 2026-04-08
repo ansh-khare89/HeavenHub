@@ -30,3 +30,7 @@ Thumbs.db
 
 # Logs
 logs/
+
+#copilot cache
+.github/
+.copilot/
