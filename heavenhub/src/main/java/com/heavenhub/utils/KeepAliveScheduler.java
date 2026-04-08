@@ -18,19 +18,24 @@ public class KeepAliveScheduler {
     @Value("${app.base-url:http://localhost:8080}")
     private String baseUrl;
 
+    @Value("${keepalive.endpoint:/actuator/health}")
+    private String keepAliveEndpoint;
+
     /**
      * Keeps the application alive by making a request every 14 minutes
      * This prevents Render from spinning down the app due to inactivity
      */
-    @Scheduled(fixedDelay = 840000) // 14 minutes in milliseconds
+    @Scheduled(
+        initialDelayString = "${keepalive.initial-delay-ms:60000}",
+        fixedDelayString = "${keepalive.fixed-rate-ms:840000}"
+    )
     public void keepAppAlive() {
+        String url = baseUrl + keepAliveEndpoint;
         try {
-            // Changed from root URL to actual API endpoint
-            String url = baseUrl + "/api/properties?hostId=1";
-            String response = restTemplate.getForObject(url, String.class);
+            restTemplate.getForEntity(url, String.class);
             log.info("Keep-alive ping successful - App is warm ✓");
         } catch (Exception e) {
-            log.warn("Keep-alive ping failed (this is okay if app is just starting): " + e.getMessage());
+            log.warn("Keep-alive ping failed for {}: {}", url, e.getMessage(), e);
         }
     }
 }

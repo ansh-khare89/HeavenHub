@@ -1,5 +1,13 @@
 package com.heavenhub.services.impl;
 
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.heavenhub.dtos.PropertyCreationDto;
 import com.heavenhub.dtos.PropertyDto;
 import com.heavenhub.exceptions.ResourceNotFoundException;
@@ -9,17 +17,12 @@ import com.heavenhub.repositories.PropertyRepository;
 import com.heavenhub.repositories.UserRepository;
 import com.heavenhub.services.PropertyService;
 import com.heavenhub.utils.DtoMapper;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PropertyServiceImpl implements PropertyService {
 
     private final PropertyRepository propertyRepository;
@@ -27,6 +30,7 @@ public class PropertyServiceImpl implements PropertyService {
     private final DtoMapper dtoMapper;
 
     @Override
+    @Transactional
     public PropertyDto createProperty(PropertyCreationDto dto) {
         User host = userRepository.findById(dto.getHostId())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", dto.getHostId()));
@@ -40,6 +44,7 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
+    @Transactional
     public PropertyDto updateProperty(Long id, Long hostId, PropertyCreationDto dto) {
         Property prop = propertyRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Property", "id", id));
@@ -51,6 +56,7 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
+    @Transactional
     public void deleteProperty(Long id, Long hostId) {
         Property prop = propertyRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Property", "id", id));
@@ -94,7 +100,7 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public PropertyDto getPropertyById(Long id) {
-        Property property = propertyRepository.findById(id)
+        Property property = propertyRepository.findByIdWithHost(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Property", "id", id));
         return dtoMapper.toPropertyDto(property);
     }
