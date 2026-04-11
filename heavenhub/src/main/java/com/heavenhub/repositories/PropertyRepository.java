@@ -31,22 +31,41 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 
     /**
      * Optimized search with database-level filtering and pagination.
-     * Eliminates loading all properties into memory.
+     * Native SQL for PostgreSQL compatibility with explicit type casting.
      */
-    @Query("""
-        SELECT DISTINCT p FROM Property p
-        JOIN FETCH p.host
-        WHERE (:hostId IS NULL OR p.host.id = :hostId)
-          AND (:location IS NULL OR LOWER(p.city) LIKE LOWER(CONCAT('%', :location, '%'))
-                                   OR LOWER(p.state) LIKE LOWER(CONCAT('%', :location, '%')))
-          AND (:minPrice IS NULL OR p.pricePerNight >= :minPrice)
-          AND (:maxPrice IS NULL OR p.pricePerNight <= :maxPrice)
-          AND (:minRating IS NULL OR p.averageRating >= :minRating)
-          AND (:petFriendly IS NULL OR p.petFriendly = :petFriendly)
-          AND (:instantBook IS NULL OR p.instantBook = :instantBook)
+    @Query(nativeQuery = true, value = """
+        SELECT p.id, p.address, p.amenities, p.average_rating, p.bathrooms, p.bedrooms, 
+               p.city, p.cleaning_fee, p.created_at, p.description, p.host_id,
+               p.house_manual, p.instant_book, p.latitude, p.longitude, p.max_guests,
+               p.pet_friendly, p.platform_fee_percent, p.price_per_night, p.property_type,
+               p.region, p.review_count, p.state, p.superhost, p.title, p.updated_at, p.zip_code
+        FROM properties p
+        WHERE (:hostId IS NULL OR p.host_id = :hostId)
+          AND (:location IS NULL OR LOWER(p.city::text) LIKE LOWER(CONCAT('%', :location, '%'))
+                                   OR LOWER(p.state::text) LIKE LOWER(CONCAT('%', :location, '%')))
+          AND (:minPrice IS NULL OR p.price_per_night >= :minPrice)
+          AND (:maxPrice IS NULL OR p.price_per_night <= :maxPrice)
+          AND (:minRating IS NULL OR p.average_rating >= :minRating)
+          AND (:petFriendly IS NULL OR p.pet_friendly = :petFriendly)
+          AND (:instantBook IS NULL OR p.instant_book = :instantBook)
           AND (:superhost IS NULL OR p.superhost = :superhost)
-          AND (:region IS NULL OR LOWER(p.region) = LOWER(:region))
-          AND (:propertyType IS NULL OR LOWER(p.propertyType) LIKE LOWER(CONCAT('%', :propertyType, '%')))
+          AND (:region IS NULL OR LOWER(p.region::text) = LOWER(:region::text))
+          AND (:propertyType IS NULL OR LOWER(p.property_type::text) LIKE LOWER(CONCAT('%', :propertyType, '%')))
+        ORDER BY p.superhost DESC
+        """, 
+        countQuery = """
+        SELECT COUNT(p.id) FROM properties p
+        WHERE (:hostId IS NULL OR p.host_id = :hostId)
+          AND (:location IS NULL OR LOWER(p.city::text) LIKE LOWER(CONCAT('%', :location, '%'))
+                                   OR LOWER(p.state::text) LIKE LOWER(CONCAT('%', :location, '%')))
+          AND (:minPrice IS NULL OR p.price_per_night >= :minPrice)
+          AND (:maxPrice IS NULL OR p.price_per_night <= :maxPrice)
+          AND (:minRating IS NULL OR p.average_rating >= :minRating)
+          AND (:petFriendly IS NULL OR p.pet_friendly = :petFriendly)
+          AND (:instantBook IS NULL OR p.instant_book = :instantBook)
+          AND (:superhost IS NULL OR p.superhost = :superhost)
+          AND (:region IS NULL OR LOWER(p.region::text) = LOWER(:region::text))
+          AND (:propertyType IS NULL OR LOWER(p.property_type::text) LIKE LOWER(CONCAT('%', :propertyType, '%')))
         """)
     Page<Property> searchProperties(
             @Param("hostId") Long hostId,
