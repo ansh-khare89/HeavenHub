@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { fetchProperties } from '../api/properties.js';
+import { searchPropertiesPageable } from '../api/properties.js';
 import { addWishlist, fetchWishlist, removeWishlist } from '../api/wishlist.js';
 import { ApiError } from '../api/client.js';
 import { CompareStaysModal } from '../components/CompareStaysModal.jsx';
@@ -23,10 +23,10 @@ const REGIONS = [
 ];
 
 const SORTS = [
-  { value: 'featured', label: 'Featured mix' },
-  { value: 'price_asc', label: 'Price · low to high' },
-  { value: 'price_desc', label: 'Price · high to low' },
-  { value: 'rating_desc', label: 'Rating · highest' },
+  { value: 'featured', label: 'Featured mix', dbSort: 'superhost,desc' },
+  { value: 'price_asc', label: 'Price · low to high', dbSort: 'pricePerNight,asc' },
+  { value: 'price_desc', label: 'Price · high to low', dbSort: 'pricePerNight,desc' },
+  { value: 'rating_desc', label: 'Rating · highest', dbSort: 'averageRating,desc' },
 ];
 
 /** Quick picks — align with seeded cities; prices are typical “from” hints for UX */
@@ -96,8 +96,18 @@ export function HotelsPage() {
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await fetchProperties(query);
-      setProperties(Array.isArray(data) ? data : []);
+      // Get database sort parameter from frontend sort value
+      const sortObj = SORTS.find(s => s.value === sort);
+      const dbSort = sortObj?.dbSort || 'superhost,desc';
+      
+      const pageData = await searchPropertiesPageable({
+        ...query,
+        page: 0,
+        size: 20,
+        sort: dbSort,
+      });
+      
+      setProperties(pageData.content || []);
     } catch (e) {
       const msg =
         e instanceof ApiError
@@ -110,7 +120,7 @@ export function HotelsPage() {
     } finally {
       setLoading(false);
     }
-  }, [query]);
+  }, [query, sort]);
 
   useEffect(() => {
     load();
@@ -136,19 +146,8 @@ export function HotelsPage() {
     };
   }, [isAuthenticated, role, user?.id]);
 
-  const sorted = useMemo(() => {
-    const arr = [...properties];
-    if (sort === 'price_asc') {
-      arr.sort((a, b) => Number(a.pricePerNight) - Number(b.pricePerNight));
-    } else if (sort === 'price_desc') {
-      arr.sort((a, b) => Number(b.pricePerNight) - Number(a.pricePerNight));
-    } else if (sort === 'rating_desc') {
-      arr.sort((a, b) => Number(b.averageRating || 0) - Number(a.averageRating || 0));
-    } else {
-      arr.sort((a, b) => Number(b.superhost) - Number(a.superhost) || Number(b.averageRating || 0) - Number(a.averageRating || 0));
-    }
-    return arr;
-  }, [properties, sort]);
+  // Properties are already sorted by the database, so no client-side sorting needed
+  const sorted = properties;
 
   const compareList = useMemo(
     () => sorted.filter((p) => compareIds.has(p.id)),

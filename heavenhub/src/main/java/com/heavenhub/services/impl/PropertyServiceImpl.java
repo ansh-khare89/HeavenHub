@@ -2,9 +2,10 @@ package com.heavenhub.services.impl;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,14 +72,14 @@ public class PropertyServiceImpl implements PropertyService {
     public List<PropertyDto> getAllProperties(Long hostId, String location, BigDecimal minPrice, BigDecimal maxPrice,
                                                 BigDecimal minRating, Boolean petFriendly, Boolean instantBook,
                                                 Boolean superhost, String region, String propertyType) {
-        String loc = location != null ? location.trim().toLowerCase(Locale.ROOT) : "";
-        String reg = region != null ? region.trim().toLowerCase(Locale.ROOT) : "";
-        String ptype = propertyType != null ? propertyType.trim().toLowerCase(Locale.ROOT) : "";
+        String loc = location != null ? location.trim().toLowerCase() : "";
+        String reg = region != null ? region.trim().toLowerCase() : "";
+        String ptype = propertyType != null ? propertyType.trim().toLowerCase() : "";
         return propertyRepository.findAllWithHost().stream()
                 .filter(p -> p.getHost() != null && (hostId == null || p.getHost().getId().equals(hostId)))
                 .filter(p -> loc.isEmpty()
-                        || (p.getCity() != null && p.getCity().toLowerCase(Locale.ROOT).contains(loc))
-                        || (p.getState() != null && p.getState().toLowerCase(Locale.ROOT).contains(loc)))
+                        || (p.getCity() != null && p.getCity().toLowerCase().contains(loc))
+                        || (p.getState() != null && p.getState().toLowerCase().contains(loc)))
                 .filter(p -> minPrice == null || p.getPricePerNight().compareTo(minPrice) >= 0)
                 .filter(p -> maxPrice == null || p.getPricePerNight().compareTo(maxPrice) <= 0)
                 .filter(p -> minRating == null || ratingAtLeast(p.getAverageRating(), minRating))
@@ -86,11 +87,35 @@ public class PropertyServiceImpl implements PropertyService {
                 .filter(p -> instantBook == null || p.isInstantBook() == instantBook)
                 .filter(p -> superhost == null || p.isSuperhost() == superhost)
                 .filter(p -> reg.isEmpty()
-                        || (p.getRegion() != null && p.getRegion().toLowerCase(Locale.ROOT).equals(reg)))
+                        || (p.getRegion() != null && p.getRegion().toLowerCase().equals(reg)))
                 .filter(p -> ptype.isEmpty()
-                        || (p.getPropertyType() != null && p.getPropertyType().toLowerCase(Locale.ROOT).contains(ptype)))
+                        || (p.getPropertyType() != null && p.getPropertyType().toLowerCase().contains(ptype)))
                 .map(dtoMapper::toPropertyDto)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Optimized method that filters & paginates at the database level.
+     * Use this for the frontend listing page to avoid loading all properties into memory.
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Page<PropertyDto> searchPropertiesPageable(Long hostId, String location, BigDecimal minPrice, BigDecimal maxPrice,
+                                                      BigDecimal minRating, Boolean petFriendly, Boolean instantBook,
+                                                      Boolean superhost, String region, String propertyType, Pageable pageable) {
+        Page<Property> results = propertyRepository.searchProperties(
+                hostId,
+                location,
+                minPrice,
+                maxPrice,
+                minRating,
+                petFriendly,
+                instantBook,
+                superhost,
+                region,
+                propertyType,
+                pageable);
+        return results.map(dtoMapper::toPropertyDto);
     }
 
     /** Null or missing rating does not satisfy a min-rating filter (avoids NPE on legacy rows). */
