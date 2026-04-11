@@ -41,31 +41,31 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
                p.region, p.review_count, p.state, p.superhost, p.title, p.updated_at, p.zip_code
         FROM properties p
         WHERE (:hostId IS NULL OR p.host_id = :hostId)
-          AND (:location IS NULL OR LOWER(p.city::text) LIKE LOWER(CONCAT('%', :location, '%'))
-                                   OR LOWER(p.state::text) LIKE LOWER(CONCAT('%', :location, '%')))
+          AND (:location IS NULL OR LOWER(CAST(p.city AS text)) LIKE LOWER(CONCAT('%', CAST(:location AS text), '%'))
+                                   OR LOWER(CAST(p.state AS text)) LIKE LOWER(CONCAT('%', CAST(:location AS text), '%')))
           AND (:minPrice IS NULL OR p.price_per_night >= :minPrice)
           AND (:maxPrice IS NULL OR p.price_per_night <= :maxPrice)
           AND (:minRating IS NULL OR p.average_rating >= :minRating)
           AND (:petFriendly IS NULL OR p.pet_friendly = :petFriendly)
           AND (:instantBook IS NULL OR p.instant_book = :instantBook)
           AND (:superhost IS NULL OR p.superhost = :superhost)
-          AND (:region IS NULL OR LOWER(p.region::text) = LOWER(:region::text))
-          AND (:propertyType IS NULL OR LOWER(p.property_type::text) LIKE LOWER(CONCAT('%', :propertyType, '%')))
+          AND (:region IS NULL OR LOWER(CAST(p.region AS text)) = LOWER(CAST(:region AS text)))
+          AND (:propertyType IS NULL OR LOWER(CAST(p.property_type AS text)) LIKE LOWER(CONCAT('%', CAST(:propertyType AS text), '%')))
         ORDER BY p.superhost DESC
         """, 
         countQuery = """
         SELECT COUNT(p.id) FROM properties p
         WHERE (:hostId IS NULL OR p.host_id = :hostId)
-          AND (:location IS NULL OR LOWER(p.city::text) LIKE LOWER(CONCAT('%', :location, '%'))
-                                   OR LOWER(p.state::text) LIKE LOWER(CONCAT('%', :location, '%')))
+          AND (:location IS NULL OR LOWER(CAST(p.city AS text)) LIKE LOWER(CONCAT('%', CAST(:location AS text), '%'))
+                                   OR LOWER(CAST(p.state AS text)) LIKE LOWER(CONCAT('%', CAST(:location AS text), '%')))
           AND (:minPrice IS NULL OR p.price_per_night >= :minPrice)
           AND (:maxPrice IS NULL OR p.price_per_night <= :maxPrice)
           AND (:minRating IS NULL OR p.average_rating >= :minRating)
           AND (:petFriendly IS NULL OR p.pet_friendly = :petFriendly)
           AND (:instantBook IS NULL OR p.instant_book = :instantBook)
           AND (:superhost IS NULL OR p.superhost = :superhost)
-          AND (:region IS NULL OR LOWER(p.region::text) = LOWER(:region::text))
-          AND (:propertyType IS NULL OR LOWER(p.property_type::text) LIKE LOWER(CONCAT('%', :propertyType, '%')))
+          AND (:region IS NULL OR LOWER(CAST(p.region AS text)) = LOWER(CAST(:region AS text)))
+          AND (:propertyType IS NULL OR LOWER(CAST(p.property_type AS text)) LIKE LOWER(CONCAT('%', CAST(:propertyType AS text), '%')))
         """)
     Page<Property> searchProperties(
             @Param("hostId") Long hostId,
