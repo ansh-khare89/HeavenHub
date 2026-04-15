@@ -13,14 +13,22 @@ export default {
           950: '#050b14',
           900: '#0a1628',
         },
+        premium: {
+          dark: '#030014',
+          panel: 'rgba(255, 255, 255, 0.03)',
+          border: 'rgba(255, 255, 255, 0.1)',
+        }
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         display: ['Outfit', 'Inter', 'system-ui', 'sans-serif'],
+        anton: ['Anton', 'sans-serif'],
       },
       boxShadow: {
         glow: '0 0 60px -12px rgba(56, 189, 248, 0.45)',
         'glow-sm': '0 0 40px -16px rgba(56, 189, 248, 0.35)',
+        'neon-purple': '0 0 40px -10px rgba(168, 85, 247, 0.5)',
+        'neon-cyan': '0 0 40px -10px rgba(34, 211, 238, 0.5)',
       },
       animation: {
         'fade-up': 'hh-fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both',
