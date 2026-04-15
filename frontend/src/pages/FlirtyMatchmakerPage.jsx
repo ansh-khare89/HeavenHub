@@ -44,10 +44,22 @@ export function FlirtyMatchmakerPage() {
       const topMatch = Object.keys(tallies).reduce((a, b) => tallies[a] > tallies[b] ? a : b);
       
       const matchMap = {
-        cozy: "The Clingy Cabin (Cuddles mandatory, Wi-Fi optional)",
-        luxury: "The Sugar Daddy Suite (You better have a platinum card)",
-        urban: "The City Sinner Loft (Sleepless nights guaranteed)",
-        beach: "The Sun-Kissed Shack (Sand will be everywhere, deal with it)"
+        cozy: {
+          title: "The Clingy Cabin (Cuddles mandatory, Wi-Fi optional)",
+          suggestion: "You belong in the mountains. Go chop some wood, dramatically stare into a roaring fire, and avoid cell service."
+        },
+        luxury: {
+          title: "The Sugar Daddy Suite (You better have a platinum card)",
+          suggestion: "Check into a penthouse. Sip expensive champagne, ignore your ex's texts, and order way too much room service."
+        },
+        urban: {
+          title: "The City Sinner Loft (Sleepless nights guaranteed)",
+          suggestion: "A downtown loft is calling you. Hit the local clubs, judge outfits from your balcony, and grab 3 AM street food."
+        },
+        beach: {
+          title: "The Sun-Kissed Shack (Sand will be everywhere, deal with it)",
+          suggestion: "Get to a beach, stat. Burn in the sun, fight off seagulls, and drink cocktails out of a weirdly shaped coconut."
+        }
       };
       
       setMatch(matchMap[topMatch]);
@@ -95,8 +107,9 @@ export function FlirtyMatchmakerPage() {
               It's a Match! 🔥
             </h1>
             <p className="text-slate-300 text-lg mb-8">Based on your highly questionable choices, we recommend:</p>
-            <div className="text-3xl font-bold p-6 bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-2xl border border-pink-500/40 text-pink-200 shadow-glow mb-8">
-              {match}
+            <div className="flex flex-col gap-3 p-6 bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-2xl border border-pink-500/40 text-pink-200 shadow-glow mb-8">
+              <div className="text-3xl font-bold">{match.title}</div>
+              <div className="text-lg font-normal text-slate-300 italic">{match.suggestion}</div>
             </div>
             
             <button 

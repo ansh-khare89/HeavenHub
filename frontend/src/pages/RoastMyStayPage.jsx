@@ -120,7 +120,7 @@ export function RoastMyStayPage() {
                   </span>
                 </div>
                 <p className="text-slate-300 italic mb-4">"{roast.roastText}"</p>
-                <div className="text-sm text-slate-500">— Roasted by {roast.authorName}</div>
+                <div className="text-sm text-slate-500">— Spilled by {roast.authorName}</div>
               </div>
             ))
           )}
