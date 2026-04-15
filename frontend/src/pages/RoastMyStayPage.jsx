@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
+import { request } from '../api/client.js';
 
 export function RoastMyStayPage() {
   const [roasts, setRoasts] = useState([]);
@@ -13,19 +14,10 @@ export function RoastMyStayPage() {
 
   const fetchRoasts = async () => {
     try {
-      // If the backend method doesn't exist yet, we catch the error, but we try anyway.
-      const res = await fetch('http://localhost:8080/api/roasts');
-      if (res.ok) {
-        const data = await res.json();
-        setRoasts(data);
-      } else {
-        // Mock data fallback if backend is not started/ready
-        setRoasts([
-          { id: 1, propertyName: "Seaview Villa", authorName: "Karen", roastText: "The only 'sea view' I got was a puddle in the driveway. The mattress felt like a geometry problem.", roastLevel: "EMOTIONAL_DAMAGE" },
-          { id: 2, propertyName: "Cozy Cabin", authorName: "CityBoy99", roastText: "Cozy is just real estate speak for 'you will smell your partner's thoughts'. Zero cell service.", roastLevel: "SPICY" },
-        ]);
-      }
+      const data = await request('/api/roasts');
+      setRoasts(data);
     } catch (err) {
+       // Mock data fallback if backend is not started/ready
        setRoasts([
           { id: 1, propertyName: "Seaview Villa", authorName: "Karen", roastText: "The only 'sea view' I got was a puddle in the driveway. The mattress felt like a geometry problem.", roastLevel: "EMOTIONAL_DAMAGE" },
           { id: 2, propertyName: "Cozy Cabin", authorName: "CityBoy99", roastText: "Cozy is just real estate speak for 'you will smell your partner's thoughts'. Zero cell service.", roastLevel: "SPICY" },
@@ -38,26 +30,17 @@ export function RoastMyStayPage() {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const res = await fetch('http://localhost:8080/api/roasts', {
+      await request('/api/roasts', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newRoast),
+        body: newRoast,
       });
       
-      if (res.ok) {
-        toast.success("Roast served hot 🔥");
-        setNewRoast({ propertyName: '', authorName: '', roastText: '', roastLevel: 'SPICY' });
-        fetchRoasts();
-      } else {
-        toast.error("Failed to upload your roast. The backend couldn't handle the heat.");
-        // Mock add for now
-        setRoasts([{...newRoast, id: Date.now()}, ...roasts]);
-        setNewRoast({ propertyName: '', authorName: '', roastText: '', roastLevel: 'SPICY' });
-      }
+      toast.success("Trash talk served hot 🔥");
+      setNewRoast({ propertyName: '', authorName: '', roastText: '', roastLevel: 'SPICY' });
+      fetchRoasts();
     } catch(err) {
       toast.error("Failed to connect. The server is hiding in fear.");
+      // Mock add for now
       setRoasts([{...newRoast, id: Date.now()}, ...roasts]);
       setNewRoast({ propertyName: '', authorName: '', roastText: '', roastLevel: 'SPICY' });
     }
