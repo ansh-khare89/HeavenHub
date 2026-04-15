@@ -49,6 +49,12 @@ export function AppLayout() {
             <NavLink to="/faq" className={navClass}>
               FAQ
             </NavLink>
+            <NavLink to="/matchmaker" className={navClass}>
+              Vibe Check
+            </NavLink>
+            <NavLink to="/roast" className={navClass}>
+              Trash Talk
+            </NavLink>
             {isAuthenticated && role === 'GUEST' && (
               <NavLink to="/bookings" className={navClass}>
                 My bookings
@@ -109,9 +115,9 @@ export function AppLayout() {
       </main>
 
       <footer className="relative z-[1] mt-20 border-t border-white/5 px-4 py-12 text-center md:px-6">
-        <p className="font-display text-sm font-semibold text-white/90">HeavenHub</p>
+        <p className="font-display text-sm font-semibold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-pink-500">HeavenHub</p>
         <p className="mt-1 text-xs text-slate-500">
-          35+ Indian cities · Compare stays · Instant book &amp; Superhost badges · Transparent ₹ pricing
+          35+ Indian cities. Lower your standards, raise your expectations, and let's find you a bed. No refunds for hurt feelings.
         </p>
       </footer>
     </div>

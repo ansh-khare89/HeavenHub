@@ -11,6 +11,8 @@ import { InboxPage } from './pages/InboxPage.jsx';
 import { LoginPage } from './pages/LoginPage.jsx';
 import { PropertyDetailPage } from './pages/PropertyDetailPage.jsx';
 import { RegisterPage } from './pages/RegisterPage.jsx';
+import { FlirtyMatchmakerPage } from './pages/FlirtyMatchmakerPage.jsx';
+import { RoastMyStayPage } from './pages/RoastMyStayPage.jsx';
 
 export default function App() {
   return (
@@ -24,6 +26,8 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/property/:id" element={<PropertyDetailPage />} />
+        <Route path="/matchmaker" element={<FlirtyMatchmakerPage />} />
+        <Route path="/roast" element={<RoastMyStayPage />} />
 
         <Route element={<ProtectedRoute roles={['GUEST']} />}>
           <Route path="/bookings" element={<BookingsPage />} />
