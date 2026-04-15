@@ -25,4 +25,10 @@ public class RoastController {
     public ResponseEntity<PropertyRoast> addRoast(@RequestBody PropertyRoast roast) {
         return ResponseEntity.ok(roastRepository.save(roast));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteRoast(@PathVariable Long id) {
+        roastRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }

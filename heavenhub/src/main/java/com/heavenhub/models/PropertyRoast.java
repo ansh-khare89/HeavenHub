@@ -24,6 +24,9 @@ public class PropertyRoast {
     @Column(nullable = false, length = 1000)
     private String roastText;
 
+    @Column(nullable = true)
+    private Long authorId;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private RoastLevel roastLevel;

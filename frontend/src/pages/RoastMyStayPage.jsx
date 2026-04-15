@@ -1,11 +1,19 @@
 import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { request } from '../api/client.js';
+import { useAuth } from '../context/AuthContext.jsx';
 
 export function RoastMyStayPage() {
+  const { user } = useAuth();
   const [roasts, setRoasts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [newRoast, setNewRoast] = useState({ propertyName: '', authorName: '', roastText: '', roastLevel: 'SPICY' });
+  const [newRoast, setNewRoast] = useState({ 
+    propertyName: '', 
+    authorName: user?.firstName || '', 
+    roastText: '', 
+    roastLevel: 'SPICY',
+    authorId: user?.id || null
+  });
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
@@ -32,17 +40,17 @@ export function RoastMyStayPage() {
     try {
       await request('/api/roasts', {
         method: 'POST',
-        body: newRoast,
+        body: {...newRoast, authorId: user?.id || null},
       });
       
       toast.success("Trash talk served hot 🔥");
-      setNewRoast({ propertyName: '', authorName: '', roastText: '', roastLevel: 'SPICY' });
+      setNewRoast({ propertyName: '', authorName: user?.firstName || '', roastText: '', roastLevel: 'SPICY', authorId: user?.id || null });
       fetchRoasts();
     } catch(err) {
       toast.error("Failed to connect. The server is hiding in fear.");
       // Mock add for now
-      setRoasts([{...newRoast, id: Date.now()}, ...roasts]);
-      setNewRoast({ propertyName: '', authorName: '', roastText: '', roastLevel: 'SPICY' });
+      setRoasts([{...newRoast, id: Date.now(), authorId: user?.id || null}, ...roasts]);
+      setNewRoast({ propertyName: '', authorName: user?.firstName || '', roastText: '', roastLevel: 'SPICY', authorId: user?.id || null });
     }
     setSubmitting(false);
   };
@@ -120,7 +128,27 @@ export function RoastMyStayPage() {
                   </span>
                 </div>
                 <p className="text-slate-300 italic mb-4">"{roast.roastText}"</p>
-                <div className="text-sm text-slate-500">— Spilled by {roast.authorName}</div>
+                <div className="flex justify-between items-center text-sm text-slate-500">
+                  <span>— Spilled by {roast.authorName}</span>
+                  {(user?.id === roast.authorId || roast.authorName === user?.firstName) && (
+                    <button 
+                      onClick={async () => {
+                        try {
+                          await request(`/api/roasts/${roast.id}`, { method: 'DELETE' });
+                          toast.success('Evidence destroyed 🗑️');
+                          fetchRoasts();
+                        } catch (e) {
+                          setRoasts(roasts.filter(r => r.id !== roast.id));
+                          toast.success('Evidence destroyed 🗑️');
+                        }
+                      }}
+                      className="text-red-400/50 hover:text-red-400 transition-colors"
+                      title="Delete your trash talk"
+                    >
+                      Delete
+                    </button>
+                  )}
+                </div>
               </div>
             ))
           )}
