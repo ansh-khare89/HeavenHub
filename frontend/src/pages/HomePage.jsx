@@ -13,6 +13,7 @@ export function HomePage() {
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [wishIds, setWishIds] = useState(() => new Set());
+  const [pageRating, setPageRating] = useState(0);
 
   // Luxury Concierge (Matcher)
   const [vibeStep, setVibeStep] = useState(0); 
@@ -83,16 +84,16 @@ export function HomePage() {
     }
   };
 
-  // 8 Sarcastic Reviews
+  // 8 Structured Reviews
   const reviews = [
-    { name: "Ansh Khare", text: "Honestly, the only app worth using. I booked a cabin and it actually had a roof. Extremely premium experience.", stars: 5 },
-    { name: "Sarah J.", text: "Zero B.S. pricing. They told me it would cost a fortune, and it did. I respect the honesty.", stars: 5 },
-    { name: "Vikram S.", text: "The concierge actually replied to my email before I died of old age. A new industry standard.", stars: 4 },
-    { name: "Aria M.", text: "I selected 'Luxury' and ended up in a palace. My bank account is crying, but my Instagram is thriving.", stars: 5 },
-    { name: "David T.", text: "Found a raccoon. The concierge said it was a 'complimentary wildlife immersive'. 10/10 marketing.", stars: 4 },
-    { name: "Priya R.", text: "The minimalist decor was so extreme there was no bed. Just a silk rug. Very zen. Very expensive.", stars: 5 },
-    { name: "Anonymous Elite", text: "I refuse to book anywhere else. Mostly because I forgot my password for the other sites.", stars: 5 },
-    { name: "City Boy #89", text: "They promised me peace and quiet, and all I got was deafening silence. It was terrifyingly perfect.", stars: 5 },
+    { name: "Ansh Khare", text: "The booking process was incredibly smooth. I found the perfect premium retreat within minutes.", stars: 5, role: "Frequent Traveler" },
+    { name: "Sarah J.", text: "I love the transparent pricing. Knowing exactly what I'm paying upfront makes budgeting for trips so much easier.", stars: 5, role: "Family Trip Planner" },
+    { name: "Vikram S.", text: "The built-in recommendations engine is spot on. It found me exactly what I was looking for.", stars: 5, role: "Business Professional" },
+    { name: "Aria M.", text: "Unmatched quality and verified properties give me absolute peace of mind when booking.", stars: 5, role: "Travel Content Creator" },
+    { name: "David T.", text: "Excellent customer service and fantastic locations. Highly recommended.", stars: 4, role: "Solo Adventurer" },
+    { name: "Priya R.", text: "This is now my go-to platform for vacation rentals. Simply the best.", stars: 5, role: "Vacation Enthusiast" },
+    { name: "Suresh P.", text: "Great interface, super easy to filter stays based on our pet requirements.", stars: 5, role: "Pet Parent" },
+    { name: "Nina K.", text: "Loved the seamless experience from start to finish. Everything was transparent and trustworthy.", stars: 5, role: "Event Organizer" },
   ];
 
   return (
@@ -114,44 +115,54 @@ export function HomePage() {
               </p>
             </div>
             <h1 className="animate-fade-up mt-2 font-anton text-6xl md:text-7xl lg:text-[7.5rem] uppercase leading-[0.95] tracking-wide text-white drop-shadow-2xl">
-              CURATED <br/>
-              <span className="bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-violet-500 bg-clip-text text-transparent">MADNESS</span>
+              FIND YOUR <br/>
+              <span className="bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-violet-500 bg-clip-text text-transparent">PERFECT STAY</span>
             </h1>
             <p className="animate-fade-up-delay mt-8 max-w-xl text-lg leading-relaxed text-slate-300 font-medium">
-              Welcome to HeavenHub. We filter out the mediocre so you don't have to. Pay a premium to sleep in absolute architectural superiority while silently judging the less fortunate.
+              Discover and book hand-picked, premium accommodations tailored to your unique preferences. Because you deserve better than your ex's couch.
             </p>
-            <div className="animate-fade-up-delay mt-10">
+            <div className="animate-fade-up-delay mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-6">
               <Link
                 to="/hotels"
                 className="inline-flex rounded-lg bg-gradient-to-r from-fuchsia-600 to-violet-600 px-12 py-4 text-lg font-bold uppercase tracking-widest text-white shadow-neon-purple transition-all hover:scale-105 hover:shadow-[0_0_60px_-10px_rgba(168,85,247,0.8)]"
               >
-                Enter The Hub
+                Explore Stays
               </Link>
+              <div className="flex gap-6 mt-4 sm:mt-0">
+                <div className="text-left border-l-2 border-white/10 pl-4">
+                  <p className="text-2xl font-anton text-white">50+</p>
+                  <p className="text-xs text-fuchsia-400 font-bold uppercase tracking-widest">Premium Listings</p>
+                </div>
+                <div className="text-left border-l-2 border-white/10 pl-4">
+                  <p className="text-2xl font-anton text-white">1000+</p>
+                  <p className="text-xs text-cyan-400 font-bold uppercase tracking-widest">Happy Guests</p>
+                </div>
+              </div>
             </div>
           </div>
 
           <div className="animate-fade-up-delay bg-premium-panel border border-premium-border p-8 rounded-2xl shadow-2xl relative z-10 backdrop-blur-xl">
             <h2 className="text-2xl font-anton uppercase text-white mb-6 border-b border-white/10 pb-3 tracking-widest">
-              Digital Concierge
+              Smart Recommendations
             </h2>
             
             {vibeStep === 0 && (
               <div className="text-center py-10">
-                <p className="text-slate-300 mb-8 font-medium">Allow us to calculate your optimal retreat. Standard booking is for amateurs who enjoy disappointment.</p>
+                <p className="text-slate-300 mb-8 font-medium">Let our intelligent engine find your ideal retreat based on your group size, preferred scenery, and budget. Because we know you can't make decisions on your own.</p>
                 <button 
                   onClick={() => setVibeStep(1)}
                   className="rounded-lg bg-cyan-400/10 border border-cyan-400/50 px-8 py-4 text-cyan-300 font-black uppercase tracking-widest transition hover:bg-cyan-400 hover:text-black w-full shadow-[0_0_20px_rgba(34,211,238,0.2)]"
                 >
-                  Consult Concierge
+                  Start Matchmaker
                 </button>
               </div>
             )}
 
             {vibeStep === 1 && (
               <div className="animate-fade-in py-6">
-                <p className="text-fuchsia-400 mb-6 font-bold uppercase tracking-wider text-sm">Designate your party:</p>
+                <p className="text-fuchsia-400 mb-6 font-bold uppercase tracking-wider text-sm">Select Your Party Size:</p>
                 <div className="grid grid-cols-1 gap-4">
-                  {['Solo (Ascetic Luxury)', 'Couple (Romantic Confrontation)', 'Family (Spacious Chaos)'].map(opt => (
+                  {['Solo Traveler', 'Couple (Romantic Retreat)', 'Family & Pets (Spacious)'].map(opt => (
                     <button 
                       key={opt}
                       onClick={() => { setVibeState(s => ({...s, who: opt})); setVibeStep(2); }}
@@ -166,9 +177,9 @@ export function HomePage() {
 
             {vibeStep === 2 && (
               <div className="animate-fade-in py-6">
-                <p className="text-cyan-400 mb-6 font-bold uppercase tracking-wider text-sm">Select topography:</p>
+                <p className="text-cyan-400 mb-6 font-bold uppercase tracking-wider text-sm">Select Preferred Scenery:</p>
                 <div className="grid grid-cols-1 gap-4">
-                  {['Mountains (Altitude Sickness)', 'Beaches (Coastal Opulence & Sand)', 'Metropolis (Urban Penthouse/Traffic)'].map(opt => (
+                  {['Mountains (Cool & Serene)', 'Beaches (Coastal Views)', 'Metropolis (Urban Luxury)'].map(opt => (
                     <button 
                       key={opt}
                       onClick={() => { setVibeState(s => ({...s, where: opt})); setVibeStep(3); }}
@@ -183,9 +194,9 @@ export function HomePage() {
 
             {vibeStep === 3 && (
               <div className="animate-fade-in py-6">
-                <p className="text-violet-400 mb-6 font-bold uppercase tracking-wider text-sm">Financial Commitment:</p>
+                <p className="text-violet-400 mb-6 font-bold uppercase tracking-wider text-sm">Select Budget Tier:</p>
                 <div className="grid grid-cols-1 gap-4 mb-10">
-                  {['Ultra Luxury (No Budget, No Morals)', 'Premium (Comfortably Wealthy)'].map(opt => (
+                  {['Ultra Luxury (Premium Features)', 'Premium (Great Value)'].map(opt => (
                     <button 
                       key={opt}
                       onClick={() => setVibeState(s => ({...s, type: opt}))}
@@ -200,7 +211,7 @@ export function HomePage() {
                   disabled={!vibeState.type}
                   className="w-full rounded-lg bg-gradient-to-r from-cyan-500 to-fuchsia-500 px-6 py-4 font-black uppercase text-white shadow-lg disabled:opacity-30 disabled:cursor-not-allowed hover:brightness-125 transition"
                 >
-                  Confirm Itinerary →
+                  View Personalized Results →
                 </button>
               </div>
             )}
@@ -211,7 +222,7 @@ export function HomePage() {
       {/* Colourful Gradient Divider */}
       <div className="w-full h-14 bg-gradient-to-r from-fuchsia-600 via-violet-600 to-cyan-500 flex items-center overflow-hidden border-y border-white/10 box-border z-20 relative shadow-[0_0_50px_rgba(168,85,247,0.3)]">
         <div className="whitespace-nowrap animate-shimmer font-anton text-2xl uppercase text-white tracking-widest min-w-full drop-shadow-md">
-          NO HIDDEN FEES • WE JUST TELL YOU UPFRONT HOW POOR YOU ARE • NO REFUNDS • NO COMPLAINTS • SURVIVE YOUR TRIP • WE ACCEPT GOLD BULLION • NO HIDDEN FEES • 
+          SMART FILTERING • VERIFIED PREMIUM PROPERTIES • INSTANT BOOKING • MULTIPLE REGIONS • 24/7 GUEST SUPPORT • EXCLUSIVE EXPERIENCES • SMART FILTERING • 
         </div>
       </div>
 
@@ -234,20 +245,20 @@ export function HomePage() {
             <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-fuchsia-500/30 rounded-full blur-[80px]"></div>
             
             <div className="relative z-10">
-              <h3 className="font-anton text-5xl text-white uppercase mb-4">Zero B.S. Pricing Structure</h3>
-              <p className="text-slate-300 text-xl max-w-lg font-light leading-relaxed">We don't do 'hidden fees'. We proudly display our extortionate service charges on the main invoice. If you stare at the total and hesitate, kindly close the tab to make room for serious buyers.</p>
+              <h3 className="font-anton text-5xl text-white uppercase mb-4">Transparent Pricing</h3>
+              <p className="text-slate-300 text-xl max-w-lg font-light leading-relaxed">No hidden fees, no last-minute surprises. We display standard rates, cleaning fees, and service charges upfront so you can see exactly why you'll be eating instant noodles next month.</p>
             </div>
             
             <div className="relative z-10 grid grid-cols-2 gap-4 mt-8">
                <div className="bg-black/30 border border-white/5 p-4 rounded-xl">
-                 <p className="text-fuchsia-400 font-bold mb-1">Average Cleaning Fee</p>
-                 <p className="text-white text-2xl font-anton">₹15,000</p>
-                 <p className="text-xs text-slate-400 mt-1">Paid in tears.</p>
+                 <p className="text-fuchsia-400 font-bold mb-1">Clear Breakdown</p>
+                 <p className="text-white text-2xl font-anton">100%</p>
+                 <p className="text-xs text-slate-400 mt-1">Cost transparency.</p>
                </div>
                <div className="bg-black/30 border border-white/5 p-4 rounded-xl">
-                 <p className="text-fuchsia-400 font-bold mb-1">Customer Tears</p>
-                 <p className="text-white text-2xl font-anton">99.9%</p>
-                 <p className="text-xs text-slate-400 mt-1">Sustainably harvested.</p>
+                 <p className="text-fuchsia-400 font-bold mb-1">Guest Satisfaction</p>
+                 <p className="text-white text-2xl font-anton">4.9/5</p>
+                 <p className="text-xs text-slate-400 mt-1">Highly rated by users.</p>
                </div>
             </div>
           </div>
@@ -258,8 +269,8 @@ export function HomePage() {
             className="rounded-3xl bg-premium-panel backdrop-blur-xl border border-white/10 p-8 flex flex-col justify-center relative group overflow-hidden shadow-xl cursor-pointer"
           >
             <div className="absolute inset-0 bg-gradient-to-bl from-cyan-400/10 to-transparent opacity-0 group-hover:opacity-100 transition duration-500"></div>
-            <h3 className="font-anton text-3xl text-cyan-300 uppercase mb-4 relative z-10">Verified Havens</h3>
-            <p className="text-slate-300 text-sm relative z-10 leading-relaxed mb-4">No wide-angle lens trickery. What you see is exactly what you get. If the cabin looks like it survived a bear attack, it did.</p>
+            <h3 className="font-anton text-3xl text-cyan-300 uppercase mb-4 relative z-10">Verified Properties</h3>
+            <p className="text-slate-300 text-sm relative z-10 leading-relaxed mb-4">Every property is vetted for accurate photos, amenities, and host reliability. What you see is precisely what you get. No weird smells or haunted basements (unless you pay extra).</p>
             <div className="text-cyan-400 font-bold uppercase text-xs tracking-widest group-hover:translate-x-2 transition-transform">Learn the Truth →</div>
           </div>
           
@@ -269,8 +280,8 @@ export function HomePage() {
              className="rounded-3xl bg-premium-panel backdrop-blur-xl border border-white/10 p-8 flex flex-col justify-center relative group overflow-hidden shadow-xl cursor-pointer"
           >
             <div className="absolute inset-0 bg-gradient-to-tl from-violet-500/10 to-transparent opacity-0 group-hover:opacity-100 transition duration-500"></div>
-            <h3 className="font-anton text-3xl text-violet-400 uppercase mb-4 relative z-10">The Hostiles</h3>
-            <p className="text-slate-300 text-sm relative z-10 leading-relaxed mb-4">Our hosts don't leave chocolates on pillows. They leave intimidating NDAs and a bill for touching the thermostat.</p>
+            <h3 className="font-anton text-3xl text-violet-400 uppercase mb-4 relative z-10">Dedicated Hosts</h3>
+            <p className="text-slate-300 text-sm relative z-10 leading-relaxed mb-4">Our hosts are committed to providing premium service. From local tips to personalized touches, they ensure a memorable stay. They also promise to only judge your questionable life choices behind your back.</p>
              <div className="text-violet-400 font-bold uppercase text-xs tracking-widest group-hover:translate-x-2 transition-transform">Read FAQ →</div>
           </div>
         </div>
@@ -281,8 +292,8 @@ export function HomePage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16">
             <div>
-              <h2 className="font-anton text-4xl md:text-6xl uppercase text-white tracking-wide drop-shadow-xl">Elite Topographies</h2>
-              <p className="mt-2 text-slate-400 text-lg">Curated locations for the modern aristocrat lacking a private jet.</p>
+              <h2 className="font-anton text-4xl md:text-6xl uppercase text-white tracking-wide drop-shadow-xl">Popular Destinations</h2>
+              <p className="mt-2 text-slate-400 text-lg">Curated locations for every type of traveler.</p>
             </div>
             <Link to="/hotels" className="mt-6 md:mt-0 uppercase tracking-widest text-fuchsia-400 font-bold hover:text-white transition text-sm flex items-center gap-2">
               Explore All Regions <span className="text-xl">→</span>
@@ -352,8 +363,8 @@ export function HomePage() {
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-violet-600/10 blur-[150px] pointer-events-none -z-10"></div>
         
         <div className="mb-16 flex flex-col items-center text-center">
-          <h2 className="font-anton text-5xl md:text-6xl uppercase text-white tracking-wide">The Vault</h2>
-          <p className="mt-4 text-violet-400 font-medium uppercase tracking-widest text-sm">Highly classified stays that haven't burned down yet.</p>
+          <h2 className="font-anton text-5xl md:text-6xl uppercase text-white tracking-wide">Featured Properties</h2>
+          <p className="mt-4 text-violet-400 font-medium uppercase tracking-widest text-sm">Hand-picked stays representing the best of HeavenHub.</p>
         </div>
 
         {loading ? (
@@ -389,8 +400,8 @@ export function HomePage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[400px] bg-cyan-500/5 rounded-[100%] blur-[120px] pointer-events-none -z-10"></div>
 
         <div className="max-w-7xl mx-auto px-4 mb-20 text-center relative z-10">
-          <h3 className="font-anton text-4xl md:text-6xl uppercase text-white tracking-wide">The Survivors Club</h3>
-          <p className="mt-4 bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent font-bold uppercase tracking-widest text-sm">Real Testimonies from people bankrupted by our platform.</p>
+          <h3 className="font-anton text-4xl md:text-6xl uppercase text-white tracking-wide">Trusted By Travelers</h3>
+          <p className="mt-4 bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent font-bold uppercase tracking-widest text-sm">Real Testimonies from guests who love our platform.</p>
         </div>
         
         <div className="max-w-7xl mx-auto px-4 relative z-10">
@@ -405,6 +416,7 @@ export function HomePage() {
                 <p className="text-slate-300 italic mb-6 leading-relaxed group-hover:text-white transition relative z-10">"{rev.text}"</p>
                 <div className="border-t border-white/5 pt-4 relative z-10">
                   <p className="font-anton text-sm md:text-base uppercase tracking-widest text-fuchsia-400 group-hover:text-fuchsia-300">{rev.name}</p>
+                  <p className="text-xs text-slate-500 mt-1 uppercase tracking-wider">{rev.role}</p>
                 </div>
               </div>
             ))}
@@ -422,7 +434,7 @@ export function HomePage() {
           <span className="bg-gradient-to-r from-fuchsia-500 via-violet-500 to-cyan-500 bg-clip-text text-transparent">START PACKING.</span>
         </h2>
         <p className="text-slate-300 max-w-2xl mx-auto mb-16 z-10 text-xl font-light">
-          You've seen the vault. You've read the complaints. Time to make a terrible financial decision you'll probably enjoy.
+          You've seen the properties. You've read the reviews. Time to book your perfect retreat and start packing.
         </p>
         
         <Link
@@ -431,6 +443,25 @@ export function HomePage() {
         >
           Join The Elite
         </Link>
+        
+        {/* Interactive Element: Quick Rating */}
+        <div className="mt-16 z-10 border border-white/10 bg-black/40 p-6 rounded-2xl backdrop-blur-xl animate-fade-in shadow-xl">
+          <p className="text-sm uppercase tracking-widest text-cyan-400 font-bold mb-3">Rate your experience</p>
+          <div className="flex gap-2 justify-center">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <button
+                key={star}
+                onClick={() => {
+                  setPageRating(star);
+                  toast.success('Thanks for your feedback!');
+                }}
+                className={`text-2xl transition-transform hover:scale-125 ${pageRating >= star ? 'text-fuchsia-400 drop-shadow-glow' : 'text-slate-600'}`}
+              >
+                ★
+              </button>
+            ))}
+          </div>
+        </div>
       </section>
     </div>
   );

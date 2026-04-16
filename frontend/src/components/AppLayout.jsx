@@ -50,10 +50,10 @@ export function AppLayout() {
               FAQ
             </NavLink>
             <NavLink to="/matchmaker" className={navClass}>
-              Vibe Check
+              Recommendations
             </NavLink>
             <NavLink to="/roast" className={navClass}>
-              Trash Talk
+              Guest Reviews
             </NavLink>
             {isAuthenticated && role === 'GUEST' && (
               <NavLink to="/bookings" className={navClass}>
