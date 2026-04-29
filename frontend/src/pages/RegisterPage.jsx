@@ -74,13 +74,13 @@ export function RegisterPage() {
           className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-950 via-transparent to-transparent lg:hidden"
           aria-hidden
         />
-        <div className="relative z-10 w-full max-w-md rounded-3xl border border-white/10 bg-navy-900/75 p-8 shadow-[0_24px_80px_-40px_rgba(56,189,248,0.35)] backdrop-blur-xl">
-          <h1 className="font-display text-2xl font-bold text-white">Create account</h1>
-          <p className="mt-2 text-sm text-slate-400">One account. Two journeys. Zero confusion.</p>
+        <div className="relative z-10 w-full max-w-md rounded-3xl border border-stone-200 bg-navy-900/75 p-8 shadow-[0_24px_80px_-40px_rgba(56,189,248,0.35)] backdrop-blur-xl">
+          <h1 className="font-display text-2xl font-bold text-slate-50">Create account</h1>
+          <p className="mt-2 text-sm text-slate-200/75">One account. Two journeys. Zero confusion.</p>
 
           <form onSubmit={onSubmit} className="mt-8 space-y-4">
             <div>
-              <label htmlFor="register-name" className="block text-xs text-slate-400">
+              <label htmlFor="register-name" className="block text-xs text-stone-500">
                 Full name
               </label>
               <input
@@ -91,14 +91,14 @@ export function RegisterPage() {
                 autoComplete="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="mt-1 w-full rounded-xl border border-white/10 bg-navy-950/80 px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400/40 focus:ring-2 focus:ring-sky-400/25"
+                className="mt-1 w-full rounded-xl border border-white/10 bg-navy-950/70 px-4 py-3 text-sm text-slate-50 outline-none transition placeholder:text-slate-400 focus:border-sky-400/40 focus:ring-2 focus:ring-sky-400/25"
               />
               {(err('firstName') || err('lastName')) && (
                 <span className="mt-1 block text-xs text-rose-400">{err('firstName') || err('lastName')}</span>
               )}
             </div>
             <div>
-              <label htmlFor="register-email" className="block text-xs text-slate-400">
+              <label htmlFor="register-email" className="block text-xs text-stone-500">
                 Email
               </label>
               <input
@@ -109,12 +109,12 @@ export function RegisterPage() {
                 autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 w-full rounded-xl border border-white/10 bg-navy-950/80 px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400/40 focus:ring-2 focus:ring-sky-400/25"
+                className="mt-1 w-full rounded-xl border border-white/10 bg-navy-950/70 px-4 py-3 text-sm text-slate-50 outline-none transition placeholder:text-slate-400 focus:border-sky-400/40 focus:ring-2 focus:ring-sky-400/25"
               />
               {err('email') && <span className="mt-1 block text-xs text-rose-400">{err('email')}</span>}
             </div>
             <div>
-              <label htmlFor="register-password" className="block text-xs text-slate-400">
+              <label htmlFor="register-password" className="block text-xs text-stone-500">
                 Password
               </label>
               <input
@@ -126,13 +126,13 @@ export function RegisterPage() {
                 autoComplete="new-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 w-full rounded-xl border border-white/10 bg-navy-950/80 px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400/40 focus:ring-2 focus:ring-sky-400/25"
+                className="mt-1 w-full rounded-xl border border-white/10 bg-navy-950/70 px-4 py-3 text-sm text-slate-50 outline-none transition placeholder:text-slate-400 focus:border-sky-400/40 focus:ring-2 focus:ring-sky-400/25"
               />
               {err('password') && <span className="mt-1 block text-xs text-rose-400">{err('password')}</span>}
             </div>
 
             <div>
-              <p className="text-xs text-slate-400">I am joining as</p>
+              <p className="text-xs text-stone-500">I am joining as</p>
               <div className="mt-2 grid grid-cols-2 gap-2">
                 {['GUEST', 'HOST'].map((r) => (
                   <button
@@ -142,7 +142,7 @@ export function RegisterPage() {
                     className={`rounded-xl border px-3 py-3 text-sm font-semibold transition ${
                       selectedRole === r
                         ? 'border-sky-400/60 bg-sky-500/15 text-sky-100 shadow-glow-sm'
-                        : 'border-white/10 text-slate-400 hover:border-white/20 hover:text-white'
+                        : 'border-white/10 text-slate-200/70 hover:border-white/20 hover:text-slate-50'
                     }`}
                   >
                     {r === 'GUEST' ? 'Guest' : 'Host'}
@@ -155,15 +155,15 @@ export function RegisterPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full rounded-full bg-gradient-to-r from-sky-400 to-cyan-400 py-3 text-sm font-semibold text-navy-950 shadow-glow-sm transition hover:brightness-110 disabled:opacity-60"
+              className="w-full rounded-full bg-hotel-gold hover:bg-hotel-goldHover py-3 text-sm font-semibold text-navy-950 shadow-glow-sm transition hover:brightness-110 disabled:opacity-60"
             >
               {submitting ? 'Creating…' : 'Register'}
             </button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-slate-500">
+          <p className="mt-6 text-center text-sm text-stone-400">
             Already have an account?{' '}
-            <Link to="/login" className="font-semibold text-sky-300 hover:text-sky-200">
+            <Link to="/login" className="font-semibold text-hotel-gold hover:text-hotel-gold">
               Sign in
             </Link>
           </p>

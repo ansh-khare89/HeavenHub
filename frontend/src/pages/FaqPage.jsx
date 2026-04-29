@@ -34,15 +34,15 @@ export function FaqPage() {
 
   return (
     <div className="relative overflow-hidden min-h-[80vh]">
-      <div className="relative mx-auto max-w-3xl px-4 py-16 text-slate-100 sm:px-6 lg:px-8">
-        <h1 className="font-display text-4xl font-extrabold text-white md:text-5xl text-center mb-10">
+      <div className="relative mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+        <h1 className="font-display text-4xl font-extrabold text-gray-900 md:text-5xl text-center mb-10">
           Frequently Asked Questions
         </h1>
 
         <div className="space-y-12">
           {FAQS.map((group, groupIdx) => (
             <div key={group.category}>
-              <h2 className="text-xl font-bold text-sky-300 mb-4 pb-2 border-b border-white/10">{group.category}</h2>
+              <h2 className="text-xl font-bold text-hotel-gold mb-4 pb-2 border-b border-stone-200">{group.category}</h2>
               <div className="space-y-4">
                 {group.items.map((item, itemIdx) => {
                   const globalIndex = `${groupIdx}-${itemIdx}`;
@@ -50,20 +50,20 @@ export function FaqPage() {
                   return (
                     <div 
                       key={globalIndex} 
-                      className="rounded-2xl border border-white/10 bg-[#050b14]/50 overflow-hidden transition-all duration-300"
+                      className="rounded-2xl border border-stone-200/80 bg-white overflow-hidden transition-all duration-300 shadow-sm"
                     >
                       <button
                         onClick={() => toggleAccordion(globalIndex)}
-                        className="w-full text-left px-5 py-4 flex justify-between items-center hover:bg-white/5 focus:outline-none"
+                        className="w-full text-left px-5 py-4 flex justify-between items-center hover:bg-stone-50 focus:outline-none"
                       >
-                        <span className="font-medium text-slate-200">{item.q}</span>
-                        <span className={`text-sky-400 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
+                        <span className="font-medium text-stone-900">{item.q}</span>
+                        <span className={`text-hotel-gold transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
                           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                           </svg>
                         </span>
                       </button>
-                      <div className={`px-5 text-sm text-slate-400 transition-all duration-300 overflow-hidden ${isOpen ? 'max-h-40 pb-4' : 'max-h-0'}`}>
+                      <div className={`px-5 text-sm text-stone-600 transition-all duration-300 overflow-hidden ${isOpen ? 'max-h-40 pb-4' : 'max-h-0'}`}>
                         {item.a}
                       </div>
                     </div>

@@ -48,13 +48,13 @@ export function LoginPage() {
           className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-950 via-transparent to-transparent lg:hidden"
           aria-hidden
         />
-        <div className="relative z-10 w-full max-w-md rounded-3xl border border-white/10 bg-navy-900/75 p-8 shadow-[0_24px_80px_-40px_rgba(56,189,248,0.35)] backdrop-blur-xl">
-          <h1 className="font-display text-2xl font-bold text-white">Welcome back</h1>
-          <p className="mt-2 text-sm text-slate-400">Guests continue trips. Hosts jump to the hub.</p>
+        <div className="relative z-10 w-full max-w-md rounded-3xl border border-stone-200 bg-navy-900/75 p-8 shadow-[0_24px_80px_-40px_rgba(56,189,248,0.35)] backdrop-blur-xl">
+          <h1 className="font-display text-2xl font-bold text-slate-50">Welcome back</h1>
+          <p className="mt-2 text-sm text-slate-200/75">Guests continue trips. Hosts jump to the hub.</p>
 
           <form onSubmit={onSubmit} className="mt-8 space-y-4">
             <div>
-              <label htmlFor="login-email" className="block text-xs text-slate-400">
+              <label htmlFor="login-email" className="block text-xs text-stone-500">
                 Email
               </label>
               <input
@@ -65,11 +65,11 @@ export function LoginPage() {
                 autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 w-full rounded-xl border border-white/10 bg-navy-950/80 px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400/40 focus:ring-2 focus:ring-sky-400/25"
+                className="mt-1 w-full rounded-xl border border-white/10 bg-navy-950/70 px-4 py-3 text-sm text-slate-50 outline-none transition placeholder:text-slate-400 focus:border-sky-400/40 focus:ring-2 focus:ring-sky-400/25"
               />
             </div>
             <div>
-              <label htmlFor="login-password" className="block text-xs text-slate-400">
+              <label htmlFor="login-password" className="block text-xs text-stone-500">
                 Password
               </label>
               <input
@@ -80,21 +80,21 @@ export function LoginPage() {
                 autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 w-full rounded-xl border border-white/10 bg-navy-950/80 px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400/40 focus:ring-2 focus:ring-sky-400/25"
+                className="mt-1 w-full rounded-xl border border-white/10 bg-navy-950/70 px-4 py-3 text-sm text-slate-50 outline-none transition placeholder:text-slate-400 focus:border-sky-400/40 focus:ring-2 focus:ring-sky-400/25"
               />
             </div>
             <button
               type="submit"
               disabled={submitting}
-              className="w-full rounded-full bg-gradient-to-r from-sky-400 to-cyan-400 py-3 text-sm font-semibold text-navy-950 shadow-glow-sm transition hover:brightness-110 disabled:opacity-60"
+              className="w-full rounded-full bg-hotel-gold hover:bg-hotel-goldHover py-3 text-sm font-semibold text-navy-950 shadow-glow-sm transition hover:brightness-110 disabled:opacity-60"
             >
               {submitting ? 'Signing in…' : 'Continue'}
             </button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-slate-500">
+          <p className="mt-6 text-center text-sm text-stone-400">
             New here?{' '}
-            <Link to="/register" className="font-semibold text-sky-300 hover:text-sky-200">
+            <Link to="/register" className="font-semibold text-hotel-gold hover:text-hotel-gold">
               Create an account
             </Link>
           </p>

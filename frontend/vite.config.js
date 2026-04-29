@@ -1,8 +1,8 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// Default production backend URL for dev proxy
-const DEFAULT_PROXY_TARGET = 'https://heavenhub-7hwn.onrender.com';
+// Default local backend URL for dev proxy
+const DEFAULT_PROXY_TARGET = 'http://localhost:8080';
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
@@ -15,12 +15,12 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         // Same-origin /api in dev → proxy to API (default: Render production).
-        '/api': { target: proxyTarget, changeOrigin: true, secure: true },
+        '/api': { target: proxyTarget, changeOrigin: true, secure: false },
       },
     },
     preview: {
       proxy: {
-        '/api': { target: proxyTarget, changeOrigin: true, secure: true },
+        '/api': { target: proxyTarget, changeOrigin: true, secure: false },
       },
     },
   };

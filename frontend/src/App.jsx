@@ -40,10 +40,6 @@ export default function App() {
         <Route element={<ProtectedRoute roles={['GUEST', 'HOST']} />}>
           <Route path="/inbox" element={<InboxPage />} />
         </Route>
-
-        <Route element={<ProtectedRoute roles={['HOST']} />}>
-          <Route path="/host/dashboard" element={<HostDashboardPage />} />
-        </Route>
       </Route>
       <Route path="*" element={<Navigate to="/home" replace />} />
     </Routes>

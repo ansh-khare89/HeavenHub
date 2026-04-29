@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -19,13 +19,13 @@
   }
 
   body {
-    background-color: var(--hh-navy);
+    background-color: #FFFFFF;
     margin: 0;
     padding: 0;
-    color: var(--hh-ink);
+    color: #222222;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-family: Inter, system-ui, sans-serif;
+    font-family: 'Circular', 'Inter', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif;
   }
 
   ::selection {
@@ -38,11 +38,11 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #030014;
+    background: #FFFFFF;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(to bottom, #d946ef, #22d3ee);
+    background: #DDDDDD;
     border-radius: 8px;
   }
 }

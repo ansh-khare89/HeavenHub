@@ -5,10 +5,10 @@ import { BrandMark } from './BrandMark.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 
 const navClass = ({ isActive }) =>
-  `relative text-sm font-medium transition px-3 py-2 rounded-lg whitespace-nowrap ${
+  `relative text-sm font-medium transition px-4 py-2 rounded-full whitespace-nowrap ${
     isActive
-      ? 'bg-sky-500/15 text-sky-200 after:absolute after:bottom-1 after:left-3 after:right-3 after:h-px after:rounded-full after:bg-gradient-to-r after:from-transparent after:via-sky-400 after:to-transparent'
-      : 'text-slate-300 hover:text-white hover:bg-white/5'
+      ? 'text-gray-900 bg-gray-100'
+      : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'
   }`;
 
 export function AppLayout() {
@@ -24,16 +24,17 @@ export function AppLayout() {
   }, []);
 
   return (
-    <div className="relative min-h-screen text-slate-100">
+    <div className="relative min-h-screen bg-stone-50 text-gray-900 font-sans">
       <AmbientBackdrop />
+      <div className="bg-noise" aria-hidden />
       <header
-        className={`sticky top-0 z-40 border-b transition-colors duration-300 ${
+        className={`sticky top-0 z-40 bg-white/90 backdrop-blur-xl transition-colors duration-300 ${
           elevated
-            ? 'border-sky-500/25 bg-navy-950/80 shadow-[0_12px_40px_-20px_rgba(0,0,0,.55)] backdrop-blur-xl'
-            : 'border-white/5 bg-navy-950/40 backdrop-blur-md'
+            ? 'border-b border-gray-200 shadow-sm'
+            : 'border-b border-transparent'
         }`}
       >
-        <div className="relative z-[1] mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 md:px-6">
+        <div className="relative z-[1] mx-auto flex items-center justify-between gap-4 px-6 py-4 md:px-10">
           <BrandMark />
 
           <nav className="flex max-w-[55vw] items-center gap-1 overflow-x-auto md:max-w-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -78,21 +79,28 @@ export function AppLayout() {
                 <Link
                   to="/register"
                   state={{ initialRole: 'HOST' }}
-                  className="hidden rounded-lg px-3 py-2 text-sm text-slate-300 transition hover:bg-white/5 hover:text-white sm:inline"
+                  className="hidden rounded-full px-4 py-2 text-sm font-medium text-gray-900 transition hover:bg-gray-100 sm:inline"
                 >
-                  Become a host
+                  List your property
+                </Link>
+                <Link
+                  to="/register"
+                  state={{ initialRole: 'GUEST' }}
+                  className="hidden rounded-full border border-gray-300 px-5 py-2 text-sm font-medium text-gray-900 transition hover:border-gray-900 sm:inline"
+                >
+                  Sign up
                 </Link>
                 <Link
                   to="/login"
-                  className="rounded-full bg-gradient-to-r from-sky-400 to-cyan-400 px-4 py-2 text-sm font-semibold text-navy-950 shadow-glow-sm transition hover:brightness-110 hover:shadow-glow"
+                  className="rounded-full bg-airbnb px-5 py-2 text-sm font-medium text-white transition hover:bg-airbnb-hover"
                 >
-                  Sign in
+                  Log in
                 </Link>
               </>
             ) : (
               <div className="flex items-center gap-2">
-                <span className="hidden max-w-[140px] truncate text-xs text-slate-400 sm:inline">
-                  {user?.firstName} · <span className="text-sky-300">{role}</span>
+                <span className="hidden max-w-[140px] truncate text-sm font-medium text-gray-900 sm:inline">
+                  {user?.firstName}
                 </span>
                 <button
                   type="button"
@@ -100,9 +108,9 @@ export function AppLayout() {
                     logout();
                     navigate('/home');
                   }}
-                  className="rounded-lg border border-white/10 px-3 py-2 text-xs font-medium text-slate-200 transition hover:border-sky-400/40 hover:text-white"
+                  className="rounded-full border border-gray-300 px-4 py-2 text-sm font-medium text-gray-900 transition hover:border-gray-900"
                 >
-                  Sign out
+                  Log out
                 </button>
               </div>
             )}
@@ -114,10 +122,10 @@ export function AppLayout() {
         <Outlet />
       </main>
 
-      <footer className="relative z-[1] mt-20 border-t border-white/5 px-4 py-12 text-center md:px-6">
-        <p className="font-display text-sm font-semibold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-pink-500">HeavenHub</p>
-        <p className="mt-1 text-xs text-slate-500">
-          35+ Indian cities. Lower your standards, raise your expectations, and let's find you a bed. No refunds for hurt feelings.
+      <footer className="mt-12 border-t border-gray-200 bg-gray-50 px-6 py-12 text-center">
+        <p className="text-sm font-semibold text-gray-900">© 2026 HeavenHub, Inc.</p>
+        <p className="mt-2 text-sm text-gray-500">
+          Privacy · Terms · Sitemap · Company details
         </p>
       </footer>
     </div>

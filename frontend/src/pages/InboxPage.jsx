@@ -61,19 +61,19 @@ export function InboxPage() {
     }
   };
 
-  if (!isAuthenticated) return <div className="p-12 text-center text-slate-400">Sign in to view messages.</div>;
+  if (!isAuthenticated) return <div className="p-12 text-center text-stone-500">Sign in to view messages.</div>;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 md:px-6">
-      <h1 className="text-3xl font-bold text-white mb-6">Messages</h1>
+      <h1 className="text-3xl font-bold text-gray-900 mb-6">Messages</h1>
 
-      <div className="grid lg:grid-cols-[350px_1fr] overflow-hidden rounded-3xl border border-white/10 bg-[#0a1628] shadow-2xl h-[70vh]">
+      <div className="grid lg:grid-cols-[350px_1fr] overflow-hidden rounded-3xl border border-stone-200 bg-white border border-stone-200 shadow-xl shadow-2xl h-[70vh]">
         {/* Inbox Sidebar */}
-        <div className="border-b lg:border-b-0 lg:border-r border-white/10 bg-[#050b14]/50 overflow-y-auto">
+        <div className="border-b lg:border-b-0 lg:border-r border-stone-200 bg-stone-50 border border-stone-200/50 overflow-y-auto">
           {loading ? (
-             <p className="p-6 text-sm text-slate-400">Loading inbox...</p>
+             <p className="p-6 text-sm text-stone-500">Loading inbox...</p>
           ) : inbox.length === 0 ? (
-             <p className="p-6 text-sm text-slate-500">No messages yet.</p>
+             <p className="p-6 text-sm text-stone-400">No messages yet.</p>
           ) : (
              <ul className="divide-y divide-white/5">
                {inbox.map((thread, idx) => {
@@ -84,9 +84,9 @@ export function InboxPage() {
                      onClick={() => openThread(thread)}
                      className={`p-4 cursor-pointer transition hover:bg-sky-500/10 ${isActive ? 'bg-sky-500/10 border-l-4 border-l-sky-400' : 'border-l-4 border-l-transparent'}`}
                    >
-                     <p className="text-sm font-semibold text-white">{thread.partnerName}</p>
-                     <p className="text-xs text-sky-300 mt-0.5">{thread.propertyTitle}</p>
-                     <p className="text-xs text-slate-400 mt-2 truncate">{thread.latestMessage}</p>
+                     <p className="text-sm font-semibold text-hotel-accent">{thread.partnerName}</p>
+                     <p className="text-xs text-hotel-gold mt-0.5">{thread.propertyTitle}</p>
+                     <p className="text-xs text-stone-500 mt-2 truncate">{thread.latestMessage}</p>
                    </li>
                  )
                })}
@@ -95,13 +95,13 @@ export function InboxPage() {
         </div>
 
         {/* Chat Area */}
-        <div className="flex flex-col h-full bg-[#0a1628]">
+        <div className="flex flex-col h-full bg-white border border-stone-200 shadow-xl">
           {activeThread ? (
             <>
-              <div className="p-4 border-b border-white/10 flex justify-between items-center bg-[#050b14]/80">
+              <div className="p-4 border-b border-stone-200 flex justify-between items-center bg-stone-50 border border-stone-200/80">
                 <div>
-                  <h3 className="text-lg font-bold text-white">{activeThread.partnerName}</h3>
-                  <p className="text-xs text-slate-400">{activeThread.propertyTitle}</p>
+                  <h3 className="text-lg font-bold text-hotel-accent">{activeThread.partnerName}</h3>
+                  <p className="text-xs text-stone-500">{activeThread.propertyTitle}</p>
                 </div>
               </div>
 
@@ -110,10 +110,16 @@ export function InboxPage() {
                   const isMe = m.senderId === user.id;
                   return (
                     <div key={m.id} className={`flex flex-col ${isMe ? 'items-end' : 'items-start'}`}>
-                      <div className={`px-4 py-2 rounded-2xl max-w-[80%] ${isMe ? 'bg-sky-500 text-white rounded-tr-sm' : 'bg-white/10 text-slate-200 rounded-tl-sm'}`}>
+                      <div
+                        className={`px-4 py-2 rounded-2xl max-w-[80%] ${
+                          isMe
+                            ? 'bg-sky-500 text-white rounded-tr-sm'
+                            : 'bg-stone-200 text-stone-900 rounded-tl-sm'
+                        }`}
+                      >
                         {m.content}
                       </div>
-                      <span className="text-[10px] text-slate-500 mt-1">
+                      <span className="text-[10px] text-stone-400 mt-1">
                         {new Date(m.sentAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </span>
                     </div>
@@ -121,13 +127,13 @@ export function InboxPage() {
                 })}
               </div>
 
-              <form onSubmit={handleSend} className="p-4 border-t border-white/10 bg-[#050b14]/50 flex gap-3">
+              <form onSubmit={handleSend} className="p-4 border-t border-stone-200 bg-stone-50 border border-stone-200/50 flex gap-3">
                 <input 
                   type="text" 
                   value={content}
                   onChange={e => setContent(e.target.value)}
                   placeholder="Type a message..."
-                  className="flex-1 rounded-full border border-white/10 bg-[#0a1628] px-4 py-2 text-sm text-white outline-none focus:border-sky-400/50"
+                  className="flex-1 rounded-full border border-stone-200 bg-white shadow-sm px-4 py-2 text-sm text-stone-900 outline-none focus:border-sky-400/50"
                   required
                 />
                 <button type="submit" className="rounded-full bg-sky-500 px-6 py-2 text-sm font-bold text-white transition hover:bg-sky-400">
@@ -137,7 +143,7 @@ export function InboxPage() {
             </>
           ) : (
             <div className="flex h-full items-center justify-center">
-              <p className="text-slate-500 text-sm">Select a conversation to start messaging</p>
+              <p className="text-stone-400 text-sm">Select a conversation to start messaging</p>
             </div>
           )}
         </div>

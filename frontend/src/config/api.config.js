@@ -14,4 +14,4 @@ const PRODUCTION_API_URL = 'https://heavenhub-7hwn.onrender.com';
 export const API_BASE_URL =
   import.meta.env.VITE_API_URL ??
   import.meta.env.VITE_API_BASE_URL ??
-  PRODUCTION_API_URL;
+  (import.meta.env.DEV ? '' : PRODUCTION_API_URL);

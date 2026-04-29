@@ -173,99 +173,74 @@ export function PropertyDetailPage() {
   if (loadError && !loading) {
     return (
       <div className="mx-auto max-w-lg px-4 py-24 text-center">
-        <p className="font-display text-lg text-white">{loadError}</p>
-        <Link to="/home" className="mt-6 inline-block text-sky-300 hover:text-sky-200">
-          ← Back to explore
+        <p className="font-display text-lg text-stone-900">{loadError}</p>
+        <Link to="/home" className="mt-6 inline-block text-hotel-gold hover:text-hotel-goldHover">
+          ← Back home
         </Link>
       </div>
     );
   }
 
   if (loading || !property) {
-    return <div className="py-24 text-center text-slate-500">Loading sanctuary…</div>;
+    return <div className="py-24 text-center text-stone-500">Loading sanctuary…</div>;
   }
 
   const rating = property.averageRating != null ? Number(property.averageRating) : null;
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10 md:px-6">
-      <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#0a1628] shadow-2xl shadow-sky-900/20">
-        <div className="relative h-72 md:h-[420px]">
-          <img src={hero} alt="" className="h-full w-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#050b14] via-[#050b14]/40 to-transparent" />
-          <div className="absolute bottom-0 left-0 p-6 md:p-10">
-            <p className="text-xs font-semibold uppercase tracking-widest text-sky-300/90">
-              {property.city}
-              {property.state ? `, ${property.state}` : ''}
-            </p>
-            <h1 className="mt-2 text-3xl font-bold text-white md:text-4xl">{property.title}</h1>
-            <div className="mt-3 flex flex-wrap gap-3 text-sm text-slate-300">
-              {rating != null && (
-                <span className="rounded-full bg-white/10 px-3 py-1">
-                  ★ {rating.toFixed(2)} avg
-                  {property.reviewCount != null ? ` · ${property.reviewCount} reviews` : ''}
-                </span>
-              )}
-              {property.propertyType && (
-                <span className="rounded-full bg-white/10 px-3 py-1">{property.propertyType}</span>
-              )}
-              <span className="rounded-full bg-white/10 px-3 py-1">Up to {property.maxGuests} guests</span>
-              {property.bedrooms != null && property.bathrooms != null && (
-                <span className="rounded-full bg-white/10 px-3 py-1">
-                  {property.bedrooms} bed · {property.bathrooms} bath
-                </span>
-              )}
-              {property.superhost && (
-                <span className="rounded-full bg-amber-500/20 px-3 py-1 text-amber-100">Superhost</span>
-              )}
-              {property.instantBook && (
-                <span className="rounded-full bg-emerald-500/20 px-3 py-1 text-emerald-100">Instant book</span>
-              )}
-              {property.petFriendly && (
-                <span className="rounded-full bg-violet-500/20 px-3 py-1 text-violet-100">Pet-friendly</span>
-              )}
-            </div>
-          </div>
+    <div className="mx-auto max-w-6xl px-6 py-8 font-sans">
+      <div className="mb-6">
+        <h1 className="text-3xl font-semibold text-gray-900 md:text-4xl">{property.title}</h1>
+        <div className="mt-2 flex flex-wrap items-center gap-4 text-sm font-medium text-gray-900 underline decoration-gray-900">
+          {rating != null && (
+            <span>★ {rating.toFixed(2)} {property.reviewCount != null ? `· ${property.reviewCount} reviews` : ''}</span>
+          )}
+          <span>{property.city}{property.state ? `, ${property.state}` : ''}</span>
         </div>
+      </div>
 
-        <div className="grid gap-10 p-6 md:grid-cols-3 md:p-10">
-          <div className="md:col-span-2 space-y-8">
-            <section>
-              <h2 className="text-lg font-semibold text-white">About</h2>
-              <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-slate-400">
+      <div className="relative mb-8 h-72 w-full overflow-hidden rounded-xl md:h-[500px]">
+        <img src={hero} alt="" className="h-full w-full object-cover transition-transform duration-700 hover:scale-[1.02]" />
+      </div>
+
+        <div className="grid gap-12 md:grid-cols-[1.8fr_1fr]">
+          <div className="space-y-8">
+            <section className="border-b border-gray-200 pb-8">
+              <h2 className="text-2xl font-semibold text-gray-900">
+                {property.propertyType || 'Entire home'} hosted by HeavenHub
+              </h2>
+              <div className="mt-2 flex gap-4 text-gray-900">
+                <span>{property.maxGuests} guests</span> ·
+                <span>{property.bedrooms || 1} bedroom</span> ·
+                <span>{property.bathrooms || 1} bath</span>
+              </div>
+            </section>
+
+            <section className="border-b border-gray-200 pb-8">
+              <p className="whitespace-pre-line text-base text-gray-900">
                 {property.description || 'A thoughtfully hosted HeavenHub original.'}
               </p>
-              <p className="mt-4 text-sm text-slate-500">{property.address}</p>
-              {property.region && (
-                <p className="mt-2 text-xs font-medium uppercase tracking-wider text-sky-400/80">
-                  Region · {property.region}
-                </p>
-              )}
               {property.latitude != null && property.longitude != null && (
                 <a
                   href={`https://www.google.com/maps/search/?api=1&query=${property.latitude},${property.longitude}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-3 inline-flex items-center gap-2 rounded-full border border-sky-400/35 bg-sky-500/10 px-4 py-2 text-sm font-semibold text-sky-100 transition hover:bg-sky-500/20"
+                  className="mt-6 inline-block font-semibold text-gray-900 underline"
                 >
-                  Open in Maps
-                  <span aria-hidden>↗</span>
+                  Show on map
                 </a>
               )}
             </section>
 
             {property.amenities && (
-              <section>
-                <h2 className="text-lg font-semibold text-white">Amenities &amp; details</h2>
-                <ul className="mt-4 flex flex-wrap gap-2">
+              <section className="border-b border-gray-200 pb-8">
+                <h2 className="text-2xl font-semibold text-gray-900 mb-6">What this place offers</h2>
+                <ul className="grid grid-cols-2 gap-y-4">
                   {property.amenities.split(',').map((raw, i) => {
                     const a = raw.trim();
                     if (!a) return null;
                     return (
-                      <li
-                        key={`${i}-${a}`}
-                        className="rounded-xl border border-white/10 bg-white/[0.04] px-3 py-1.5 text-sm text-slate-300"
-                      >
+                      <li key={`${i}-${a}`} className="text-gray-900 text-base">
                         {a}
                       </li>
                     );
@@ -275,73 +250,60 @@ export function PropertyDetailPage() {
             )}
 
             {property.houseManual && (
-              <section className="rounded-2xl border border-sky-500/20 bg-sky-500/5 p-5">
-                <h2 className="text-lg font-semibold text-sky-100">House manual</h2>
-                <p className="mt-3 whitespace-pre-line text-sm text-slate-300">{property.houseManual}</p>
+              <section className="border-b border-gray-200 pb-8">
+                <h2 className="text-xl font-semibold text-gray-900">House rules</h2>
+                <p className="mt-4 whitespace-pre-line text-base text-gray-900">{property.houseManual}</p>
               </section>
             )}
 
-            <section>
-              <h2 className="text-lg font-semibold text-white">Guest reviews</h2>
-              <div className="mt-4 space-y-4">
-                {reviews.length === 0 && <p className="text-sm text-slate-500">No reviews yet.</p>}
+            <section className="pb-8">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
+                ★ {rating != null ? rating.toFixed(2) : 'No reviews (yet)'} 
+                {property.reviewCount ? ` · ${property.reviewCount} reviews` : ''}
+              </h2>
+              
+              <div className="grid gap-8 sm:grid-cols-2">
                 {reviews.map((rev) => (
-                  <article
-                    key={rev.id}
-                    className="rounded-2xl border border-white/10 bg-white/[0.03] p-4"
-                  >
-                    <div className="flex items-center justify-between gap-2">
-                      <p className="text-sm font-medium text-white">
-                        {rev.guestFirstName || 'Guest'} ·{' '}
-                        <span className="text-sky-300">★ {rev.rating}</span>
-                      </p>
-                      <span className="text-xs text-slate-500">
-                        {rev.createdAt ? new Date(rev.createdAt).toLocaleDateString() : ''}
-                      </span>
-                    </div>
-                    {rev.comment && <p className="mt-2 text-sm text-slate-400">{rev.comment}</p>}
-                    {rev.hostReply && (
-                      <div className="mt-3 rounded-xl border border-sky-500/20 bg-sky-500/10 p-3 text-sm text-sky-100">
-                        <span className="text-xs font-semibold uppercase tracking-wider text-sky-300">
-                          Host reply
-                        </span>
-                        <p className="mt-1 text-slate-100">{rev.hostReply}</p>
+                  <article key={rev.id} className="space-y-3">
+                    <div className="flex items-center gap-4">
+                      <div className="h-10 w-10 rounded-full bg-gray-200" />
+                      <div>
+                        <p className="font-semibold text-gray-900">{rev.guestFirstName || 'Guest'}</p>
+                        <p className="text-sm text-gray-500">
+                          {rev.createdAt ? new Date(rev.createdAt).toLocaleDateString(undefined, { month: 'long', year: 'numeric'}) : ''}
+                        </p>
                       </div>
-                    )}
+                    </div>
+                    {rev.comment && <p className="text-gray-900">{rev.comment}</p>}
                   </article>
                 ))}
               </div>
 
               {canBook && (
-                <form onSubmit={onSubmitReview} className="mt-6 space-y-3 rounded-2xl border border-white/10 p-4">
-                  <h3 className="text-sm font-semibold text-white">Write a review</h3>
-                  <label className="block text-xs text-slate-400">
+                <form onSubmit={onSubmitReview} className="mt-8 space-y-4">
+                  <h3 className="font-semibold text-gray-900">Write a review</h3>
+                  <label className="block text-sm">
                     Rating
                     <select
                       value={reviewRating}
                       onChange={(e) => setReviewRating(e.target.value)}
-                      className="mt-1 w-full rounded-xl border border-white/10 bg-[#050b14] px-3 py-2 text-sm text-white"
+                      className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900"
                     >
                       {[5, 4, 3, 2, 1].map((n) => (
-                        <option key={n} value={n}>
-                          {n} stars
-                        </option>
+                        <option key={n} value={n}>{n} stars</option>
                       ))}
                     </select>
                   </label>
-                  <label className="block text-xs text-slate-400">
+                  <label className="block text-sm">
                     Comment
                     <textarea
                       value={reviewText}
                       onChange={(e) => setReviewText(e.target.value)}
                       rows={3}
-                      className="mt-1 w-full rounded-xl border border-white/10 bg-[#050b14] px-3 py-2 text-sm text-white"
+                      className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900"
                     />
                   </label>
-                  <button
-                    type="submit"
-                    className="rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-white/15"
-                  >
+                  <button type="submit" className="rounded-lg bg-gray-900 px-6 py-3 font-semibold text-white">
                     Post review
                   </button>
                 </form>
@@ -349,30 +311,36 @@ export function PropertyDetailPage() {
             </section>
           </div>
 
-          <aside className="space-y-6">
-            <div className="rounded-2xl border border-white/10 bg-[#050b14]/80 p-5">
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400">Reserve</h2>
-              <div className="mt-4 grid gap-3">
-                <label className="text-xs text-slate-400">
-                  Check-in
-                  <input
-                    type="date"
-                    value={checkIn}
-                    onChange={(e) => setCheckIn(e.target.value)}
-                    className="mt-1 w-full rounded-xl border border-white/10 bg-[#0a1628] px-3 py-2 text-sm text-white"
-                  />
-                </label>
-                <label className="text-xs text-slate-400">
-                  Check-out
-                  <input
-                    type="date"
-                    value={checkOut}
-                    onChange={(e) => setCheckOut(e.target.value)}
-                    className="mt-1 w-full rounded-xl border border-white/10 bg-[#0a1628] px-3 py-2 text-sm text-white"
-                  />
-                </label>
-                <label className="text-xs text-slate-400">
-                  Guests
+          <div>
+            <div className="sticky top-28 rounded-xl border border-gray-200 bg-white p-6 shadow-[0_6px_16px_rgba(0,0,0,0.12)]">
+              <div className="mb-6 flex items-baseline gap-1">
+                <span className="text-2xl font-semibold text-gray-900">{formatInr(property.pricePerNight)}</span>
+                <span className="text-base text-gray-900">night</span>
+              </div>
+              
+              <div className="rounded-lg border border-gray-400 overflow-hidden mb-4">
+                <div className="flex border-b border-gray-400">
+                  <label className="flex-1 p-3 text-xs font-bold uppercase border-r border-gray-400">
+                    CHECK-IN
+                    <input
+                      type="date"
+                      value={checkIn}
+                      onChange={(e) => setCheckIn(e.target.value)}
+                      className="mt-1 block w-full text-sm font-normal outline-none"
+                    />
+                  </label>
+                  <label className="flex-1 p-3 text-xs font-bold uppercase">
+                    CHECKOUT
+                    <input
+                      type="date"
+                      value={checkOut}
+                      onChange={(e) => setCheckOut(e.target.value)}
+                      className="mt-1 block w-full text-sm font-normal outline-none"
+                    />
+                  </label>
+                </div>
+                <label className="block p-3 text-xs font-bold uppercase">
+                  GUESTS
                   <input
                     type="number"
                     min={1}
@@ -381,43 +349,9 @@ export function PropertyDetailPage() {
                     onChange={(e) =>
                       setGuests(Math.max(1, Math.min(Number(e.target.value) || 1, property.maxGuests || 99)))
                     }
-                    className="mt-1 w-full rounded-xl border border-white/10 bg-[#0a1628] px-3 py-2 text-sm text-white"
+                    className="mt-1 block w-full text-sm font-normal outline-none"
                   />
                 </label>
-              </div>
-
-              <div className="mt-5 rounded-2xl border border-sky-500/25 bg-gradient-to-br from-sky-500/10 to-transparent p-4 text-sm">
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-sky-300">Live estimate</h3>
-                {pricing ? (
-                  <dl className="mt-3 space-y-2 text-slate-200">
-                    <div className="flex justify-between">
-                      <dt className="text-slate-400">Nights</dt>
-                      <dd>{pricing.nights}</dd>
-                    </div>
-                    <div className="flex justify-between">
-                      <dt className="text-slate-400">Nightly</dt>
-                      <dd>{formatInr(pricing.nightlyRate)}</dd>
-                    </div>
-                    <div className="flex justify-between">
-                      <dt className="text-slate-400">Room subtotal</dt>
-                      <dd>{formatInr(pricing.roomSubtotal)}</dd>
-                    </div>
-                    <div className="flex justify-between">
-                      <dt className="text-slate-400">Cleaning</dt>
-                      <dd>{formatInr(pricing.cleaningFee)}</dd>
-                    </div>
-                    <div className="flex justify-between">
-                      <dt className="text-slate-400">Platform ({pricing.platformFeePercent}%)</dt>
-                      <dd>{formatInr(pricing.platformFee)}</dd>
-                    </div>
-                    <div className="flex justify-between border-t border-white/10 pt-2 text-base font-semibold text-white">
-                      <dt>Total</dt>
-                      <dd>{formatInr(pricing.total)}</dd>
-                    </div>
-                  </dl>
-                ) : (
-                  <p className="mt-3 text-slate-500">Select dates to preview pricing.</p>
-                )}
               </div>
 
               {canBook ? (
@@ -425,48 +359,46 @@ export function PropertyDetailPage() {
                   type="button"
                   onClick={onBook}
                   disabled={booking || !pricing}
-                  className="mt-5 w-full rounded-full bg-gradient-to-r from-sky-400 to-cyan-400 py-3 text-sm font-semibold text-[#050b14] shadow-lg shadow-sky-500/25 transition hover:brightness-110 disabled:opacity-50"
+                  className="w-full rounded-lg bg-airbnb py-3.5 text-base font-semibold text-white transition hover:bg-airbnb-hover disabled:opacity-50"
                 >
-                  {booking ? 'Booking…' : 'Book now'}
+                  {booking ? 'Booking…' : 'Reserve'}
                 </button>
               ) : (
-                <div className="mt-5 space-y-2">
-                  <p className="text-xs text-slate-500">Guests can book instantly. Hosts may browse in view-only mode.</p>
-                  <Link
-                    to="/login"
-                    state={{ from: `/property/${id}` }}
-                    className="block w-full rounded-full border border-sky-400/40 py-3 text-center text-sm font-semibold text-sky-200 hover:bg-sky-500/10"
-                  >
-                    Sign in as guest
-                  </Link>
-                </div>
+                <Link
+                  to="/login"
+                  state={{ from: `/property/${id}` }}
+                  className="block w-full rounded-lg bg-airbnb py-3.5 text-center text-base font-semibold text-white transition hover:bg-airbnb-hover"
+                >
+                  Sign in to reserve
+                </Link>
               )}
 
-              {canBook && (
-                <div className="mt-8 pt-6 border-t border-white/10">
-                  <h3 className="text-sm font-semibold text-white mb-3">Have a question?</h3>
-                  <form onSubmit={onSendMessage} className="space-y-3">
-                    <textarea 
-                      value={msgContent}
-                      onChange={e => setMsgContent(e.target.value)}
-                      rows={2} 
-                      placeholder="Ask the host about this stay..."
-                      className="w-full rounded-xl border border-white/10 bg-[#0a1628] px-3 py-2 text-sm text-white focus:border-sky-400"
-                    />
-                    <button 
-                      type="submit"
-                      disabled={sendingMsg || !msgContent.trim()}
-                      className="w-full rounded-full border border-sky-400/40 py-2.5 text-sm font-semibold text-sky-200 transition hover:bg-sky-500/10 disabled:opacity-50"
-                    >
-                      {sendingMsg ? 'Sending...' : 'Message Host'}
-                    </button>
-                  </form>
+              {pricing && (
+                <div className="mt-4">
+                  <p className="text-center text-sm text-gray-500 mb-6">You won't be charged yet</p>
+                  <dl className="space-y-4 text-base text-gray-900">
+                    <div className="flex justify-between">
+                      <dt className="underline">{formatInr(pricing.nightlyRate)} x {pricing.nights} nights</dt>
+                      <dd>{formatInr(pricing.roomSubtotal)}</dd>
+                    </div>
+                    <div className="flex justify-between">
+                      <dt className="underline">Cleaning fee</dt>
+                      <dd>{formatInr(pricing.cleaningFee)}</dd>
+                    </div>
+                    <div className="flex justify-between">
+                      <dt className="underline">HeavenHub service fee</dt>
+                      <dd>{formatInr(pricing.platformFee)}</dd>
+                    </div>
+                    <div className="mt-6 flex justify-between border-t border-gray-200 pt-6 text-lg font-semibold text-gray-900">
+                      <dt>Total before taxes</dt>
+                      <dd>{formatInr(pricing.total)}</dd>
+                    </div>
+                  </dl>
                 </div>
               )}
             </div>
-          </aside>
+          </div>
         </div>
-      </div>
     </div>
   );
 }

@@ -4,6 +4,20 @@ export default {
   theme: {
     extend: {
       colors: {
+        airbnb: {
+          DEFAULT: '#FF385C',
+          hover: '#D90B38',
+        },
+        hotel: {
+          bg: '#FFFFFF',
+          card: '#FFFFFF',
+          text: '#222222',
+          textMuted: '#717171',
+          border: '#DDDDDD',
+          accent: '#222222',
+          gold: '#FF385C',
+          goldHover: '#D90B38',
+        },
         brand: {
           50: '#f0f9ff',
           500: '#0ea5e9',
@@ -20,9 +34,9 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Outfit', 'Inter', 'system-ui', 'sans-serif'],
-        anton: ['Anton', 'sans-serif'],
+        sans: ['Circular', 'Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Roboto', 'Helvetica Neue', 'sans-serif'],
+        display: ['Circular', 'Inter', 'system-ui', 'sans-serif'],
+        anton: ['Inter', 'sans-serif'],
       },
       boxShadow: {
         glow: '0 0 60px -12px rgba(56, 189, 248, 0.45)',

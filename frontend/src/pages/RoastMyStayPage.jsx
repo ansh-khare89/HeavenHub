@@ -25,7 +25,7 @@ export function RoastMyStayPage() {
       const data = await request('/api/roasts');
       setRoasts(data);
     } catch (err) {
-       // Mock data fallback if backend is not started/ready
+       // Provide fallback data in case the backend is unavailable.
        setRoasts([
           { id: 1, propertyName: "Seaview Villa", authorName: "Karen", roastText: "The only 'sea view' I got was a puddle in the driveway. The mattress felt like a geometry problem.", roastLevel: "EMOTIONAL_DAMAGE" },
           { id: 2, propertyName: "Cozy Cabin", authorName: "CityBoy99", roastText: "Cozy is just real estate speak for 'you will smell your partner's thoughts'. Zero cell service.", roastLevel: "SPICY" },
@@ -43,12 +43,12 @@ export function RoastMyStayPage() {
         body: {...newRoast, authorId: user?.id || null},
       });
       
-      toast.success("Trash talk served hot 🔥");
+      toast.success("Guest review submitted successfully.");
       setNewRoast({ propertyName: '', authorName: user?.firstName || '', roastText: '', roastLevel: 'SPICY', authorId: user?.id || null });
       fetchRoasts();
     } catch(err) {
-      toast.error("Failed to connect. The server is hiding in fear.");
-      // Mock add for now
+      toast.error("Failed to connect. Please try again later.");
+      // Temporarily add the new review to the UI while offline.
       setRoasts([{...newRoast, id: Date.now(), authorId: user?.id || null}, ...roasts]);
       setNewRoast({ propertyName: '', authorName: user?.firstName || '', roastText: '', roastLevel: 'SPICY', authorId: user?.id || null });
     }
@@ -58,52 +58,52 @@ export function RoastMyStayPage() {
   return (
     <div className="max-w-4xl mx-auto p-6 md:p-10">
       <div className="text-center mb-12">
-        <h1 className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500 mb-4 inline-block drop-shadow-[0_0_20px_rgba(239,68,68,0.5)]">
-          Trash Talk
+        <h1 className="text-5xl font-display font-bold text-gray-900 mb-4 inline-block drop-shadow-sm">
+          Unfiltered Reviews
         </h1>
-        <p className="text-slate-400 text-lg">Did the host lie about the Wi-Fi? Bed felt like a rock? Vent it all out here.</p>
+        <p className="text-stone-500 text-lg">Did the host overpromise? Vent your honest feedback here.</p>
       </div>
 
       <div className="grid md:grid-cols-3 gap-8">
         <div className="md:col-span-1">
-          <div className="p-6 rounded-2xl bg-navy-900 border border-orange-500/20 shadow-glow-sm">
-             <h2 className="text-xl font-bold text-white mb-4">Spill the tea</h2>
+          <div className="p-6 rounded-2xl bg-white border border-stone-200 shadow-xl">
+             <h2 className="text-xl font-display font-bold text-gray-900 mb-4">Leave Feedback</h2>
              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                <input 
-                 className="w-full bg-navy-950 border border-white/10 rounded-lg p-3 text-white focus:border-orange-500"
+                 className="w-full bg-stone-50 border border-stone-200 rounded-lg p-3 text-stone-900 focus:border-hotel-gold outline-none transition"
                  placeholder="Property Name"
                  value={newRoast.propertyName}
                  onChange={e => setNewRoast({...newRoast, propertyName: e.target.value})}
                  required
                />
                <input 
-                 className="w-full bg-navy-950 border border-white/10 rounded-lg p-3 text-white focus:border-orange-500"
-                 placeholder="Your Name (or alias)"
+                 className="w-full bg-stone-50 border border-stone-200 rounded-lg p-3 text-stone-900 focus:border-hotel-gold outline-none transition"
+                 placeholder="Your Name"
                  value={newRoast.authorName}
                  onChange={e => setNewRoast({...newRoast, authorName: e.target.value})}
                  required
                />
                <textarea 
-                 className="w-full bg-navy-950 border border-white/10 rounded-lg p-3 text-white focus:border-orange-500 min-h-[100px]"
-                 placeholder="Spill the tea..."
+                 className="w-full bg-stone-50 border border-stone-200 rounded-lg p-3 text-stone-900 focus:border-hotel-gold min-h-[100px] outline-none transition"
+                 placeholder="Share your experience..."
                  value={newRoast.roastText}
                  onChange={e => setNewRoast({...newRoast, roastText: e.target.value})}
                  required
                />
                <select
-                 className="w-full bg-navy-950 border border-white/10 rounded-lg p-3 text-white focus:border-orange-500"
+                 className="w-full bg-stone-50 border border-stone-200 rounded-lg p-3 text-stone-900 focus:border-hotel-gold outline-none transition"
                  value={newRoast.roastLevel}
                  onChange={e => setNewRoast({...newRoast, roastLevel: e.target.value})}
                >
-                 <option value="MILD">Mild 🌶️</option>
-                 <option value="SPICY">Spicy 🌶️🌶️</option>
-                 <option value="EMOTIONAL_DAMAGE">Emotional Damage 💀</option>
+                 <option value="MILD">Mild Feedback</option>
+                 <option value="SPICY">Strong Criticism</option>
+                 <option value="EMOTIONAL_DAMAGE">Severe Disappointment</option>
                </select>
                <button 
                  disabled={submitting}
-                 className="w-full bg-gradient-to-r from-orange-500 to-red-600 hover:from-red-600 hover:to-orange-700 text-white font-bold py-3 px-4 rounded-lg transition-all"
+                 className="w-full bg-hotel-gold hover:bg-hotel-goldHover text-white font-bold py-3 px-4 rounded-lg transition-all shadow-sm"
                >
-                 {submitting ? 'Igniting...' : 'Combust'}
+                 {submitting ? 'Submitting...' : 'Submit'}
                </button>
              </form>
           </div>
@@ -111,39 +111,39 @@ export function RoastMyStayPage() {
 
         <div className="md:col-span-2 flex flex-col gap-4">
           {loading ? (
-             <div className="text-center text-slate-400 py-10">Fetching the burn unit...</div>
+             <div className="text-center text-stone-500 py-10">Fetching feedback...</div>
           ) : roasts.length === 0 ? (
-             <div className="text-center text-slate-400 py-10">No trash talk yet. Be the first to expose a bad stay.</div>
+             <div className="text-center text-stone-500 py-10">No reviews yet. Share your experience.</div>
           ) : (
             roasts.map(roast => (
-              <div key={roast.id} className="p-5 rounded-2xl bg-white/5 border border-white/10 hover:border-red-500/30 transition-colors">
+              <div key={roast.id} className="p-5 rounded-2xl bg-white border border-stone-200 hover:border-hotel-gold transition-colors shadow-sm">
                 <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-lg font-bold text-sky-200">{roast.propertyName}</h3>
+                  <h3 className="text-lg font-bold text-stone-900">{roast.propertyName}</h3>
                   <span className={`text-xs px-2 py-1 rounded-full font-bold ${
-                    roast.roastLevel === 'EMOTIONAL_DAMAGE' ? 'bg-red-500/20 text-red-400' :
-                    roast.roastLevel === 'SPICY' ? 'bg-orange-500/20 text-orange-400' :
-                    'bg-yellow-500/20 text-yellow-400'
+                    roast.roastLevel === 'EMOTIONAL_DAMAGE' ? 'bg-red-100 text-red-700' :
+                    roast.roastLevel === 'SPICY' ? 'bg-orange-100 text-orange-700' :
+                    'bg-stone-100 text-stone-700'
                   }`}>
                     {roast.roastLevel.replace('_', ' ')}
                   </span>
                 </div>
-                <p className="text-slate-300 italic mb-4">"{roast.roastText}"</p>
-                <div className="flex justify-between items-center text-sm text-slate-500">
-                  <span>— Spilled by {roast.authorName}</span>
+                <p className="text-stone-600 italic mb-4">"{roast.roastText}"</p>
+                <div className="flex justify-between items-center text-sm text-stone-500">
+                  <span>— Submitted by {roast.authorName}</span>
                   {(user?.id === roast.authorId || roast.authorName === user?.firstName) && (
                     <button 
                       onClick={async () => {
                         try {
                           await request(`/api/roasts/${roast.id}`, { method: 'DELETE' });
-                          toast.success('Evidence destroyed 🗑️');
+                          toast.success('Feedback removed.');
                           fetchRoasts();
                         } catch (e) {
                           setRoasts(roasts.filter(r => r.id !== roast.id));
-                          toast.success('Evidence destroyed 🗑️');
+                          toast.success('Feedback removed.');
                         }
                       }}
-                      className="text-red-400/50 hover:text-red-400 transition-colors"
-                      title="Delete your trash talk"
+                      className="text-red-500 hover:text-red-700 transition-colors"
+                      title="Delete your feedback"
                     >
                       Delete
                     </button>

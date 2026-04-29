@@ -4,22 +4,22 @@ import { motion } from 'framer-motion';
 const questions = [
   {
     id: 1,
-    question: "What's your ideal first date vibe?",
+    question: "What defines your ideal luxury escape?",
     options: [
-      { text: "Cozy cabin, roaring fire, maybe some emotional baggage.", value: "cozy" },
-      { text: "Penthouse views and judging people from a balcony.", value: "luxury" },
-      { text: "Getting lost in a crowded market and arguing over maps.", value: "urban" },
-      { text: "Beachside drinks where we pretend we're on a diet.", value: "beach" }
+      { text: "A secluded mountain lodge with a crackling fireplace.", value: "cozy" },
+      { text: "A high-rise penthouse with panoramic city views.", value: "luxury" },
+      { text: "A boutique hotel steps away from cultural landmarks.", value: "urban" },
+      { text: "A private beachfront villa with ocean breezes.", value: "beach" }
     ]
   },
   {
     id: 2,
-    question: "How do you handle mornings?",
+    question: "How do you prefer to start your mornings on vacation?",
     options: [
-      { text: "I need 3 coffees before I remember my name.", value: "urban" },
-      { text: "Watching the sunrise while doing yoga (I will lie about this).", value: "beach" },
-      { text: "Ordering room service and refusing to wear pants.", value: "luxury" },
-      { text: "Waking up freezing because I forgot to chop wood.", value: "cozy" }
+      { text: "Exploring the city streets with an artisanal coffee.", value: "urban" },
+      { text: "Sunrise yoga on the terrace overlooking the water.", value: "beach" },
+      { text: "Ordering a lavish breakfast via room service.", value: "luxury" },
+      { text: "Enjoying the crisp air on a quiet nature walk.", value: "cozy" }
     ]
   }
 ];
@@ -36,7 +36,7 @@ export function FlirtyMatchmakerPage() {
     if (currentQ < questions.length - 1) {
       setCurrentQ(currentQ + 1);
     } else {
-      // Logic for match based on the flirty answers
+      // Match logic based on responses
       const tallies = newAnswers.reduce((acc, curr) => {
         acc[curr] = (acc[curr] || 0) + 1;
         return acc;
@@ -45,20 +45,20 @@ export function FlirtyMatchmakerPage() {
       
       const matchMap = {
         cozy: {
-          title: "The Clingy Cabin (Cuddles mandatory, Wi-Fi optional)",
-          suggestion: "You belong in the mountains. Go chop some wood, dramatically stare into a roaring fire, and avoid cell service."
+          title: "The Wilderness Retreat",
+          suggestion: "You appreciate tranquility and nature. A secluded cabin or forest lodge is your perfect match."
         },
         luxury: {
-          title: "The Sugar Daddy Suite (You better have a platinum card)",
-          suggestion: "Check into a penthouse. Sip expensive champagne, ignore your ex's texts, and order way too much room service."
+          title: "The Penthouse Experience",
+          suggestion: "You seek the finest things in life. Five-star amenities and skyline views await your arrival."
         },
         urban: {
-          title: "The City Sinner Loft (Sleepless nights guaranteed)",
-          suggestion: "A downtown loft is calling you. Hit the local clubs, judge outfits from your balcony, and grab 3 AM street food."
+          title: "The Metropolitan Stay",
+          suggestion: "You thrive on energy and culture. A chic downtown apartment puts you in the center of the action."
         },
         beach: {
-          title: "The Sun-Kissed Shack (Sand will be everywhere, deal with it)",
-          suggestion: "Get to a beach, stat. Burn in the sun, fight off seagulls, and drink cocktails out of a weirdly shaped coconut."
+          title: "The Coastal Sanctuary",
+          suggestion: "The ocean is calling. Unwind in a beautiful seaside villa with pristine beaches at your doorstep."
         }
       };
       
@@ -68,9 +68,9 @@ export function FlirtyMatchmakerPage() {
 
   return (
     <div className="relative min-h-[80vh] flex flex-col items-center justify-center p-6 text-center">
-      <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-sky-500/10" />
+      <div className="absolute inset-0 bg-stone-50" />
       
-      <div className="relative z-10 max-w-2xl w-full p-8 rounded-3xl bg-navy-950/60 backdrop-blur-xl border border-pink-500/30 shadow-[0_0_50px_-12px_rgba(236,72,153,0.3)]">
+      <div className="relative z-10 max-w-2xl w-full p-10 rounded-3xl bg-white border border-stone-200 shadow-xl">
         
         {!match ? (
           <motion.div
@@ -79,19 +79,19 @@ export function FlirtyMatchmakerPage() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
           >
-            <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400 mb-2">
-              Vibe Check
+            <h1 className="text-4xl font-display font-bold text-hotel-accent mb-2">
+              Discover Your Travel Style
             </h1>
-            <p className="text-slate-400 mb-8">Choose your poison. Let's filter out the boring stays.</p>
+            <p className="text-stone-500 mb-8 font-medium">Answer a few simple questions to find your perfect getaway.</p>
             
-            <h2 className="text-2xl font-semibold mb-6">{questions[currentQ].question}</h2>
+            <h2 className="text-2xl font-semibold text-stone-800 mb-6">{questions[currentQ].question}</h2>
             
             <div className="flex flex-col gap-4">
               {questions[currentQ].options.map((opt, i) => (
                 <button
                   key={i}
                   onClick={() => handleAnswer(opt.value)}
-                  className="p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-pink-500/20 hover:border-pink-500/50 transition-all text-slate-200"
+                  className="p-4 rounded-xl border border-stone-200 bg-stone-50 hover:bg-hotel-gold/10 hover:border-hotel-gold transition-all text-stone-700 font-medium"
                 >
                   {opt.text}
                 </button>
@@ -103,20 +103,20 @@ export function FlirtyMatchmakerPage() {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
           >
-             <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-amber-400 mb-4 tracking-tight">
-              It's a Match! 🔥
+             <h1 className="text-4xl font-display font-bold text-hotel-gold mb-4 tracking-tight">
+              Your Perfect Match
             </h1>
-            <p className="text-slate-300 text-lg mb-8">Based on your highly questionable choices, we recommend:</p>
-            <div className="flex flex-col gap-3 p-6 bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-2xl border border-pink-500/40 text-pink-200 shadow-glow mb-8">
-              <div className="text-3xl font-bold">{match.title}</div>
-              <div className="text-lg font-normal text-slate-300 italic">{match.suggestion}</div>
+            <p className="text-stone-600 text-lg mb-8 font-medium">Based on your preferences, we recommend:</p>
+            <div className="flex flex-col gap-3 p-8 bg-hotel-bg rounded-2xl border border-stone-200 shadow-sm mb-8">
+              <div className="text-3xl font-display font-bold text-stone-900">{match.title}</div>
+              <div className="text-lg font-normal text-stone-600 italic">{match.suggestion}</div>
             </div>
             
             <button 
               onClick={() => { setMatch(null); setCurrentQ(0); setAnswers([]); }}
-              className="px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+              className="px-6 py-3 rounded-lg border border-stone-200 hover:bg-stone-50 text-stone-700 font-medium transition-colors"
             >
-              Nah, let's roll the dice again
+              Start Over
             </button>
           </motion.div>
         )}

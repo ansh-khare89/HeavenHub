@@ -17,132 +17,87 @@ export function PropertyCard({ property, wishlisted, onToggleWishlist, showWishl
   const imageSrc = `/hotels/hotel-${imageNumber}.jpg`;
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-slate-900/85 to-navy-900 shadow-[0_20px_60px_-30px_rgba(56,189,248,0.35)] transition duration-500 [transform-style:preserve-3d] [perspective:1200px] hover:-translate-y-1.5 hover:border-sky-400/35 hover:shadow-[0_28px_80px_-24px_rgba(56,189,248,0.45)]">
-      <Link
-        to={`/property/${property.id}`}
-        className="relative block h-56 overflow-hidden transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-      >
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#050b14] via-transparent to-transparent opacity-90" />
-        <img
-          src={imageSrc}
-          alt=""
-          className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-        />
-        <div className="absolute left-4 top-4 flex max-w-[calc(100%-5rem)] flex-wrap items-center gap-2">
-          <span className="rounded-full bg-black/40 px-3 py-1 text-xs font-medium text-sky-100 backdrop-blur-md">
-            {property.city}
-            {property.state ? `, ${property.state}` : ''}
-          </span>
-          {property.superhost && (
-            <span className="rounded-full bg-amber-500/25 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-100 backdrop-blur-md">
-              Superhost
-            </span>
-          )}
-          {property.instantBook && (
-            <span className="rounded-full bg-emerald-500/20 px-2.5 py-0.5 text-[10px] font-semibold text-emerald-100 backdrop-blur-md">
-              Instant
-            </span>
-          )}
-        </div>
-        <div className="absolute right-4 top-4 z-[2] flex flex-col gap-2">
-          {onToggleCompare && (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                onToggleCompare();
-              }}
-              className={`flex h-9 items-center justify-center rounded-full border px-3 text-[11px] font-semibold backdrop-blur-md transition hover:scale-105 ${
-                compareSelected
-                  ? 'border-amber-400/60 bg-amber-500/25 text-amber-100'
-                  : 'border-white/20 bg-black/35 text-white/90 hover:border-amber-400/50'
-              }`}
-            >
-              {compareSelected ? '✓ Compare' : 'Compare'}
-            </button>
-          )}
-          {showWishlist && (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                onToggleWishlist?.();
-              }}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-black/35 text-lg backdrop-blur-md transition hover:scale-110 hover:border-rose-400/60 hover:bg-rose-500/20"
-              aria-label={wishlisted ? 'Remove from wishlist' : 'Save to wishlist'}
-            >
-              <span className={wishlisted ? 'text-rose-400' : 'text-white/80'}>{wishlisted ? '♥' : '♡'}</span>
-            </button>
-          )}
+    <div className="group relative flex flex-col gap-3 transition">
+      {/* Wishlist Button Overlay */}
+      {showWishlist && (
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onToggleWishlist?.();
+          }}
+          className="absolute right-3 top-3 z-10 p-1 transition active:scale-95"
+          aria-label={wishlisted ? 'Remove from wishlist' : 'Save to wishlist'}
+        >
+          <svg
+            viewBox="0 0 32 32"
+            xmlns="http://www.w3.org/2000/svg"
+            className={`block h-7 w-7 transition-colors ${
+              wishlisted ? 'fill-airbnb stroke-white' : 'fill-black/50 stroke-white'
+            } stroke-[2px]`}
+          >
+            <path d="M16 28c7-4.73 14-10 14-17a6.98 6.98 0 0 0-7-6.94c-2.87 0-5.46 1.6-6.67 4.14a7.25 7.25 0 0 0-6.67-4.14c-3.87 0-7 3.1-7 6.94 0 7 7 12.27 14 17z" />
+          </svg>
+        </button>
+      )}
+
+      {/* Compare Button Overlay */}
+      {onToggleCompare && (
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onToggleCompare();
+          }}
+          className={`absolute left-3 top-3 z-10 flex h-7 items-center rounded-full px-3 text-[11px] font-semibold transition ${
+            compareSelected ? 'bg-gray-900 text-white' : 'bg-white/80 text-gray-900 hover:bg-white'
+          }`}
+        >
+          {compareSelected ? '✓ Compare' : 'Compare'}
+        </button>
+      )}
+
+      {/* Main Image Link */}
+      <Link to={`/property/${property.id}`} className="block">
+        <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-gray-200">
+          <img
+            src={imageSrc}
+            alt={property.title}
+            className="h-full w-full object-cover"
+          />
         </div>
       </Link>
 
-      <div className="flex flex-1 flex-col p-5">
-        <div className="mb-3 flex items-start justify-between gap-3">
-          <div className="min-w-0 flex-1">
-            <p className="text-[11px] font-medium uppercase tracking-wider text-slate-500">
+      {/* Content */}
+      <Link to={`/property/${property.id}`} className="block">
+        <div className="flex justify-between items-start">
+          <div className="min-w-0 flex-1 pr-2">
+            <h3 className="truncate font-medium text-gray-900">
+              {property.city}{property.state ? `, ${property.state}` : ''}
+            </h3>
+            <p className="truncate text-sm text-gray-500">
               {property.propertyType || 'Stay'}
-              {property.region ? ` · ${property.region}` : ''}
             </p>
-            <h3 className="line-clamp-2 font-display text-lg font-semibold leading-snug text-white">{property.title}</h3>
-            <p className="mt-1 text-sm text-slate-400">
-              {property.bedrooms != null && property.bathrooms != null
-                ? `${property.bedrooms} bd · ${property.bathrooms} ba · `
-                : ''}
-              up to {property.maxGuests} guests
-              {property.petFriendly ? ' · Pet OK' : ''}
+            <p className="truncate text-sm text-gray-500">
+              {property.bedrooms != null ? `${property.bedrooms} beds` : 'Studio'}
             </p>
-          </div>
-          {rating != null && (
-            <div className="shrink-0 rounded-lg bg-sky-500/10 px-2 py-1 text-right text-sm font-semibold text-sky-200">
-              <span className="block">★ {rating.toFixed(2)}</span>
-              {property.reviewCount != null && (
-                <span className="block text-[10px] font-normal text-slate-500">({property.reviewCount})</span>
-              )}
+            <div className="mt-1 flex items-baseline gap-1">
+              <span className="font-semibold text-gray-900">{formatInr(property.pricePerNight)}</span>
+              <span className="text-sm text-gray-900">night</span>
             </div>
-          )}
+          </div>
+          
+          {/* Rating */}
+          <div className="flex shrink-0 items-center gap-1 text-sm text-gray-900">
+            <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" className="block h-3 w-3 fill-current">
+              <path d="M15.094 1.579l-4.124 8.885-9.86 1.27a1 1 0 0 0-.542 1.736l7.293 6.565-1.965 9.852a1 1 0 0 0 1.483 1.061L16 25.951l8.625 4.997a1 1 0 0 0 1.482-1.06l-1.965-9.853 7.293-6.565a1 1 0 0 0-.541-1.735l-9.86-1.271-4.127-8.885a1 1 0 0 0-1.814 0z" />
+            </svg>
+            <span>{rating != null ? rating.toFixed(2) : 'New'}</span>
+          </div>
         </div>
-
-        {amenityList.length > 0 && (
-          <div className="mb-3 flex flex-wrap gap-1.5">
-            {amenityList.map((a) => (
-              <span
-                key={a}
-                className="rounded-md border border-white/5 bg-white/[0.04] px-2 py-0.5 text-[10px] text-slate-400"
-              >
-                {a}
-              </span>
-            ))}
-          </div>
-        )}
-
-        <dl className="mt-auto grid grid-cols-2 gap-3 text-xs text-slate-400">
-          <div className="rounded-xl border border-white/5 bg-white/[0.03] p-3">
-            <dt className="text-[10px] uppercase tracking-wider text-slate-500">Base / night</dt>
-            <dd className="mt-1 text-sm font-semibold text-white">{formatInr(property.pricePerNight)}</dd>
-          </div>
-          <div className="rounded-xl border border-white/5 bg-white/[0.03] p-3">
-            <dt className="text-[10px] uppercase tracking-wider text-slate-500">Cleaning</dt>
-            <dd className="mt-1 text-sm font-semibold text-white">{formatInr(cleaning)}</dd>
-          </div>
-          <div className="col-span-2 rounded-xl border border-white/5 bg-white/[0.03] p-3">
-            <dt className="text-[10px] uppercase tracking-wider text-slate-500">Platform service fee</dt>
-            <dd className="mt-1 text-sm font-semibold text-sky-200">{platformPct}% of stay subtotal</dd>
-          </div>
-        </dl>
-
-        <Link
-          to={`/property/${property.id}`}
-          className="mt-4 inline-flex items-center justify-center gap-2 rounded-xl border border-sky-400/35 bg-sky-500/10 py-2.5 text-sm font-semibold text-sky-100 transition hover:bg-sky-500/20 hover:shadow-glow-sm"
-        >
-          Open listing
-          <span aria-hidden className="transition group-hover:translate-x-0.5">
-            →
-          </span>
-        </Link>
-      </div>
-    </article>
+      </Link>
+    </div>
   );
 }

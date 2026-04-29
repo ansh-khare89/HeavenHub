@@ -125,17 +125,17 @@ export function BookingsPage() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 md:px-6">
-      <h1 className="text-3xl font-bold text-white">My bookings</h1>
-      <p className="mt-2 text-sm text-slate-400">Track every request from spark to stay.</p>
+      <h1 className="text-3xl font-bold text-gray-900">My bookings</h1>
+      <p className="mt-2 text-sm text-stone-500">Track every request from spark to stay.</p>
 
       {loading ? (
-        <p className="mt-12 text-center text-slate-500">Retrieving your journeys…</p>
+        <p className="mt-12 text-center text-stone-400">Retrieving your journeys…</p>
       ) : bookings.length === 0 ? (
-        <div className="mt-12 rounded-3xl border border-white/10 bg-[#0a1628] p-10 text-center">
-          <p className="text-slate-400">No bookings yet.</p>
+        <div className="mt-12 rounded-3xl border border-stone-200 bg-white shadow-xl p-10 text-center">
+          <p className="text-stone-500">No bookings yet.</p>
           <Link
             to="/home"
-            className="mt-4 inline-block rounded-full bg-sky-500/20 px-5 py-2 text-sm font-semibold text-sky-200 hover:bg-sky-500/30"
+            className="mt-4 inline-block rounded-full bg-airbnb/10 px-5 py-2 text-sm font-semibold text-airbnb hover:bg-airbnb/15"
           >
             Explore homes
           </Link>
@@ -148,17 +148,17 @@ export function BookingsPage() {
             return (
               <li
                 key={b.id}
-                className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#0a1628] to-[#050b14] p-6 shadow-xl shadow-sky-900/20"
+                className="rounded-3xl border border-stone-200 bg-gradient-to-br from-[#0a1628] to-[#050b14] p-6 shadow-xl"
               >
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                   <div>
-                    <h2 className="text-lg font-semibold text-white">{b.propertyTitle || 'Stay'}</h2>
-                    <p className="text-sm text-slate-400">{b.propertyCity}</p>
-                    <p className="mt-2 text-xs text-slate-500">
+                    <h2 className="text-lg font-semibold text-slate-50">{b.propertyTitle || 'Stay'}</h2>
+                    <p className="text-sm text-slate-200/70">{b.propertyCity}</p>
+                    <p className="mt-2 text-xs text-stone-400">
                       {b.startDate} → {b.endDate} · {formatInr(b.totalPrice)}
                     </p>
                   </div>
-                  <span className="inline-flex w-fit rounded-full border border-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-sky-200">
+                  <span className="inline-flex w-fit rounded-full border border-stone-200 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-hotel-gold">
                     {b.status}
                   </span>
                 </div>
@@ -177,12 +177,12 @@ export function BookingsPage() {
                               className={`flex h-10 w-10 items-center justify-center rounded-full border-2 text-xs font-bold transition ${
                                 done
                                   ? 'border-sky-400 bg-sky-500/20 text-sky-100'
-                                  : 'border-white/15 text-slate-500'
+                                  : 'border-white/15 text-stone-400'
                               } ${active ? 'ring-2 ring-sky-400/60 ring-offset-2 ring-offset-[#050b14]' : ''}`}
                             >
                               {done ? '✓' : idx + 1}
                             </div>
-                            <p className="mt-2 hidden text-[10px] font-medium uppercase tracking-wide text-slate-500 sm:block">
+                            <p className="mt-2 hidden text-[10px] font-medium uppercase tracking-wide text-stone-400 sm:block">
                               {label}
                             </p>
                           </div>
@@ -192,7 +192,7 @@ export function BookingsPage() {
                     </div>
                     <div className="mt-2 grid grid-cols-2 gap-2 sm:hidden">
                       {STEPS.map((label) => (
-                        <span key={label} className="text-[10px] text-slate-500">
+                        <span key={label} className="text-[10px] text-stone-400">
                           {label}
                         </span>
                       ))}
@@ -214,7 +214,7 @@ export function BookingsPage() {
                     <button
                       type="button"
                       onClick={() => handlePayment(b.id, b.totalPrice)}
-                      className="rounded-full bg-gradient-to-r from-emerald-400 to-teal-400 px-6 py-2 text-sm font-semibold text-[#050b14] shadow-lg transition hover:brightness-110"
+                      className="rounded-full bg-gradient-to-r from-emerald-400 to-teal-400 px-6 py-2 text-sm font-semibold text-white shadow-lg transition hover:brightness-110"
                     >
                       Pay Now to Confirm
                     </button>
@@ -222,7 +222,7 @@ export function BookingsPage() {
                   {b.status === 'COMPLETED' && (
                     <Link
                       to={`/property/${b.propertyId}`}
-                      className="rounded-full bg-gradient-to-r from-sky-400/80 to-cyan-400/80 px-4 py-2 text-sm font-semibold text-[#050b14]"
+                      className="rounded-full bg-gradient-to-r from-sky-400/80 to-cyan-400/80 px-4 py-2 text-sm font-semibold text-white"
                     >
                       Book again
                     </Link>

@@ -278,7 +278,7 @@ export function HostDashboardPage() {
   }
 
   if (loading && !analytics && properties.length === 0) {
-    return <div className="py-24 text-center text-slate-500">Loading host hub…</div>;
+    return <div className="py-24 text-center text-stone-400">Loading host hub…</div>;
   }
 
   const upcomingStays = allHostBookings.filter((b) => b.status === 'ACCEPTED' || b.status === 'PAID');
@@ -286,33 +286,33 @@ export function HostDashboardPage() {
   return (
     <div className="mx-auto max-w-6xl space-y-16 px-4 py-12 md:px-6">
       <header>
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-400/90">Host command</p>
-        <h1 className="mt-2 text-3xl font-bold text-white md:text-4xl">Dashboard</h1>
-        <p className="mt-2 max-w-2xl text-sm text-slate-400">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-hotel-gold">Host command</p>
+        <h1 className="mt-2 text-3xl font-bold text-gray-900 md:text-4xl">Dashboard</h1>
+        <p className="mt-2 max-w-2xl text-sm text-stone-500">
           Orchestrate listings, respond to guests, and watch earnings glow in real time.
         </p>
       </header>
 
       <section className="grid gap-4 md:grid-cols-3">
-        <div className="rounded-2xl border border-sky-500/20 bg-gradient-to-br from-sky-500/15 to-transparent p-5">
-          <p className="text-xs uppercase tracking-wider text-sky-200/80">Lifetime earnings</p>
-          <p className="mt-2 text-2xl font-bold text-white">{formatInr(analytics?.totalEarnings)}</p>
+        <div className="rounded-2xl border border-stone-200 bg-white p-5">
+          <p className="text-xs uppercase tracking-wider text-hotel-gold/80">Lifetime earnings</p>
+          <p className="mt-2 text-2xl font-bold text-gray-900">{formatInr(analytics?.totalEarnings)}</p>
         </div>
-        <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-          <p className="text-xs uppercase tracking-wider text-slate-400">Pending payout</p>
-          <p className="mt-2 text-2xl font-bold text-white">{formatInr(analytics?.pendingPayout)}</p>
+        <div className="rounded-2xl border border-stone-200 bg-white p-5">
+          <p className="text-xs uppercase tracking-wider text-stone-500">Pending payout</p>
+          <p className="mt-2 text-2xl font-bold text-gray-900">{formatInr(analytics?.pendingPayout)}</p>
         </div>
-        <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-          <p className="text-xs uppercase tracking-wider text-slate-400">Active listings</p>
-          <p className="mt-2 text-2xl font-bold text-white">{properties.length}</p>
+        <div className="rounded-2xl border border-stone-200 bg-white p-5">
+          <p className="text-xs uppercase tracking-wider text-stone-500">Active listings</p>
+          <p className="mt-2 text-2xl font-bold text-gray-900">{properties.length}</p>
         </div>
       </section>
 
-      <section className="rounded-3xl border border-white/10 bg-[#0a1628] p-6 shadow-xl shadow-sky-900/20">
-        <h2 className="text-lg font-semibold text-white">Earnings by month</h2>
+      <section className="rounded-3xl border border-stone-200 bg-white p-6 shadow-xl">
+        <h2 className="text-lg font-semibold text-hotel-accent">Earnings by month</h2>
         <div className="mt-6 h-72 w-full">
           {chartData.length === 0 ? (
-            <p className="text-sm text-slate-500">No confirmed stays yet — your chart will ignite soon.</p>
+            <p className="text-sm text-stone-400">No confirmed stays yet — your chart will ignite soon.</p>
           ) : (
             <ChartErrorBoundary>
               <ResponsiveContainer width="100%" height="100%">
@@ -336,20 +336,20 @@ export function HostDashboardPage() {
         </div>
       </section>
 
-      <section className="rounded-3xl border border-white/10 bg-[#0a1628] p-6">
-        <h2 className="text-lg font-semibold text-white">Pending booking requests</h2>
+      <section className="rounded-3xl border border-stone-200 bg-white border-stone-200 shadow-xl p-6">
+        <h2 className="text-lg font-semibold text-hotel-accent">Pending booking requests</h2>
         {pending.length === 0 ? (
-          <p className="mt-4 text-sm text-slate-500">Inbox zero — outstanding work.</p>
+          <p className="mt-4 text-sm text-stone-400">Inbox zero — outstanding work.</p>
         ) : (
           <ul className="mt-6 space-y-4">
             {pending.map((b) => (
               <li
                 key={b.id}
-                className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-[#050b14]/60 p-4 md:flex-row md:items-center md:justify-between"
+                className="flex flex-col gap-3 rounded-2xl border border-stone-200 bg-stone-50 border-stone-200/60 p-4 md:flex-row md:items-center md:justify-between"
               >
                 <div>
-                  <p className="font-medium text-white">{b.propertyTitle}</p>
-                  <p className="text-xs text-slate-500">
+                  <p className="font-medium text-hotel-accent">{b.propertyTitle}</p>
+                  <p className="text-xs text-stone-400">
                     Guest #{b.guestId} · {b.startDate} → {b.endDate} · {formatInr(b.totalPrice)}
                   </p>
                 </div>
@@ -375,21 +375,21 @@ export function HostDashboardPage() {
         )}
       </section>
 
-      <section className="rounded-3xl border border-white/10 bg-[#0a1628] p-6">
-        <h2 className="text-lg font-semibold text-white">Upcoming stays</h2>
-        <p className="mt-1 text-sm text-slate-500">Mark completed after checkout to close the loop (only allowed for PAID stays).</p>
+      <section className="rounded-3xl border border-stone-200 bg-white border-stone-200 shadow-xl p-6">
+        <h2 className="text-lg font-semibold text-hotel-accent">Upcoming stays</h2>
+        <p className="mt-1 text-sm text-stone-400">Mark completed after checkout to close the loop (only allowed for PAID stays).</p>
         {upcomingStays.length === 0 ? (
-          <p className="mt-4 text-sm text-slate-500">No upcoming stays right now.</p>
+          <p className="mt-4 text-sm text-stone-400">No upcoming stays right now.</p>
         ) : (
           <ul className="mt-6 space-y-3">
             {upcomingStays.map((b) => (
               <li
                 key={b.id}
-                className="flex flex-col gap-2 rounded-2xl border border-sky-500/20 bg-sky-500/5 p-4 sm:flex-row sm:items-center sm:justify-between"
+                className="flex flex-col gap-2 rounded-2xl border border-stone-200 bg-stone-50 p-4 sm:flex-row sm:items-center sm:justify-between"
               >
                 <div>
-                  <p className="font-medium text-white">{b.propertyTitle}</p>
-                  <p className="text-xs text-slate-400">
+                  <p className="font-medium text-hotel-accent">{b.propertyTitle}</p>
+                  <p className="text-xs text-stone-500">
                     {b.startDate} → {b.endDate}
                   </p>
                 </div>
@@ -401,7 +401,7 @@ export function HostDashboardPage() {
                       <button
                         type="button"
                         onClick={() => onComplete(b.id)}
-                        className="rounded-full bg-gradient-to-r from-sky-400 to-cyan-400 px-4 py-2 text-sm font-semibold text-[#050b14]"
+                        className="rounded-full bg-hotel-gold hover:bg-hotel-goldHover px-4 py-2 text-sm font-semibold text-white"
                       >
                         Mark completed
                       </button>
@@ -413,20 +413,19 @@ export function HostDashboardPage() {
         )}
       </section>
 
-      {/* Smart Pricing Simulator */}
-      <section className="rounded-3xl border border-[#38bdf8]/30 bg-[#0a1628] p-6 shadow-xl shadow-sky-900/10 relative overflow-hidden">
+      <section className="relative overflow-hidden rounded-3xl border border-[#38bdf8]/30 bg-white p-6 shadow-xl">
         <div className="absolute top-0 right-0 p-4 opacity-10 blur-[2px] pointer-events-none">
-          <span className="text-[120px]">📈</span>
+          <span className="text-[120px]">~</span>
         </div>
         <div className="relative z-10 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-xl font-bold text-white mb-1"><span className="text-sky-400">Smart Pricing</span> Simulator</h2>
-            <p className="text-sm text-slate-400">Maximize revenue with AI-driven seasonal forecasting.</p>
+            <h2 className="text-xl font-bold text-hotel-accent mb-1"><span className="text-hotel-gold">Smart Pricing</span> Simulator</h2>
+            <p className="text-sm text-stone-500">Maximize revenue with AI-driven seasonal forecasting.</p>
           </div>
           <select 
             value={pricingPropId} 
             onChange={handleSmartPricingSelect}
-            className="rounded-xl border border-white/10 bg-[#050b14]/80 px-4 py-3 text-sm text-white"
+            className="rounded-xl border border-stone-200 bg-stone-50 border-stone-200/80 px-4 py-3 text-sm text-hotel-accent"
           >
             <option value="">Select a property to simulate...</option>
             {properties.map(p => (
@@ -475,11 +474,11 @@ export function HostDashboardPage() {
             </div>
             
             <div className="flex flex-col gap-4 justify-center">
-              <div className="rounded-2xl border border-sky-500/20 bg-gradient-to-br from-sky-500/10 to-transparent p-5">
-                <p className="text-xs uppercase tracking-wider text-sky-200/80">Base Listed Price</p>
-                <p className="mt-1 text-xl font-bold text-white">{formatInr(pricingData.basePrice)}</p>
+              <div className="rounded-2xl border border-stone-200 bg-hotel-bg border-stone-200 p-5">
+                <p className="text-xs uppercase tracking-wider text-hotel-gold/80">Base Listed Price</p>
+                <p className="mt-1 text-xl font-bold text-hotel-accent">{formatInr(pricingData.basePrice)}</p>
               </div>
-              <p className="text-sm text-slate-400">
+              <p className="text-sm text-stone-500">
                 The orange dashed line represents your static base price. The blue line represents HeavenHub's recommended pricing optimized for upcoming local seasonal demand.
               </p>
               {pricingData.forecasts[0] && (
@@ -493,176 +492,176 @@ export function HostDashboardPage() {
         )}
       </section>
 
-      <section className="rounded-3xl border border-white/10 bg-[#0a1628] p-6">
+      <section className="rounded-3xl border border-stone-200 bg-white border-stone-200 shadow-xl p-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <h2 className="text-lg font-semibold text-white">Listings & house manuals</h2>
+          <h2 className="text-lg font-semibold text-hotel-accent">Listings & house manuals</h2>
           {editingId && (
             <button
               type="button"
               onClick={resetForm}
-              className="text-sm text-sky-300 hover:text-sky-200"
+              className="text-sm text-hotel-gold hover:text-hotel-gold"
             >
               Cancel edit
             </button>
           )}
         </div>
         <form onSubmit={onSaveProperty} className="mt-6 grid gap-4 md:grid-cols-2">
-          <label className="md:col-span-2 text-xs text-slate-400">
+          <label className="md:col-span-2 text-xs text-stone-500">
             Title
             <input
               required
               value={form.title}
               onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#050b14] px-3 py-2 text-sm text-white"
+              className="mt-1 w-full rounded-xl border border-stone-200 bg-stone-50 border-stone-200 px-3 py-2 text-sm text-hotel-accent"
             />
           </label>
-          <label className="md:col-span-2 text-xs text-slate-400">
+          <label className="md:col-span-2 text-xs text-stone-500">
             Description
             <textarea
               required
               rows={3}
               value={form.description}
               onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#050b14] px-3 py-2 text-sm text-white"
+              className="mt-1 w-full rounded-xl border border-stone-200 bg-stone-50 border-stone-200 px-3 py-2 text-sm text-hotel-accent"
             />
           </label>
-          <label className="text-xs text-slate-400">
+          <label className="text-xs text-stone-500">
             Address
             <input
               required
               value={form.address}
               onChange={(e) => setForm((f) => ({ ...f, address: e.target.value }))}
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#050b14] px-3 py-2 text-sm text-white"
+              className="mt-1 w-full rounded-xl border border-stone-200 bg-stone-50 border-stone-200 px-3 py-2 text-sm text-hotel-accent"
             />
           </label>
-          <label className="text-xs text-slate-400">
+          <label className="text-xs text-stone-500">
             City
             <input
               required
               value={form.city}
               onChange={(e) => setForm((f) => ({ ...f, city: e.target.value }))}
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#050b14] px-3 py-2 text-sm text-white"
+              className="mt-1 w-full rounded-xl border border-stone-200 bg-stone-50 border-stone-200 px-3 py-2 text-sm text-hotel-accent"
             />
           </label>
-          <label className="text-xs text-slate-400">
+          <label className="text-xs text-stone-500">
             State
             <input
               value={form.state}
               onChange={(e) => setForm((f) => ({ ...f, state: e.target.value }))}
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#050b14] px-3 py-2 text-sm text-white"
+              className="mt-1 w-full rounded-xl border border-stone-200 bg-stone-50 border-stone-200 px-3 py-2 text-sm text-hotel-accent"
             />
           </label>
-          <label className="text-xs text-slate-400">
+          <label className="text-xs text-stone-500">
             ZIP
             <input
               value={form.zipCode}
               onChange={(e) => setForm((f) => ({ ...f, zipCode: e.target.value }))}
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#050b14] px-3 py-2 text-sm text-white"
+              className="mt-1 w-full rounded-xl border border-stone-200 bg-stone-50 border-stone-200 px-3 py-2 text-sm text-hotel-accent"
             />
           </label>
-          <label className="text-xs text-slate-400">
+          <label className="text-xs text-stone-500">
             Property type
             <input
               value={form.propertyType}
               onChange={(e) => setForm((f) => ({ ...f, propertyType: e.target.value }))}
               placeholder="Apartment, villa…"
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#050b14] px-3 py-2 text-sm text-white"
+              className="mt-1 w-full rounded-xl border border-stone-200 bg-stone-50 border-stone-200 px-3 py-2 text-sm text-hotel-accent"
             />
           </label>
-          <label className="text-xs text-slate-400">
+          <label className="text-xs text-stone-500">
             Region (India)
             <input
               value={form.region}
               onChange={(e) => setForm((f) => ({ ...f, region: e.target.value }))}
               placeholder="North, South, West…"
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#050b14] px-3 py-2 text-sm text-white"
+              className="mt-1 w-full rounded-xl border border-stone-200 bg-stone-50 border-stone-200 px-3 py-2 text-sm text-hotel-accent"
             />
           </label>
-          <label className="text-xs text-slate-400">
+          <label className="text-xs text-stone-500">
             Bedrooms
             <input
               type="number"
               min={1}
               value={form.bedrooms}
               onChange={(e) => setForm((f) => ({ ...f, bedrooms: e.target.value }))}
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#050b14] px-3 py-2 text-sm text-white"
+              className="mt-1 w-full rounded-xl border border-stone-200 bg-stone-50 border-stone-200 px-3 py-2 text-sm text-hotel-accent"
             />
           </label>
-          <label className="text-xs text-slate-400">
+          <label className="text-xs text-stone-500">
             Bathrooms
             <input
               type="number"
               min={1}
               value={form.bathrooms}
               onChange={(e) => setForm((f) => ({ ...f, bathrooms: e.target.value }))}
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#050b14] px-3 py-2 text-sm text-white"
+              className="mt-1 w-full rounded-xl border border-stone-200 bg-stone-50 border-stone-200 px-3 py-2 text-sm text-hotel-accent"
             />
           </label>
-          <label className="md:col-span-2 text-xs text-slate-400">
+          <label className="md:col-span-2 text-xs text-stone-500">
             Amenities (comma-separated)
             <input
               value={form.amenities}
               onChange={(e) => setForm((f) => ({ ...f, amenities: e.target.value }))}
               placeholder="WiFi, AC, Parking…"
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#050b14] px-3 py-2 text-sm text-white"
+              className="mt-1 w-full rounded-xl border border-stone-200 bg-stone-50 border-stone-200 px-3 py-2 text-sm text-hotel-accent"
             />
           </label>
-          <label className="flex items-center gap-2 text-sm text-slate-300 md:col-span-2">
+          <label className="flex items-center gap-2 text-sm text-stone-600 md:col-span-2">
             <input
               type="checkbox"
               checked={form.instantBook}
               onChange={(e) => setForm((f) => ({ ...f, instantBook: e.target.checked }))}
-              className="rounded border-white/20 bg-[#050b14] text-sky-400"
+              className="rounded border-stone-300 bg-stone-50 border-stone-200 text-hotel-gold"
             />
             Instant book
           </label>
-          <label className="flex items-center gap-2 text-sm text-slate-300 md:col-span-2">
+          <label className="flex items-center gap-2 text-sm text-stone-600 md:col-span-2">
             <input
               type="checkbox"
               checked={form.petFriendly}
               onChange={(e) => setForm((f) => ({ ...f, petFriendly: e.target.checked }))}
-              className="rounded border-white/20 bg-[#050b14] text-sky-400"
+              className="rounded border-stone-300 bg-stone-50 border-stone-200 text-hotel-gold"
             />
             Pet-friendly
           </label>
-          <label className="flex items-center gap-2 text-sm text-slate-300 md:col-span-2">
+          <label className="flex items-center gap-2 text-sm text-stone-600 md:col-span-2">
             <input
               type="checkbox"
               checked={form.superhost}
               onChange={(e) => setForm((f) => ({ ...f, superhost: e.target.checked }))}
-              className="rounded border-white/20 bg-[#050b14] text-sky-400"
+              className="rounded border-stone-300 bg-stone-50 border-stone-200 text-hotel-gold"
             />
             Superhost listing
           </label>
-          <label className="text-xs text-slate-400">
+          <label className="text-xs text-stone-500">
             Review count (display)
             <input
               type="number"
               min={0}
               value={form.reviewCount}
               onChange={(e) => setForm((f) => ({ ...f, reviewCount: e.target.value }))}
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#050b14] px-3 py-2 text-sm text-white"
+              className="mt-1 w-full rounded-xl border border-stone-200 bg-stone-50 border-stone-200 px-3 py-2 text-sm text-hotel-accent"
             />
           </label>
-          <label className="text-xs text-slate-400">
+          <label className="text-xs text-stone-500">
             Latitude
             <input
               value={form.latitude}
               onChange={(e) => setForm((f) => ({ ...f, latitude: e.target.value }))}
               placeholder="19.0760"
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#050b14] px-3 py-2 text-sm text-white"
+              className="mt-1 w-full rounded-xl border border-stone-200 bg-stone-50 border-stone-200 px-3 py-2 text-sm text-hotel-accent"
             />
           </label>
-          <label className="text-xs text-slate-400">
+          <label className="text-xs text-stone-500">
             Longitude
             <input
               value={form.longitude}
               onChange={(e) => setForm((f) => ({ ...f, longitude: e.target.value }))}
               placeholder="72.8777"
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#050b14] px-3 py-2 text-sm text-white"
+              className="mt-1 w-full rounded-xl border border-stone-200 bg-stone-50 border-stone-200 px-3 py-2 text-sm text-hotel-accent"
             />
           </label>
-          <label className="text-xs text-slate-400">
+          <label className="text-xs text-stone-500">
             Price / night
             <input
               type="number"
@@ -671,10 +670,10 @@ export function HostDashboardPage() {
               step="0.01"
               value={form.pricePerNight}
               onChange={(e) => setForm((f) => ({ ...f, pricePerNight: e.target.value }))}
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#050b14] px-3 py-2 text-sm text-white"
+              className="mt-1 w-full rounded-xl border border-stone-200 bg-stone-50 border-stone-200 px-3 py-2 text-sm text-hotel-accent"
             />
           </label>
-          <label className="text-xs text-slate-400">
+          <label className="text-xs text-stone-500">
             Max guests
             <input
               type="number"
@@ -682,10 +681,10 @@ export function HostDashboardPage() {
               min={1}
               value={form.maxGuests}
               onChange={(e) => setForm((f) => ({ ...f, maxGuests: e.target.value }))}
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#050b14] px-3 py-2 text-sm text-white"
+              className="mt-1 w-full rounded-xl border border-stone-200 bg-stone-50 border-stone-200 px-3 py-2 text-sm text-hotel-accent"
             />
           </label>
-          <label className="text-xs text-slate-400">
+          <label className="text-xs text-stone-500">
             Cleaning fee
             <input
               type="number"
@@ -693,10 +692,10 @@ export function HostDashboardPage() {
               step="0.01"
               value={form.cleaningFee}
               onChange={(e) => setForm((f) => ({ ...f, cleaningFee: e.target.value }))}
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#050b14] px-3 py-2 text-sm text-white"
+              className="mt-1 w-full rounded-xl border border-stone-200 bg-stone-50 border-stone-200 px-3 py-2 text-sm text-hotel-accent"
             />
           </label>
-          <label className="text-xs text-slate-400">
+          <label className="text-xs text-stone-500">
             Avg rating (display)
             <input
               type="number"
@@ -705,10 +704,10 @@ export function HostDashboardPage() {
               max={5}
               value={form.averageRating}
               onChange={(e) => setForm((f) => ({ ...f, averageRating: e.target.value }))}
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#050b14] px-3 py-2 text-sm text-white"
+              className="mt-1 w-full rounded-xl border border-stone-200 bg-stone-50 border-stone-200 px-3 py-2 text-sm text-hotel-accent"
             />
           </label>
-          <label className="text-xs text-slate-400">
+          <label className="text-xs text-stone-500">
             Platform fee %
             <input
               type="number"
@@ -716,24 +715,24 @@ export function HostDashboardPage() {
               step="0.1"
               value={form.platformFeePercent}
               onChange={(e) => setForm((f) => ({ ...f, platformFeePercent: e.target.value }))}
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#050b14] px-3 py-2 text-sm text-white"
+              className="mt-1 w-full rounded-xl border border-stone-200 bg-stone-50 border-stone-200 px-3 py-2 text-sm text-hotel-accent"
             />
           </label>
-          <label className="md:col-span-2 text-xs text-slate-400">
+          <label className="md:col-span-2 text-xs text-stone-500">
             House manual
             <textarea
               rows={4}
               value={form.houseManual}
               onChange={(e) => setForm((f) => ({ ...f, houseManual: e.target.value }))}
               placeholder="Wi‑Fi, amenities, local tips…"
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#050b14] px-3 py-2 text-sm text-white"
+              className="mt-1 w-full rounded-xl border border-stone-200 bg-stone-50 border-stone-200 px-3 py-2 text-sm text-hotel-accent"
             />
           </label>
           <div className="md:col-span-2 flex flex-wrap gap-3">
             <button
               type="submit"
               disabled={saving}
-              className="rounded-full bg-gradient-to-r from-sky-400 to-cyan-400 px-6 py-2.5 text-sm font-semibold text-[#050b14] disabled:opacity-50"
+              className="rounded-full bg-hotel-gold hover:bg-hotel-goldHover px-6 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
             >
               {saving ? 'Saving…' : editingId ? 'Update listing' : 'Publish listing'}
             </button>
@@ -741,16 +740,16 @@ export function HostDashboardPage() {
         </form>
 
         <div className="mt-10">
-          <h3 className="text-sm font-semibold text-slate-300">Your published homes</h3>
+          <h3 className="text-sm font-semibold text-stone-600">Your published homes</h3>
           <ul className="mt-4 space-y-3">
             {properties.map((p) => (
               <li
                 key={p.id}
-                className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-[#050b14]/50 p-4 sm:flex-row sm:items-center sm:justify-between"
+                className="flex flex-col gap-3 rounded-2xl border border-stone-200 bg-stone-50 border-stone-200/50 p-4 sm:flex-row sm:items-center sm:justify-between"
               >
                 <div>
-                  <p className="font-medium text-white">{p.title}</p>
-                  <p className="text-xs text-slate-500">
+                  <p className="font-medium text-hotel-accent">{p.title}</p>
+                  <p className="text-xs text-stone-400">
                     {p.city} · {formatInr(p.pricePerNight)}/night
                   </p>
                 </div>
@@ -758,7 +757,7 @@ export function HostDashboardPage() {
                   <button
                     type="button"
                     onClick={() => startEdit(p)}
-                    className="rounded-full border border-sky-400/40 px-4 py-2 text-sm text-sky-200 hover:bg-sky-500/10"
+                    className="rounded-full border border-sky-400/40 px-4 py-2 text-sm text-hotel-gold hover:bg-sky-500/10"
                   >
                     Edit
                   </button>
@@ -776,22 +775,22 @@ export function HostDashboardPage() {
         </div>
       </section>
 
-      <section className="rounded-3xl border border-white/10 bg-[#0a1628] p-6">
-        <h2 className="text-lg font-semibold text-white">Guest reviews</h2>
+      <section className="rounded-3xl border border-stone-200 bg-white border-stone-200 shadow-xl p-6">
+        <h2 className="text-lg font-semibold text-hotel-accent">Guest reviews</h2>
         {reviews.length === 0 ? (
-          <p className="mt-4 text-sm text-slate-500">Reviews will appear here as guests share their stays.</p>
+          <p className="mt-4 text-sm text-stone-400">Reviews will appear here as guests share their stays.</p>
         ) : (
           <ul className="mt-6 space-y-5">
             {reviews.map((r) => (
-              <li key={r.id} className="rounded-2xl border border-white/10 bg-[#050b14]/60 p-4">
-                <p className="text-sm text-sky-200">{r.propertyTitle}</p>
-                <p className="mt-1 text-sm text-white">
+              <li key={r.id} className="rounded-2xl border border-stone-200 bg-stone-50 border-stone-200/60 p-4">
+                <p className="text-sm text-hotel-gold">{r.propertyTitle}</p>
+                <p className="mt-1 text-sm text-hotel-accent">
                   {r.guestFirstName} · ★ {r.rating}
                 </p>
-                {r.comment && <p className="mt-2 text-sm text-slate-400">{r.comment}</p>}
+                {r.comment && <p className="mt-2 text-sm text-stone-500">{r.comment}</p>}
                 {r.hostReply && (
-                  <p className="mt-3 rounded-xl border border-sky-500/20 bg-sky-500/10 p-3 text-sm text-sky-100">
-                    <span className="text-xs font-semibold uppercase text-sky-300">Your reply · </span>
+                  <p className="mt-3 rounded-xl border border-stone-200 bg-sky-500/10 p-3 text-sm text-sky-100">
+                    <span className="text-xs font-semibold uppercase text-hotel-gold">Your reply · </span>
                     {r.hostReply}
                   </p>
                 )}
@@ -806,12 +805,12 @@ export function HostDashboardPage() {
                         }))
                       }
                       placeholder="Thoughtful host reply…"
-                      className="flex-1 rounded-xl border border-white/10 bg-[#050b14] px-3 py-2 text-sm text-white"
+                      className="flex-1 rounded-xl border border-stone-200 bg-stone-50 border-stone-200 px-3 py-2 text-sm text-hotel-accent"
                     />
                     <button
                       type="button"
                       onClick={() => onReply(r.id)}
-                      className="rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-white/15"
+                      className="rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-hotel-accent hover:bg-white/15"
                     >
                       Send reply
                     </button>

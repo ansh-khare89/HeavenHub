@@ -60,6 +60,8 @@ export function HotelsPage() {
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [wishIds, setWishIds] = useState(() => new Set());
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
   const [location, setLocation] = useState(searchParams.get('location') || '');
   const [minPrice, setMinPrice] = useState(searchParams.get('minPrice') || '');
@@ -102,12 +104,13 @@ export function HotelsPage() {
       
       const pageData = await searchPropertiesPageable({
         ...query,
-        page: 0,
+        page: currentPage,
         size: 20,
         sort: dbSort,
       });
       
       setProperties(pageData.content || []);
+      setTotalPages(pageData.totalPages || 0);
     } catch (e) {
       const msg =
         e instanceof ApiError
@@ -120,7 +123,7 @@ export function HotelsPage() {
     } finally {
       setLoading(false);
     }
-  }, [query, sort]);
+  }, [query, sort, currentPage]);
 
   useEffect(() => {
     load();
@@ -215,6 +218,12 @@ export function HotelsPage() {
     setInstantOnly(false);
     setSuperhostOnly(false);
     setSort('featured');
+    setCurrentPage(0);
+  };
+
+  const handleApplyFilters = () => {
+    setCurrentPage(0);
+    load();
   };
 
   return (
@@ -222,27 +231,19 @@ export function HotelsPage() {
       <section className="relative mx-auto max-w-6xl px-4 pb-6 pt-12 md:px-6 md:pt-16">
         <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
           <div>
-            <p className="animate-fade-up text-xs font-semibold uppercase tracking-[0.25em] text-sky-400/90">
+            <p className="animate-fade-up text-xs font-semibold uppercase tracking-[0.25em] text-hotel-gold">
               India-wide · ₹ transparent
             </p>
-            <h1 className="animate-fade-up mt-3 max-w-3xl font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-white md:text-5xl lg:text-[3.25rem]">
-              Stays that feel{' '}
-              <span className="bg-gradient-to-r from-sky-200 via-cyan-200 to-amber-100/90 bg-clip-text text-transparent">
-                local
-              </span>
-              , priced like{' '}
-              <span className="bg-gradient-to-r from-amber-100/90 via-white to-sky-200 bg-clip-text text-transparent">
-                home
-              </span>
-              .
+            <h1 className="animate-fade-up mt-3 max-w-3xl text-4xl font-semibold leading-tight tracking-tight text-gray-900 md:text-5xl lg:text-[3.25rem]">
+              Find your next stay.
             </h1>
-            <p className="animate-fade-up-delay mt-5 max-w-xl text-base leading-relaxed text-slate-400 md:text-lg">
+            <p className="animate-fade-up-delay mt-5 max-w-xl text-base leading-relaxed text-stone-600 md:text-lg">
               {priceBand ? (
                 <>
                   Live inventory spans{' '}
-                  <span className="text-sky-200/90">{properties.length} hand-picked listings</span> from{' '}
-                  <span className="font-medium text-white">{formatInr(priceBand.lo)}</span> to{' '}
-                  <span className="font-medium text-white">{formatInr(priceBand.hi)}</span> per night — metros,
+                  <span className="text-hotel-accent font-semibold">{properties.length} hand-picked listings</span> from{' '}
+                  <span className="font-medium text-stone-900">{formatInr(priceBand.lo)}</span> to{' '}
+                  <span className="font-medium text-stone-900">{formatInr(priceBand.hi)}</span> per night — metros,
                   ghats, beaches &amp; peaks.
                 </>
               ) : (
@@ -251,19 +252,19 @@ export function HotelsPage() {
             </p>
 
             <div className="animate-fade-up-delay mt-6 flex flex-wrap gap-3">
-              <div className="rounded-2xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100/95">
-                <span className="font-semibold text-emerald-200">HeavenHub clarity</span>
-                <span className="text-emerald-100/80"> — cleaning + platform fee shown before you pay.</span>
+              <div className="rounded-2xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm text-stone-600">
+                <span className="font-semibold text-hotel-accent">HeavenHub clarity</span>
+                <span className="text-stone-500"> — cleaning + platform fee shown before you pay.</span>
               </div>
             </div>
           </div>
 
-          <div className="animate-fade-up-delay rounded-3xl border border-white/10 bg-white/[0.03] p-5 shadow-xl backdrop-blur-xl">
-            <p className="text-xs font-semibold uppercase tracking-wider text-amber-200/90">Trip pulse</p>
-            <p className="mt-2 text-sm leading-relaxed text-slate-300">{seasonalCopy()}</p>
-            <div className="mt-4 h-px bg-gradient-to-r from-transparent via-sky-500/30 to-transparent" />
-            <p className="mt-4 text-xs text-slate-500">
-              Tip: save a search — filters sync when you hit apply. Use Compare to line up three finalists.
+          <div className="animate-fade-up-delay rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+            <p className="text-sm font-semibold text-gray-900">Trip pulse</p>
+            <p className="mt-2 text-sm text-gray-500">{seasonalCopy()}</p>
+            <div className="mt-4 h-px bg-gray-200" />
+            <p className="mt-4 text-xs text-gray-400">
+              Tip: Use Compare to line up three finalists.
             </p>
           </div>
         </div>
@@ -278,11 +279,9 @@ export function HotelsPage() {
                   setLocation(s.city);
                   setRegion('');
                 }}
-                className="group shrink-0 rounded-2xl border border-white/10 bg-[#050b14]/80 px-4 py-3 text-left transition hover:border-sky-400/40 hover:bg-sky-500/10"
+                className="group shrink-0 rounded-full border border-gray-200 bg-white px-5 py-2 text-left transition hover:border-gray-900"
               >
-                <span className="block font-display text-sm font-semibold text-white">{s.city}</span>
-                <span className="mt-0.5 block text-[11px] text-slate-500">{s.hint}</span>
-                <span className="mt-1 block text-[10px] font-medium text-sky-300/90">from ~ {formatInr(s.from)}</span>
+                <span className="block text-sm font-semibold text-gray-900">{s.city}</span>
               </button>
             ))}
           </div>
@@ -301,23 +300,23 @@ export function HotelsPage() {
       </section>
 
       <section className="relative mx-auto max-w-6xl px-4 pb-10 pt-12 md:px-6">
-        <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-4 shadow-2xl shadow-sky-900/25 backdrop-blur-xl md:p-6">
+        <div className="rounded-3xl border border-stone-200 bg-white p-4 shadow-lg md:p-6">
           <div className="grid gap-4 lg:grid-cols-6">
-            <label className="flex flex-col gap-1 text-xs text-slate-400 lg:col-span-2">
+            <label className="flex flex-col gap-1 text-xs text-stone-500 lg:col-span-2">
               Location
               <input
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 placeholder="City or state — e.g. Jaipur, Kerala…"
-                className="rounded-xl border border-white/10 bg-[#050b14]/80 px-4 py-3 text-sm text-white outline-none ring-sky-400/40 placeholder:text-slate-600 focus:ring-2"
+                className="rounded-xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm text-stone-900 outline-none ring-hotel-gold/50 placeholder:text-stone-400 focus:ring-2"
               />
             </label>
-            <label className="flex flex-col gap-1 text-xs text-slate-400">
+            <label className="flex flex-col gap-1 text-xs text-stone-500">
               Region
               <select
                 value={region}
                 onChange={(e) => setRegion(e.target.value)}
-                className="rounded-xl border border-white/10 bg-[#050b14]/80 px-4 py-3 text-sm text-white outline-none ring-sky-400/40 focus:ring-2"
+                className="rounded-xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm text-stone-900 outline-none ring-hotel-gold/50 focus:ring-2"
               >
                 {REGIONS.map((r) => (
                   <option key={r.value || 'all'} value={r.value}>
@@ -326,16 +325,16 @@ export function HotelsPage() {
                 ))}
               </select>
             </label>
-            <label className="flex flex-col gap-1 text-xs text-slate-400">
+            <label className="flex flex-col gap-1 text-xs text-stone-500">
               Stay type
               <input
                 value={propertyTypeQ}
                 onChange={(e) => setPropertyTypeQ(e.target.value)}
                 placeholder="villa, haveli…"
-                className="rounded-xl border border-white/10 bg-[#050b14]/80 px-4 py-3 text-sm text-white outline-none ring-sky-400/40 placeholder:text-slate-600 focus:ring-2"
+                className="rounded-xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm text-stone-900 outline-none ring-hotel-gold/50 placeholder:text-stone-400 focus:ring-2"
               />
             </label>
-            <label className="flex flex-col gap-1 text-xs text-slate-400">
+            <label className="flex flex-col gap-1 text-xs text-stone-500">
               Min ₹ / night
               <input
                 type="number"
@@ -343,10 +342,10 @@ export function HotelsPage() {
                 value={minPrice}
                 onChange={(e) => setMinPrice(e.target.value)}
                 placeholder="1500"
-                className="rounded-xl border border-white/10 bg-[#050b14]/80 px-4 py-3 text-sm text-white outline-none ring-sky-400/40 placeholder:text-slate-600 focus:ring-2"
+                className="rounded-xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm text-stone-900 outline-none ring-hotel-gold/50 placeholder:text-stone-400 focus:ring-2"
               />
             </label>
-            <label className="flex flex-col gap-1 text-xs text-slate-400">
+            <label className="flex flex-col gap-1 text-xs text-stone-500">
               Max ₹ / night
               <input
                 type="number"
@@ -354,10 +353,10 @@ export function HotelsPage() {
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(e.target.value)}
                 placeholder="15000"
-                className="rounded-xl border border-white/10 bg-[#050b14]/80 px-4 py-3 text-sm text-white outline-none ring-sky-400/40 placeholder:text-slate-600 focus:ring-2"
+                className="rounded-xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm text-stone-900 outline-none ring-hotel-gold/50 placeholder:text-stone-400 focus:ring-2"
               />
             </label>
-            <label className="flex flex-col gap-1 text-xs text-slate-400">
+            <label className="flex flex-col gap-1 text-xs text-stone-500">
               Min rating
               <input
                 type="number"
@@ -367,46 +366,46 @@ export function HotelsPage() {
                 value={minRating}
                 onChange={(e) => setMinRating(e.target.value)}
                 placeholder="4.2"
-                className="rounded-xl border border-white/10 bg-[#050b14]/80 px-4 py-3 text-sm text-white outline-none ring-sky-400/40 placeholder:text-slate-600 focus:ring-2"
+                className="rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 outline-none focus:border-gray-900 focus:ring-1 focus:ring-gray-900"
               />
             </label>
           </div>
 
-          <div className="mt-4 flex flex-wrap items-center gap-4 border-t border-white/5 pt-4">
-            <label className="flex cursor-pointer items-center gap-2 text-sm text-slate-300">
+          <div className="mt-4 flex flex-wrap items-center gap-4 border-t border-stone-100 pt-4">
+            <label className="flex cursor-pointer items-center gap-2 text-sm text-stone-600">
               <input
                 type="checkbox"
                 checked={petFriendlyOnly}
                 onChange={(e) => setPetFriendlyOnly(e.target.checked)}
-                className="rounded border-white/20 bg-[#050b14] text-sky-400 focus:ring-sky-400/40"
+                className="rounded border-stone-300 text-hotel-gold focus:ring-hotel-gold/40"
               />
               Pet-friendly
             </label>
-            <label className="flex cursor-pointer items-center gap-2 text-sm text-slate-300">
+            <label className="flex cursor-pointer items-center gap-2 text-sm text-stone-600">
               <input
                 type="checkbox"
                 checked={instantOnly}
                 onChange={(e) => setInstantOnly(e.target.checked)}
-                className="rounded border-white/20 bg-[#050b14] text-sky-400 focus:ring-sky-400/40"
+                className="rounded border-stone-300 text-hotel-gold focus:ring-hotel-gold/40"
               />
               Instant book
             </label>
-            <label className="flex cursor-pointer items-center gap-2 text-sm text-slate-300">
+            <label className="flex cursor-pointer items-center gap-2 text-sm text-stone-600">
               <input
                 type="checkbox"
                 checked={superhostOnly}
                 onChange={(e) => setSuperhostOnly(e.target.checked)}
-                className="rounded border-white/20 bg-[#050b14] text-sky-400 focus:ring-sky-400/40"
+                className="rounded border-stone-300 text-hotel-gold focus:ring-hotel-gold/40"
               />
               Superhost
             </label>
             <div className="ml-auto flex flex-wrap items-center gap-3">
-              <label className="flex items-center gap-2 text-xs text-slate-400">
+              <label className="flex items-center gap-2 text-xs text-stone-500">
                 Sort
                 <select
                   value={sort}
                   onChange={(e) => setSort(e.target.value)}
-                  className="rounded-xl border border-white/10 bg-[#050b14] px-3 py-2 text-sm text-white"
+                  className="rounded-xl border border-stone-200 bg-stone-50 px-3 py-2 text-sm text-stone-900"
                 >
                   {SORTS.map((s) => (
                     <option key={s.value} value={s.value}>
@@ -421,15 +420,15 @@ export function HotelsPage() {
           <div className="mt-4 flex flex-wrap gap-3">
             <button
               type="button"
-              onClick={load}
-              className="rounded-full bg-gradient-to-r from-sky-400 to-cyan-400 px-6 py-2.5 text-sm font-semibold text-[#050b14] shadow-lg shadow-sky-500/25 transition hover:brightness-110"
+              onClick={handleApplyFilters}
+              className="rounded-lg bg-airbnb px-6 py-3 text-sm font-semibold text-white transition hover:bg-airbnb-hover"
             >
               Apply filters
             </button>
             <button
               type="button"
               onClick={resetFilters}
-              className="rounded-full border border-white/15 px-6 py-2.5 text-sm font-medium text-slate-300 transition hover:border-sky-400/40 hover:text-white"
+              className="rounded-lg border border-gray-300 px-6 py-3 text-sm font-medium text-gray-900 transition hover:bg-gray-50"
             >
               Reset
             </button>
@@ -437,7 +436,7 @@ export function HotelsPage() {
               <button
                 type="button"
                 onClick={() => setCompareOpen(true)}
-                className="rounded-full border border-amber-400/40 bg-amber-500/10 px-6 py-2.5 text-sm font-semibold text-amber-100 transition hover:bg-amber-500/20"
+                className="rounded-full border border-stone-300 bg-white px-6 py-2.5 text-sm font-semibold text-hotel-accent transition hover:bg-stone-50"
               >
                 Compare ({compareIds.size})
               </button>
@@ -449,8 +448,8 @@ export function HotelsPage() {
       <section className="relative mx-auto max-w-6xl px-4 pb-24 md:px-6">
         <div className="mb-8 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h2 className="font-display text-2xl font-bold text-white md:text-3xl">Homes worth the detour</h2>
-            <p className="text-sm text-slate-500">
+            <h2 className="font-display text-3xl font-bold text-hotel-accent md:text-4xl">Homes worth the detour</h2>
+            <p className="text-sm text-stone-500 mt-1">
               {loading ? 'Loading…' : `${sorted.length} listing${sorted.length === 1 ? '' : 's'} match`}
             </p>
           </div>
@@ -474,10 +473,32 @@ export function HotelsPage() {
           </div>
         )}
 
+        {!loading && totalPages > 1 && (
+          <div className="mt-12 flex items-center justify-center gap-4">
+            <button
+              onClick={() => setCurrentPage(p => Math.max(0, p - 1))}
+              disabled={currentPage === 0}
+              className="rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-sm font-medium text-stone-600 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-stone-50 transition"
+            >
+              Previous
+            </button>
+            <span className="text-sm font-medium text-stone-500">
+              Page {currentPage + 1} of {totalPages}
+            </span>
+            <button
+              onClick={() => setCurrentPage(p => Math.min(totalPages - 1, p + 1))}
+              disabled={currentPage >= totalPages - 1}
+              className="rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-sm font-medium text-stone-600 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-stone-50 transition"
+            >
+              Next
+            </button>
+          </div>
+        )}
+
         {!loading && properties.length === 0 && (
-          <div className="rounded-3xl border border-dashed border-white/15 bg-white/[0.02] px-6 py-16 text-center">
-            <p className="font-display text-lg font-semibold text-white">No matches — yet</p>
-            <p className="mt-2 text-sm text-slate-500">
+          <div className="rounded-3xl border border-dashed border-stone-200 bg-stone-50 px-6 py-16 text-center">
+            <p className="font-display text-xl font-semibold text-hotel-accent">No matches — yet</p>
+            <p className="mt-2 text-sm text-stone-500">
               Try another city, widen your ₹ range, or clear badges — India&apos;s a big country; there&apos;s room to
               search.
             </p>

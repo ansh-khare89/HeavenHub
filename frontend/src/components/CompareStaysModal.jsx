@@ -18,41 +18,41 @@ export function CompareStaysModal({ open, onClose, properties }) {
         onClick={onClose}
         aria-label="Close comparison"
       />
-      <div className="relative z-[1] max-h-[90vh] w-full max-w-4xl overflow-auto rounded-3xl border border-sky-500/25 bg-[#0a1628] p-6 shadow-2xl shadow-sky-900/40">
+      <div className="relative z-[1] max-h-[90vh] w-full max-w-4xl overflow-auto rounded-3xl border border-stone-200 bg-white p-6 shadow-xl">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h2 id="compare-title" className="font-display text-xl font-bold text-white">
+            <h2 id="compare-title" className="font-display text-2xl font-bold text-hotel-accent">
               Compare stays
             </h2>
-            <p className="mt-1 text-sm text-slate-500">Side-by-side — up to three picks from your session.</p>
+            <p className="mt-1 text-sm text-stone-500">Side-by-side — up to three picks from your session.</p>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full border border-white/15 px-3 py-1.5 text-sm text-slate-300 hover:border-sky-400/40 hover:text-white"
+            className="rounded-full border border-stone-200 px-3 py-1.5 text-sm text-stone-600 hover:border-hotel-gold hover:text-hotel-accent transition"
           >
             Close
           </button>
         </div>
 
         {list.length === 0 ? (
-          <p className="mt-8 text-center text-slate-500">Add listings from the grid using “Compare”.</p>
+          <p className="mt-8 text-center text-stone-500">Add listings from the grid using “Compare”.</p>
         ) : (
           <div className="mt-6 overflow-x-auto">
             <table className="w-full min-w-[640px] border-collapse text-left text-sm">
               <thead>
-                <tr className="border-b border-white/10 text-xs uppercase tracking-wider text-slate-500">
+                <tr className="border-b border-stone-100 text-xs font-semibold uppercase tracking-wider text-stone-500">
                   <th className="py-3 pr-4">Listing</th>
                   {list.map((p) => (
-                    <th key={p.id} className="py-3 px-2 font-semibold text-sky-200">
+                    <th key={p.id} className="py-3 px-2 font-display text-base font-bold text-hotel-accent">
                       <span className="line-clamp-2">{p.title}</span>
                     </th>
                   ))}
                 </tr>
               </thead>
-              <tbody className="text-slate-300">
-                <tr className="border-b border-white/5">
-                  <td className="py-3 pr-4 text-slate-500">City</td>
+              <tbody className="text-stone-700">
+                <tr className="border-b border-stone-50">
+                  <td className="py-3 pr-4 text-stone-500 font-medium">City</td>
                   {list.map((p) => (
                     <td key={p.id} className="px-2 py-3">
                       {p.city}
@@ -60,45 +60,45 @@ export function CompareStaysModal({ open, onClose, properties }) {
                     </td>
                   ))}
                 </tr>
-                <tr className="border-b border-white/5">
-                  <td className="py-3 pr-4 text-slate-500">Type</td>
+                <tr className="border-b border-stone-50">
+                  <td className="py-3 pr-4 text-stone-500 font-medium">Type</td>
                   {list.map((p) => (
                     <td key={p.id} className="px-2 py-3">
                       {p.propertyType || '—'}
                     </td>
                   ))}
                 </tr>
-                <tr className="border-b border-white/5">
-                  <td className="py-3 pr-4 text-slate-500">₹ / night</td>
+                <tr className="border-b border-stone-50">
+                  <td className="py-3 pr-4 text-stone-500 font-medium">₹ / night</td>
                   {list.map((p) => (
-                    <td key={p.id} className="px-2 py-3 font-semibold text-white">
+                    <td key={p.id} className="px-2 py-3 font-semibold text-stone-900">
                       {formatInr(p.pricePerNight)}
                     </td>
                   ))}
                 </tr>
-                <tr className="border-b border-white/5">
-                  <td className="py-3 pr-4 text-slate-500">Guest rating</td>
+                <tr className="border-b border-stone-50">
+                  <td className="py-3 pr-4 text-stone-500 font-medium">Guest rating</td>
                   {list.map((p) => (
                     <td key={p.id} className="px-2 py-3">
-                      {p.averageRating != null ? `★ ${Number(p.averageRating).toFixed(2)}` : '—'}{' '}
-                      <span className="text-xs text-slate-500">
+                      {p.averageRating != null ? <span className="text-hotel-gold font-semibold">★ {Number(p.averageRating).toFixed(2)}</span> : '—'}{' '}
+                      <span className="text-xs text-stone-500">
                         ({p.reviewCount != null ? `${p.reviewCount} reviews` : '—'})
                       </span>
                     </td>
                   ))}
                 </tr>
-                <tr className="border-b border-white/5">
-                  <td className="py-3 pr-4 text-slate-500">Beds / baths</td>
+                <tr className="border-b border-stone-50">
+                  <td className="py-3 pr-4 text-stone-500 font-medium">Beds / baths</td>
                   {list.map((p) => (
                     <td key={p.id} className="px-2 py-3">
                       {p.bedrooms ?? '—'} bd · {p.bathrooms ?? '—'} ba
                     </td>
                   ))}
                 </tr>
-                <tr className="border-b border-white/5">
-                  <td className="py-3 pr-4 text-slate-500">Badges</td>
+                <tr className="border-b border-stone-50">
+                  <td className="py-3 pr-4 text-stone-500 font-medium">Badges</td>
                   {list.map((p) => (
-                    <td key={p.id} className="px-2 py-3 text-xs">
+                    <td key={p.id} className="px-2 py-3 text-xs font-semibold text-hotel-gold">
                       {[p.instantBook && 'Instant', p.petFriendly && 'Pet-friendly', p.superhost && 'Superhost']
                         .filter(Boolean)
                         .join(' · ') || '—'}
@@ -106,12 +106,12 @@ export function CompareStaysModal({ open, onClose, properties }) {
                   ))}
                 </tr>
                 <tr>
-                  <td className="py-4 pr-4 text-slate-500">Open</td>
+                  <td className="py-4 pr-4 text-stone-500 font-medium">Open</td>
                   {list.map((p) => (
                     <td key={p.id} className="px-2 py-4">
                       <Link
                         to={`/property/${p.id}`}
-                        className="inline-flex rounded-full bg-sky-500/15 px-3 py-1.5 text-xs font-semibold text-sky-200 hover:bg-sky-500/25"
+                        className="inline-flex rounded-lg border border-hotel-gold px-3 py-1.5 text-xs font-semibold text-hotel-accent hover:bg-hotel-gold hover:text-white transition shadow-sm"
                         onClick={onClose}
                       >
                         View listing
