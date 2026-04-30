@@ -59,6 +59,7 @@ export function HotelsPage() {
   const [searchParams] = useSearchParams();
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadMessage, setLoadMessage] = useState(null);
   const [wishIds, setWishIds] = useState(() => new Set());
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
@@ -96,7 +97,28 @@ export function HotelsPage() {
   }, [location, minPrice, maxPrice, minRating, region, propertyTypeQ, petFriendlyOnly, instantOnly, superhostOnly]);
 
   const load = useCallback(async () => {
-    setLoading(true);
+    let timeoutId;
+    const cacheKey = `heavenhub_hotels_${JSON.stringify(query)}_${sort}_${currentPage}`;
+    const cached = localStorage.getItem(cacheKey);
+    
+    if (cached) {
+      try {
+        const parsed = JSON.parse(cached);
+        setProperties(parsed.content || []);
+        setTotalPages(parsed.totalPages || 0);
+        setLoading(false);
+      } catch {
+        // ignore cache parse error
+      }
+    } else {
+      setLoading(true);
+    }
+
+    setLoadMessage(null);
+    timeoutId = setTimeout(() => {
+      setLoadMessage('Backend is waking up (free tier). This might take 1-2 minutes. Please wait...');
+    }, 5000);
+
     try {
       // Get database sort parameter from frontend sort value
       const sortObj = SORTS.find(s => s.value === sort);
@@ -111,6 +133,8 @@ export function HotelsPage() {
       
       setProperties(pageData.content || []);
       setTotalPages(pageData.totalPages || 0);
+      localStorage.setItem(cacheKey, JSON.stringify(pageData));
+      setLoadMessage(null);
     } catch (e) {
       const msg =
         e instanceof ApiError
@@ -119,8 +143,9 @@ export function HotelsPage() {
             ? `${e.message} (check API URL or network)`
             : 'Could not load listings';
       toast.error(msg);
-      setProperties([]);
+      if (!cached) setProperties([]);
     } finally {
+      clearTimeout(timeoutId);
       setLoading(false);
     }
   }, [query, sort, currentPage]);
@@ -454,6 +479,12 @@ export function HotelsPage() {
             </p>
           </div>
         </div>
+
+        {loadMessage && (
+          <div className="mb-6 rounded-xl bg-blue-50 p-4 text-sm text-blue-700 border border-blue-100 flex items-center justify-between">
+            <span>{loadMessage}</span>
+          </div>
+        )}
 
         {loading ? (
           <PropertyGridSkeleton count={6} />

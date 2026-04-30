@@ -51,6 +51,7 @@ export default {
         aurora: 'hh-aurora 18s ease-in-out infinite',
         shimmer: 'hh-shimmer 2.2s ease-in-out infinite',
         'pulse-dot': 'hh-pulse-dot 2s ease-in-out infinite',
+        marquee: 'marquee 25s linear infinite',
       },
       keyframes: {
         'hh-fade-up': {
@@ -73,6 +74,10 @@ export default {
         'hh-pulse-dot': {
           '0%, 100%': { transform: 'scale(1)', opacity: '0.85' },
           '50%': { transform: 'scale(1.35)', opacity: '1' },
+        },
+        marquee: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-100%)' },
         },
       },
     },
